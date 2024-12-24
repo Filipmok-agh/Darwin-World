@@ -8,7 +8,6 @@ public interface Vector
      * @return New vector
      */
     Vector2d add(Vector2d v);
-
     /**
      * Checking if vector is equal to object
      * @param o to compare
