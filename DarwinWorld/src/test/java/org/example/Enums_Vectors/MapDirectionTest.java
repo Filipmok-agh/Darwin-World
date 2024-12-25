@@ -60,9 +60,39 @@ class MapDirectionTest {
         assertEquals(east.toUnitVector(),new Vector2d(1,0));
         assertEquals(south_west.toUnitVector(),new Vector2d(-1,-1));
         assertEquals(north_west.toUnitVector(),new Vector2d(-1,1));
+    }
 
+    @Test
+    void doesOppositeWorks()
+    {
+        //given
+        MapDirection north = MapDirection.NORTH;
+        MapDirection north_west = MapDirection.NORTH_WEST;
+        MapDirection west = MapDirection.WEST;
+        MapDirection south_west = MapDirection.SOUTH_WEST;
+        MapDirection south = MapDirection.SOUTH;
+        MapDirection south_east = MapDirection.SOUTH_EAST;
+        MapDirection east = MapDirection.EAST;
+        MapDirection north_east = MapDirection.NORTH_EAST;
 
+        //when
+        north = north.opposite();
+        north_west= north_west.opposite();
+        south_west= south_west.opposite();
+        south_east= south_east.opposite();
+        east= east.opposite();
+        south= south.opposite();
+        west= west.opposite();
+        north_east= north_east.opposite();
 
-
+        //then
+        assertEquals(MapDirection.NORTH,south );
+        assertEquals(MapDirection.SOUTH,north );
+        assertEquals(MapDirection.WEST,east );
+        assertEquals(MapDirection.EAST,west );
+        assertEquals(MapDirection.NORTH_EAST,south_west );
+        assertEquals(MapDirection.SOUTH_EAST,north_west );
+        assertEquals(MapDirection.NORTH_WEST,south_east );
+        assertEquals(MapDirection.SOUTH_WEST,north_east );
     }
 }
