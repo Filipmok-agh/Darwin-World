@@ -100,7 +100,7 @@ public class Gens
         return this.gens.get(i);
     }
 
-    public void swapMutation()
+    private void swapMutation()
     {
         Random random = new Random();
         int randomIndex1 = random.nextInt(length);
@@ -110,7 +110,7 @@ public class Gens
         this.gens.set(randomIndex2, temp);
     }
 
-    public void randomMutation()
+    private void randomMutation()
     {
         Random random = new Random();
         int randomIndex1 = random.nextInt(length);
