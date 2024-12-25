@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import static org.example.Config.genLength;
+import static org.example.Config.podmianka;
 
 public class Gens
 {
@@ -56,11 +57,15 @@ public class Gens
         {
             this.randomMutation();
         }
-        choice =random.nextBoolean();
-        if(choice)
+        if(podmianka)
         {
-            this.swapMutation();
+            choice =random.nextBoolean();
+            if(choice)
+            {
+                this.swapMutation();
+            }
         }
+
     }
 
     public Gens()
