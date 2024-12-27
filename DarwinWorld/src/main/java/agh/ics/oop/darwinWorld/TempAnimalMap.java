@@ -1,6 +1,7 @@
-package org.example.Animals;
+package agh.ics.oop.darwinWorld;
 
-import org.example.Enums_Vectors.Vector2d;
+import agh.ics.oop.darwinWorld.Animals.Animal;
+import agh.ics.oop.darwinWorld.Animals.Vector2d;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,7 +19,7 @@ public class TempAnimalMap
 
         boolean inserted = false;
         for (int i = 0; i < animalsAtPosition.size(); i++) {
-            if (animal.greaterThan(animalsAtPosition.get(i))) {
+            if (animal.isStronger(animalsAtPosition.get(i))) {
                 animalsAtPosition.add(i, animal);
                 inserted = true;
                 break;

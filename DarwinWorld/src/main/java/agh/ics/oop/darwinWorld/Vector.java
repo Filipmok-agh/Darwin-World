@@ -1,4 +1,6 @@
-package org.example.Enums_Vectors;
+package agh.ics.oop.darwinWorld;
+
+import agh.ics.oop.darwinWorld.Animals.Vector2d;
 
 public interface Vector
 {
@@ -24,19 +26,19 @@ public interface Vector
      * @param top highest val to check
      * @return True if y is between (inclusive)
      */
-    boolean yInRange(int bottom, int top);
+    boolean IsYInRange(int bottom, int top);
 
     /**
      * Checking if x is over right range
      * @param right value to check
      * @return True if x is greater than right
      */
-    boolean xOver(int right);
+    boolean isXGreaterThan(int right);
 
     /**
      * Checking if x is over right range
      * @param left value to check
      * @return True if x lower than left
      */
-    boolean xUnder(int left);
+    boolean isXLessThan(int left);
 }
