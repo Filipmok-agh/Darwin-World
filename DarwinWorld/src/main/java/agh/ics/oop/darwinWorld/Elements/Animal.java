@@ -1,6 +1,6 @@
-package agh.ics.oop.darwinWorld.Animals;
+package agh.ics.oop.darwinWorld.Elements;
 
-import agh.ics.oop.darwinWorld.MapDirection;
+import agh.ics.oop.darwinWorld.Maps.MapDirection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.Random;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
-public class Animal
+public class Animal implements WorldElement
 {
     private MapDirection direction;
     private Vector2d position;
@@ -41,7 +41,7 @@ public class Animal
         this.eatenGrass = 0;
         this.daysAlive = 0;
     }
-
+    @Override
     public Vector2d getPosition() {
         return this.position;
     }

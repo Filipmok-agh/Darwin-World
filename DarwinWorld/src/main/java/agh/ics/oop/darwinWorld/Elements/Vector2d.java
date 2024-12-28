@@ -1,4 +1,4 @@
-package agh.ics.oop.darwinWorld.Animals;
+package agh.ics.oop.darwinWorld.Elements;
 
 import java.util.Objects;
 
@@ -38,8 +38,7 @@ public class Vector2d
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         return Objects.hash(x, y);
     }
 }

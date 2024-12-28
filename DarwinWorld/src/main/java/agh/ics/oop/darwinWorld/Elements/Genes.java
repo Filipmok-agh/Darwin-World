@@ -1,4 +1,4 @@
-package agh.ics.oop.darwinWorld.Animals;
+package agh.ics.oop.darwinWorld.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +36,6 @@ public class Genes
                 mutation();
             }
         }
-
     }
 
     public Genes() {
