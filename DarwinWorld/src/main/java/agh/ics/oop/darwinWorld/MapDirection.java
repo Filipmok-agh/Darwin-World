@@ -1,4 +1,6 @@
-package org.example.Enums_Vectors;
+package agh.ics.oop.darwinWorld;
+
+import agh.ics.oop.darwinWorld.Animals.Vector2d;
 
 public enum MapDirection
 {

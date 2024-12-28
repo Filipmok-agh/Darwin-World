@@ -1,5 +1,6 @@
-package org.example.Enums_Vectors;
+package agh.ics.oop.darwinWorld;
 
+import agh.ics.oop.darwinWorld.Animals.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class Vector2dTest {
 
     @Test
-    void doesAddWorks()
+    void testAdd()
     {
 //        given
         Vector2d v1 = new Vector2d(1,2);
@@ -21,43 +22,43 @@ class Vector2dTest {
     }
 
     @Test
-    void doesYInRangeWorks()
+    void doesIsYInRangeWorks()
     {
         //when
         Vector2d v1 = new Vector2d(2,5);
 
         //then
-        assertFalse(v1.yInRange(3,4));
-        assertFalse(v1.yInRange(6,8));
+        assertFalse(v1.IsYInRange(3,4));
+        assertFalse(v1.IsYInRange(6,8));
 
-        assertTrue(v1.yInRange(3,5));
-        assertTrue(v1.yInRange(3,6));
-        assertTrue(v1.yInRange(1,10));
-        assertTrue(v1.yInRange(1,7));
+        assertTrue(v1.IsYInRange(3,5));
+        assertTrue(v1.IsYInRange(3,6));
+        assertTrue(v1.IsYInRange(1,10));
+        assertTrue(v1.IsYInRange(1,7));
     }
 
     @Test
-    void doesXOverWorks()
+    void testIsXInRange()
     {
         //when
         Vector2d v1 = new Vector2d(2,2);
 
         //then
-        assertTrue(v1.xOver(1));
-        assertFalse(v1.xOver(3));
-        assertFalse(v1.xOver(2));
+        assertTrue(v1.isXGreaterThan(1));
+        assertFalse(v1.isXGreaterThan(3));
+        assertFalse(v1.isXGreaterThan(2));
     }
 
     @Test
-    void doesXUnderWorks()
+    void doesIsXLessThanWorks()
     {
         //when
         Vector2d v1 = new Vector2d(2,2);
 
         //then
-        assertTrue(v1.xUnder(4));
-        assertFalse(v1.xUnder(2));
-        assertFalse(v1.xUnder(1));
+        assertTrue(v1.isXLessThan(4));
+        assertFalse(v1.isXLessThan(2));
+        assertFalse(v1.isXLessThan(1));
     }
 
     @Test

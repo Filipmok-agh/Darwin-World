@@ -1,5 +1,6 @@
-package org.example.Enums_Vectors;
+package agh.ics.oop.darwinWorld;
 
+import agh.ics.oop.darwinWorld.Animals.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,8 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MapDirectionTest {
 
     @Test
-    void doesNextWork()
-    {
+    void testNext() {
 //        given
         MapDirection north = MapDirection.NORTH;
         MapDirection north_west = MapDirection.NORTH_WEST;
@@ -39,9 +39,8 @@ class MapDirectionTest {
         assertEquals(MapDirection.NORTH_WEST, west);
     }
     @Test
-    void doesToUnitVectorWorks()
-    {
-        //when
+    void testToUnitVector() {
+//        given
         MapDirection north = MapDirection.NORTH;
         MapDirection north_west = MapDirection.NORTH_WEST;
         MapDirection west = MapDirection.WEST;
@@ -51,7 +50,7 @@ class MapDirectionTest {
         MapDirection east = MapDirection.EAST;
         MapDirection north_east = MapDirection.NORTH_EAST;
 
-        //then
+//        then
         assertEquals(north.toUnitVector(),new Vector2d(0,1));
         assertEquals(north_east.toUnitVector(),new Vector2d(1,1));
         assertEquals(west.toUnitVector(),new Vector2d(-1,0));
@@ -63,9 +62,8 @@ class MapDirectionTest {
     }
 
     @Test
-    void doesOppositeWorks()
-    {
-        //given
+    void testOpposite() {
+//        given
         MapDirection north = MapDirection.NORTH;
         MapDirection north_west = MapDirection.NORTH_WEST;
         MapDirection west = MapDirection.WEST;
@@ -75,7 +73,7 @@ class MapDirectionTest {
         MapDirection east = MapDirection.EAST;
         MapDirection north_east = MapDirection.NORTH_EAST;
 
-        //when
+//        when
         north = north.opposite();
         north_west= north_west.opposite();
         south_west= south_west.opposite();
@@ -85,7 +83,7 @@ class MapDirectionTest {
         west= west.opposite();
         north_east= north_east.opposite();
 
-        //then
+//        then
         assertEquals(MapDirection.NORTH,south );
         assertEquals(MapDirection.SOUTH,north );
         assertEquals(MapDirection.WEST,east );
