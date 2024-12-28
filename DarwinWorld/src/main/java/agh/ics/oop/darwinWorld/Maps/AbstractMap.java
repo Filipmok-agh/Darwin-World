@@ -1,16 +1,15 @@
-package agh.ics.oop.darwinWorld;
+package agh.ics.oop.darwinWorld.Maps;
 
-import agh.ics.oop.darwinWorld.Animals.Animal;
-import agh.ics.oop.darwinWorld.Animals.Vector2d;
+import agh.ics.oop.darwinWorld.Elements.Animal;
+import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class TempAnimalMap
-{
+public abstract class AnimalMap implements WorldMap {
     private HashMap<Vector2d, LinkedList<Animal>> animals;
 
-    public TempAnimalMap() {
+    public AnimalMap() {
         this.animals = new HashMap<>();
     }
     public void insertnew(Animal animal) {
