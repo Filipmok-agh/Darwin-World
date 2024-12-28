@@ -22,6 +22,8 @@ public class Animal implements WorldElement
     private int funeralDay;
 
     public Animal(Animal parent1,Animal parent2) {
+        MapDirection[] directions = MapDirection.values();
+        this.direction = directions[new Random().nextInt(directions.length)];
         this.position = parent1.getPosition();
         this.genes = new Genes(parent1,parent2);
         this.energy = 2 * parentEnergyCost;
@@ -30,8 +32,11 @@ public class Animal implements WorldElement
         this.descendants = 0;
         this.eatenGrass = 0;
         this.daysAlive = 0;
+        this.funeralDay = 0;
     }
     public Animal(Vector2d position) {
+        MapDirection[] directions = MapDirection.values();
+        this.direction = directions[new Random().nextInt(directions.length)];
         this.position = position;
         this.genes = new Genes();
         this.energy = initialAnimalEnergy;
@@ -40,18 +45,11 @@ public class Animal implements WorldElement
         this.descendants = 0;
         this.eatenGrass = 0;
         this.daysAlive = 0;
+        this.funeralDay = 0;
     }
     @Override
     public Vector2d getPosition() {
         return this.position;
-    }
-
-    public MapDirection getDirection() {
-        return this.direction;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
     }
 
     public int getEnergy() {
@@ -62,31 +60,21 @@ public class Animal implements WorldElement
         return this.genes;
     }
 
-    public void setPosition(Vector2d position) {
-        this.position = position;
-    }
-
-    public void setDirection(MapDirection direction) {
-        this.direction = direction;
-    }
 
     public void move() {
-        for(int i = 0; i<this.genes.next(); i++)
+        this.energy = this.energy - dailyEnergyCost;
+        this.daysAlive++;
+        for(int i = 0; i < this.genes.curr(); i++)
         {
             this.direction = this.direction.next();
         }
-        this.position.add(this.direction.toUnitVector());
+        this.position = this.position.add(this.direction.toUnitVector());
+        this.genes.next();
     }
 
     public void eat() {
         this.eatenGrass++;
         this.energy = this.energy + plantEnergy;
-    }
-
-//    Wydaje się niepotrzebne bo move może wykonać wszystkie te rzeczy
-    public void sleep() {
-        this.energy = this.energy - dailyEnergyCost;
-        this.daysAlive++;
     }
 
     private void updateDescendantsCount() {

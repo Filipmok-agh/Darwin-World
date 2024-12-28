@@ -5,22 +5,21 @@ import agh.ics.oop.darwinWorld.Elements.Grass;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import agh.ics.oop.darwinWorld.Elements.WorldElement;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
 public abstract class AbstractMap implements WorldMap {
+    protected int day;
     protected LinkedList<Animal> animals;
     protected HashMap<Vector2d, Grass> grasses;
-    protected LinkedHashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
+    protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
 
     public AbstractMap() {
+        this.day = 0;
         this.animals = new LinkedList<>();
         this.grasses = new HashMap<>();
-        this.dailyAnimals = new LinkedHashMap<>();
+        this.dailyAnimals = new HashMap<>();
     }
 
     public void addInitialAnimals(){
@@ -30,38 +29,67 @@ public abstract class AbstractMap implements WorldMap {
             int randomY = random.nextInt(mapHeight);
             Vector2d position = new Vector2d(randomX, randomY);
             Animal animal = new Animal(position);
-            //Dodajemy zwierzęta do linkedlisty zwierząt
             this.animals.add(animal);
+
         }
     }
-    public void animalsMovement()
-    {
-        this.dailyAnimals = new LinkedHashMap<>();
-        for(Animal animal : animals)
-        {
-            animal.sleep();
-            if(animal.getEnergy()<=0)
-            {
-                //tutaj wiadomo usuwamy go ustawiamy date smierci itp
+
+    public void removeDeadAnimals(){
+        for(Animal animal : animals){
+            if (animal.getEnergy() < dailyEnergyCost){
+                animal.setFuneralDay(this.day);
+                this.animals.remove(animal);
             }
-            else
+        }
+        //tutaj wiadomo usuwamy go ustawiamy date smierci itp
+        //nie chce mieszać funkcji do ruszania zwierząt z funkcją do usuwania trupów bo to jest bardziej czytelne
+        //+ trzeba gdzieś zapisać informację o tym, żeby CorpseMap mógł to nadpisac i inaczej ogarniać usuwanie trupów
+    }
+
+    public void animalsMovement() {
+        this.dailyAnimals = new HashMap<>();
+        for(Animal animal : animals) {
+            animal.move();
+            if(dailyAnimals.containsKey(animal.getPosition()))
             {
-                animal.move();
-                LinkedList<Animal> temp = new LinkedList<>();
-                temp = dailyAnimals.get(animal.getPosition());
-                if(temp!=null)
-                {
-                    addAnimal(temp, animal);
-                }
-                else
-                {
-                    LinkedList<Animal> newList = new LinkedList<>();
-                    newList.add(animal);
-                    dailyAnimals.put(animal.getPosition(), newList);
+                addAnimal(dailyAnimals.get(animal.getPosition()), animal);
+            }
+            else {
+                dailyAnimals.put(animal.getPosition(), new LinkedList<>(List.of(animal)));
+            }
+        }
+    }
+
+    public void eatingPlants(){
+        for(Animal animal : animals) {
+            if (grasses.containsKey(animal.getPosition())) {
+                Animal strongestAnimal = dailyAnimals.get(animal.getPosition()).getFirst();
+                strongestAnimal.eat();
+                grasses.remove(animal.getPosition());
+            }
+        }
+    }
+
+    public void animalProcreation(){
+        for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values()) {
+            if (animalsAtThisPosition.size() < 2) {break;}
+            int potentialPairs = animalsAtThisPosition.size() / 2;
+            for (int i = 0; i < potentialPairs; i++) {
+                Animal father = animalsAtThisPosition.get(2*i);
+                Animal mother = animalsAtThisPosition.get(2*i+1);
+                if (mother.getEnergy() >= energyToBeFed && father.getEnergy() >= energyToBeFed) {
+                    Animal child = father.breeding(mother);
+                    this.animals.add(child);
                 }
             }
         }
     }
+
+    abstract public void spawnGrass();
+
+
+
+
 
     protected void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
         boolean inserted = false;
@@ -77,16 +105,18 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-
     public void place(WorldElement element) {
         if (element instanceof Animal) {
-            addAnimal((Animal) element);
+            animals.add((Animal) element);
+            if (dailyAnimals.containsKey(element.getPosition())) {
+                addAnimal(dailyAnimals.get(element.getPosition()), (Animal) element);
+            }
+            else{
+                dailyAnimals.put(element.getPosition(), new LinkedList<>(List.of((Animal) element)));
+            }
         }
         else{
             grasses.put(element.getPosition(), new Grass(element.getPosition()));
         }
     }
-
-
-    abstract public void spawnGrass();
 }

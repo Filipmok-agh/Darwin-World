@@ -9,13 +9,13 @@ public class Main {
     public static void main(String[] args)
     {
         JungleMap map = new JungleMap();
-        Vector2d pos = new Vector2d(1,1);
-        Animal animal1 = new Animal(pos);
-        Animal animal2 = new Animal(pos);
-        animal1.setEnergy(200);
-        map.place(animal1);
-        map.place(animal2);
-        map.place(animal1.breeding(animal2));
+        Vector2d pos = new Vector2d(20,20);
+        for (int i = 0; i < 10; i++){
+            Animal animal = new Animal(pos);
+            map.place(animal);
+        }
+        map.animalProcreation();
+        map.animalsMovement();
         map.addInitialAnimals();
         map.spawnGrass();
         System.out.println('a');

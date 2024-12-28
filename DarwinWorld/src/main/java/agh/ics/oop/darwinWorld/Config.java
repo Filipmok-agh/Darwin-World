@@ -16,7 +16,7 @@ public class Config
     public static boolean lifeGivingCorpses = false;
     public static int initialAnimalCount = 10;
     public static int initialAnimalEnergy = 100;
-    public static int energyToBeFed;
+    public static int energyToBeFed = 20;
     public static int parentEnergyCost = 40;
     public static int minMutations = 1;
     public static int maxMutations = 4;
