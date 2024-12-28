@@ -1,6 +1,6 @@
 package agh.ics.oop.darwinWorld;
 
-import agh.ics.oop.darwinWorld.Animals.Vector2d;
+import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

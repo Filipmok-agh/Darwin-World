@@ -1,6 +1,6 @@
-package agh.ics.oop.darwinWorld;
+package agh.ics.oop.darwinWorld.Maps;
 
-import agh.ics.oop.darwinWorld.Animals.Vector2d;
+import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 public enum MapDirection
 {
