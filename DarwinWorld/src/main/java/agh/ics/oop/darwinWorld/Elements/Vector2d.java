@@ -17,7 +17,7 @@ public class Vector2d
         return new Vector2d(newX, newY);
     }
 
-    public boolean IsYInRange(int bottom, int top) {
+    public boolean isYInRange(int bottom, int top) {
         return this.y >= bottom && this.y <= top;
     }
 
