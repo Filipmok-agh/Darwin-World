@@ -2,10 +2,7 @@ package agh.ics.oop.darwinWorld.Elements;
 
 import agh.ics.oop.darwinWorld.Maps.MapDirection;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
@@ -61,15 +58,55 @@ public class Animal implements WorldElement
         return this.genes;
     }
 
+    public MapDirection getDirection()
+    {
+        return this.direction;
+    }
+
+    private void overRightBound()
+    {
+        Vector2d temporaryVector = this.getPosition();
+        this.position = new Vector2d(0,temporaryVector.getY());
+    }
+
+    private void overLeftBound()
+    {
+        Vector2d temporaryVector = this.getPosition();
+        this.position = new Vector2d(mapWidth, temporaryVector.getY());
+    }
+
 
     public void move() {
         this.energy = this.energy - dailyEnergyCost;
         this.daysAlive++;
+        Vector2d positionToProcess = this.getPosition();
+        MapDirection directionToProcess = this.getDirection();
+
         for(int i = 0; i < this.genes.curr(); i++)
         {
-            this.direction = this.direction.next();
+            directionToProcess= directionToProcess.next();
         }
-        this.position = this.position.add(this.direction.toUnitVector());
+        positionToProcess= positionToProcess.add(directionToProcess.toUnitVector());
+
+        if (positionToProcess.isYInRange(0,mapHeight))
+        {
+            if (positionToProcess.isXGreaterThan(mapWidth))
+            {
+                this.overRightBound();
+            }
+            else if (positionToProcess.isXLessThan(mapWidth))
+            {
+                this.overLeftBound();
+            }
+            else
+            {
+                this.position = positionToProcess;
+            }
+        }
+        else
+        {
+            this.direction = this.direction.opposite();
+        }
         this.genes.next();
     }
 
@@ -84,7 +121,7 @@ public class Animal implements WorldElement
         {
             this.descendants++;
             updatedDescendantsSet.add(this);
-            if(!this.parents.isEmpty()) 
+            if(!this.parents.isEmpty())
             {
                 this.parents.get(0).updateDescendantsCount(updatedDescendantsSet);
                 this.parents.get(1).updateDescendantsCount(updatedDescendantsSet);

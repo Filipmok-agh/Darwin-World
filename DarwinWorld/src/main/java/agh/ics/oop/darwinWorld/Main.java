@@ -2,7 +2,6 @@ package agh.ics.oop.darwinWorld;
 
 import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
-import agh.ics.oop.darwinWorld.Maps.AbstractMap;
 import agh.ics.oop.darwinWorld.Maps.JungleMap;
 
 public class Main {
@@ -14,7 +13,7 @@ public class Main {
             Animal animal = new Animal(pos);
             map.place(animal);
         }
-        map.animalProcreation();
+        map.animalActivities();
         map.animalsMovement();
         map.addInitialAnimals();
         map.spawnGrass();

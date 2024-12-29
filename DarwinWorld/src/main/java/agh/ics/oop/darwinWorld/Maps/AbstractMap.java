@@ -41,14 +41,13 @@ public abstract class AbstractMap implements WorldMap {
                 this.animals.remove(animal);
             }
         }
-        //tutaj wiadomo usuwamy go ustawiamy date smierci itp
-        //nie chce mieszać funkcji do ruszania zwierząt z funkcją do usuwania trupów bo to jest bardziej czytelne
-        //+ trzeba gdzieś zapisać informację o tym, żeby CorpseMap mógł to nadpisac i inaczej ogarniać usuwanie trupów
+        //git
     }
 
     public void animalsMovement() {
         this.dailyAnimals = new HashMap<>();
-        for(Animal animal : animals) {
+        for(Animal animal : animals)
+        {
             animal.move();
             if(dailyAnimals.containsKey(animal.getPosition()))
             {
@@ -60,18 +59,20 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void eatingPlants(){
-        for(Animal animal : animals) {
-            if (grasses.containsKey(animal.getPosition())) {
-                Animal strongestAnimal = dailyAnimals.get(animal.getPosition()).getFirst();
-                strongestAnimal.eat();
-                grasses.remove(animal.getPosition());
-            }
+    public void eatPlant(Animal animal)
+    {
+        if (grasses.containsKey(animal.getPosition()))
+        {
+            animal.eat();
+            grasses.remove(animal.getPosition());
         }
     }
+    //Skróciłem tą metodę bo bez sensu jest przechodzić po każdym zwierzaku i sprawdzać czy akurat tam jest trawa
 
-    public void animalProcreation(){
-        for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values()) {
+    public void animalActivities(){
+        for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values())
+        {
+            eatPlant(animalsAtThisPosition.getFirst());
             if (animalsAtThisPosition.size() < 2) {break;}
             int potentialPairs = animalsAtThisPosition.size() / 2;
             for (int i = 0; i < potentialPairs; i++) {
