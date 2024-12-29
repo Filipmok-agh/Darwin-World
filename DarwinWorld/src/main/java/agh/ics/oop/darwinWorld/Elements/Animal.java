@@ -3,6 +3,7 @@ package agh.ics.oop.darwinWorld.Elements;
 import agh.ics.oop.darwinWorld.Maps.MapDirection;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -77,20 +78,27 @@ public class Animal implements WorldElement
         this.energy = this.energy + plantEnergy;
     }
 
-    private void updateDescendantsCount() {
-        this.descendants++;
-        if(!this.parents.isEmpty()) {
-            this.parents.get(0).updateDescendantsCount();
-            this.parents.get(1).updateDescendantsCount();
+    private void updateDescendantsCount(HashSet<Animal> updatedDescendantsSet)
+    {
+        if (!updatedDescendantsSet.contains(this))
+        {
+            this.descendants++;
+            updatedDescendantsSet.add(this);
+            if(!this.parents.isEmpty()) 
+            {
+                this.parents.get(0).updateDescendantsCount(updatedDescendantsSet);
+                this.parents.get(1).updateDescendantsCount(updatedDescendantsSet);
+            }
         }
-    }
+        }
 
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent,this);
         this.children++;
         parent.children++;
-        this.updateDescendantsCount();
-        parent.updateDescendantsCount();
+        HashSet<Animal> updatedDescendantsSet = new HashSet<>();
+        this.updateDescendantsCount(updatedDescendantsSet);
+        parent.updateDescendantsCount(updatedDescendantsSet);
         this.energy -= parentEnergyCost;
         parent.energy -= parentEnergyCost;
         return child;
