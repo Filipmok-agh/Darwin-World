@@ -15,8 +15,7 @@ public class JungleMap extends AbstractMap {
     int upperJungleBound;
     int lowerJungleBound;
     int jungleArea;
-    ArrayList<Vector2d> junglePositions;
-    ArrayList<Vector2d> steppePositions;
+
 
     public JungleMap() {
         super();
@@ -62,33 +61,4 @@ public class JungleMap extends AbstractMap {
     }
 
 
-    @Override
-    public void spawnGrass() {
-        int jungleGrass = initialPlantCount * 4 / 5;
-        int steppeGrass = initialPlantCount / 5;
-        int grassPlaced = 0;
-        int i=0;
-        super.shuffle(junglePositions);
-        while (grassPlaced < jungleGrass && i <this.junglePositions.size())
-        {
-            if (grasses.get(this.junglePositions.get(i)) == null)
-            {
-                place(new Grass(this.junglePositions.get(i)));
-                grassPlaced++;
-            }
-            i+=1;
-        }
-
-        grassPlaced = 0;
-        i= 0;
-        while (grassPlaced < steppeGrass && i <this.steppePositions.size())
-        {
-            if (grasses.get(this.steppePositions.get(i)) == null)
-            {
-                place(new Grass(this.steppePositions.get(i)));
-                grassPlaced++;
-            }
-            i+=1;
-        }
-    }
 }

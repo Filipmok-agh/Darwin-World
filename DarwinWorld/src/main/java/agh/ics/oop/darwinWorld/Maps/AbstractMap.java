@@ -14,6 +14,8 @@ public abstract class AbstractMap implements WorldMap {
     protected LinkedList<Animal> animals;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
+    ArrayList<Vector2d> junglePositions;
+    ArrayList<Vector2d> steppePositions;
 
     public AbstractMap() {
         this.day = 0;
@@ -88,7 +90,34 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    abstract public void spawnGrass();
+    public void spawnGrass() {
+        int jungleGrass = (int) Math.ceil((double) (initialPlantCount * 4) / 5);
+        int steppeGrass = (int) Math.ceil((double) (initialPlantCount/ 5));
+        int grassPlaced = 0;
+        int i=0;
+        shuffle(junglePositions);
+        while (grassPlaced < jungleGrass && i <this.junglePositions.size())
+        {
+            if (grasses.get(this.junglePositions.get(i)) == null)
+            {
+                place(new Grass(this.junglePositions.get(i)));
+                grassPlaced++;
+            }
+            i+=1;
+        }
+
+        grassPlaced = 0;
+        i= 0;
+        while (grassPlaced < steppeGrass && i <this.steppePositions.size())
+        {
+            if (grasses.get(this.steppePositions.get(i)) == null)
+            {
+                place(new Grass(this.steppePositions.get(i)));
+                grassPlaced++;
+            }
+            i+=1;
+        }
+    }
 
 
 
