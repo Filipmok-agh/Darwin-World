@@ -35,14 +35,16 @@ public abstract class AbstractMap implements WorldMap {
     }
 
     public void removeDeadAnimals(){
-        for(Animal animal : animals){
-            if (animal.getEnergy() < dailyEnergyCost){
+        Iterator<Animal> iterator = animals.iterator();
+        while(iterator.hasNext()) {
+            Animal animal = iterator.next();
+            if (animal.getEnergy() < dailyEnergyCost) {
                 animal.setFuneralDay(this.day);
-                this.animals.remove(animal);
+                iterator.remove();
             }
         }
-        //git
     }
+
 
     public void animalsMovement() {
         this.dailyAnimals = new HashMap<>();
