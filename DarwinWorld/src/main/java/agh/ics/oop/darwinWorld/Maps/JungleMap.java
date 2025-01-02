@@ -61,17 +61,6 @@ public class JungleMap extends AbstractMap {
         return possiblePositions;
     }
 
-    public void shuffle(ArrayList<Vector2d> possiblePositions)
-    {
-        Random rand = new Random();
-        for (int i=0;i<possiblePositions.size();i++)
-        {
-            int randomIndex = rand.nextInt(possiblePositions.size());
-            Vector2d temp = possiblePositions.get(randomIndex);
-            possiblePositions.set(randomIndex, possiblePositions.get(randomIndex));
-            possiblePositions.set(randomIndex, temp);
-        }
-    }
 
     @Override
     public void spawnGrass() {
@@ -79,7 +68,7 @@ public class JungleMap extends AbstractMap {
         int steppeGrass = initialPlantCount / 5;
         int grassPlaced = 0;
         int i=0;
-        shuffle(junglePositions);
+        super.shuffle(junglePositions);
         while (grassPlaced < jungleGrass && i <this.junglePositions.size())
         {
             if (grasses.get(this.junglePositions.get(i)) == null)

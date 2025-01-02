@@ -122,4 +122,17 @@ public abstract class AbstractMap implements WorldMap {
             grasses.put(element.getPosition(), new Grass(element.getPosition()));
         }
     }
+
+    public void shuffle(ArrayList<Vector2d> possiblePositions)
+    {
+        Random rand = new Random();
+        for (int i=0;i<possiblePositions.size();i++)
+        {
+            int randomIndex = rand.nextInt(possiblePositions.size());
+            Vector2d temp = possiblePositions.get(i);
+            possiblePositions.set(i, possiblePositions.get(randomIndex));
+            possiblePositions.set(randomIndex, temp);
+        }
+    }
+
 }
