@@ -71,7 +71,7 @@ public class Genes
         if (geneSwap && new Random().nextBoolean()) {
             swapMutation();
         }
-        if(new Random().nextBoolean())
+        else
         {
             randomMutation();
         }

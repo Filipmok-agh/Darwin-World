@@ -76,10 +76,10 @@ public abstract class AbstractMap implements WorldMap {
             if (animalsAtThisPosition.size() < 2) {break;}
             int potentialPairs = animalsAtThisPosition.size() / 2;
             for (int i = 0; i < potentialPairs; i++) {
-                Animal father = animalsAtThisPosition.get(2*i);
-                Animal mother = animalsAtThisPosition.get(2*i+1);
-                if (mother.getEnergy() >= energyToBeFed && father.getEnergy() >= energyToBeFed) {
-                    Animal child = father.breeding(mother);
+                Animal parent1 = animalsAtThisPosition.get(2*i);
+                Animal parent2 = animalsAtThisPosition.get(2*i+1);
+                if (parent1.getEnergy() >= energyToBeFed && parent2.getEnergy() >= energyToBeFed) {
+                    Animal child = parent1.breeding(parent2);
                     this.animals.add(child);
                 }
             }
