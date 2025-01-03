@@ -6,6 +6,7 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import agh.ics.oop.darwinWorld.Elements.WorldElement;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
@@ -36,15 +37,11 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void removeDeadAnimals(){
-        Iterator<Animal> iterator = animals.iterator();
-        while(iterator.hasNext()) {
-            Animal animal = iterator.next();
-            if (animal.getEnergy() < dailyEnergyCost) {
-                animal.setFuneralDay(this.day);
-                iterator.remove();
-            }
-        }
+    public void removeDeadAnimals()
+    {
+        animals = animals.stream()
+                .filter(animal -> animal.getEnergy() >= dailyEnergyCost)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
 
 
