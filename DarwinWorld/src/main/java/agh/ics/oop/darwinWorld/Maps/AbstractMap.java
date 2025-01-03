@@ -90,38 +90,31 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void spawnGrass() {
-        int jungleGrass = (int) Math.ceil((double) (initialPlantCount * 4) / 5);
-        int steppeGrass = (int) Math.ceil((double) (initialPlantCount/ 5));
+    private void spawnGrassInArea(List<Vector2d> positions, int grassCount)
+    {
         int grassPlaced = 0;
-        int i=0;
-        shuffle(junglePositions);
-        while (grassPlaced < jungleGrass && i <this.junglePositions.size())
+        int lastIndex = positions.size() - 1;
+        while (grassPlaced < grassCount && lastIndex >= 0)
         {
-            if (grasses.get(this.junglePositions.get(i)) == null)
-            {
-                place(new Grass(this.junglePositions.get(i)));
+            int randomIndex = new Random().nextInt(lastIndex+1);
+            Vector2d tempPosition = positions.get(randomIndex);
+            if (grasses.get(tempPosition) == null) {
+                place(new Grass(tempPosition));
                 grassPlaced++;
             }
-            i+=1;
-        }
-
-        grassPlaced = 0;
-        i= 0;
-        while (grassPlaced < steppeGrass && i <this.steppePositions.size())
-        {
-            if (grasses.get(this.steppePositions.get(i)) == null)
-            {
-                place(new Grass(this.steppePositions.get(i)));
-                grassPlaced++;
-            }
-            i+=1;
+            positions.set(randomIndex, positions.get(lastIndex));
+            positions.set(lastIndex, tempPosition);
+            lastIndex--;
         }
     }
 
-
-
-
+    public void spawnGrass()
+    {
+        int jungleGrass = (int) Math.ceil((double) (initialPlantCount * 4) / 5);
+        int steppeGrass = (int) Math.floor((double) (initialPlantCount / 5));
+        spawnGrassInArea(this.junglePositions, jungleGrass);
+        spawnGrassInArea(this.steppePositions, steppeGrass);
+    }
 
     protected void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
         boolean inserted = false;
@@ -149,18 +142,6 @@ public abstract class AbstractMap implements WorldMap {
         }
         else{
             grasses.put(element.getPosition(), new Grass(element.getPosition()));
-        }
-    }
-
-    public void shuffle(ArrayList<Vector2d> possiblePositions)
-    {
-        Random rand = new Random();
-        for (int i=0;i<possiblePositions.size();i++)
-        {
-            int randomIndex = rand.nextInt(possiblePositions.size());
-            Vector2d temp = possiblePositions.get(i);
-            possiblePositions.set(i, possiblePositions.get(randomIndex));
-            possiblePositions.set(randomIndex, temp);
         }
     }
 
