@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
@@ -40,6 +41,7 @@ public class JungleMap extends AbstractMap {
         return possiblePositions;
     }
 
+
     public ArrayList<Vector2d> steppePossiblePositions()
     {
         ArrayList<Vector2d> possiblePositions = new ArrayList<>();
@@ -59,6 +61,12 @@ public class JungleMap extends AbstractMap {
         }
         return possiblePositions;
     }
-
+    @Override
+    public void removeDeadAnimals()
+    {
+        animals = animals.stream()
+                .filter(animal -> animal.getEnergy() >= dailyEnergyCost)
+                .collect(Collectors.toCollection(LinkedList::new));
+    }
 
 }

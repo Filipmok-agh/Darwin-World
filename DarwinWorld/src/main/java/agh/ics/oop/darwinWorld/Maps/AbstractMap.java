@@ -36,14 +36,7 @@ public abstract class AbstractMap implements WorldMap {
 
         }
     }
-//    Kuba: Nie wiem czy nie lepiej zostawić tą funkcję jako abstract i przeniesienie tego do JungleMap
-    public void removeDeadAnimals()
-    {
-        animals = animals.stream()
-                .filter(animal -> animal.getEnergy() >= dailyEnergyCost)
-                .collect(Collectors.toCollection(LinkedList::new));
-    }
-
+    public abstract void removeDeadAnimals();
 
     public void animalsMovement() {
         this.dailyAnimals = new HashMap<>();
@@ -68,8 +61,6 @@ public abstract class AbstractMap implements WorldMap {
             grasses.remove(animal.getPosition());
         }
     }
-    //Skróciłem tą metodę bo bez sensu jest przechodzić po każdym zwierzaku i sprawdzać czy akurat tam jest trawa
-//    Kuba: Znaczy jak ja to zaimplementowałem to eatPlant przechodziło przez całą listę bo było osobnym wywołaniem, ale rzeczywiście lepiej przejść po wszystkich pozycjach raz a nie 2 razy
 
     public void animalActivities(){
         for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values())
@@ -88,6 +79,12 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 //    Kuba: Nie jestem pewien czy dobrze to rozumiem, ale wygląda na to, że im więcej dodanej trawy => niższy lastIndex => pozycje z niższym lastIndexem będą częściej brane pod uwagę w losowaniu
+//    Filip: Ta metoda działa na takiej zasadzie, że mamy tą tablicę pozycji positions
+//    ona ma rozmiar n to przy pierwszym wywołaniu gdy wylosujemy jakaś pozycję (z zakresu 0,lastindex) j to sadzimy na niej trawę(bądź też nie)
+//    a następnie zamieniamy miejscami element j z elementem na ostatniej pozycji
+//    ponownie losujemy index (z zakresu 0, lastindex-1) przez co każda pozycja ma takie same szanse na wylosowanie
+//    a już nie wylosujemy tej pozycji którą wylosowaliśmy za pierwszym razem
+//    ta funckja pozwala nam na losowanie w najgorszym wypadku n razy i gwarantuje, że posadzimy tą ilość trawy którą chcemy( no chyba, że nie ma tylu wolnych miejsc)
     private void spawnGrassInArea(List<Vector2d> positions, int grassCount)
     {
         int grassPlaced = 0;
@@ -142,5 +139,4 @@ public abstract class AbstractMap implements WorldMap {
             grasses.put(element.getPosition(), new Grass(element.getPosition()));
         }
     }
-
 }

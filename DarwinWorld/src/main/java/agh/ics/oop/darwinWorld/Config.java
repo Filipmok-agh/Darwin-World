@@ -6,7 +6,6 @@ public class Config
     public static int dailyEnergyCost = 5;
 
 //    Wszystkie zmienne konfiguracyjne z punktu symulacja
-//    Na 90% te zmienne nie mogą być final bo wtedy nie będzie się ich dało ustawić z poziomu FXa
 
     public static int mapHeight = 50;
     public static int mapWidth = 100;

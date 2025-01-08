@@ -138,6 +138,8 @@ public class Animal implements WorldElement
         }
         }
 //    Kuba: Nie jestem pewien odnośnie tworzenia nowego setu za każdym razem i przechowywanie tego setu za każdym wywołaniem tej funkcji
+    //        Filip : Aktualnie nie mam lepszego pomysłu na rozwiązanie tej kwestii
+
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent,this);
         this.children++;
