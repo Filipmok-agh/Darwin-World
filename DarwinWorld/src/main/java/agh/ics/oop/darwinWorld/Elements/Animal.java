@@ -19,32 +19,35 @@ public class Animal implements WorldElement
     private int daysAlive;
     private int funeralDay;
 
-    public Animal(Animal parent1,Animal parent2) {
-        MapDirection[] directions = MapDirection.values();
-        this.direction = directions[new Random().nextInt(directions.length)];
-        this.position = parent1.getPosition();
-        this.genes = new Genes(parent1,parent2);
-        this.energy = 2 * parentEnergyCost;
-        this.parents = new ArrayList<>(List.of(parent1, parent2));
-        this.children = 0;
-        this.descendants = 0;
-        this.eatenGrass = 0;
-        this.daysAlive = 0;
-        this.funeralDay = 0;
-    }
-    public Animal(Vector2d position) {
-        MapDirection[] directions = MapDirection.values();
-        this.direction = directions[new Random().nextInt(directions.length)];
+    public Animal(Vector2d position)
+    {
+        this.initializeAnimalStats();
+        this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = position;
         this.genes = new Genes();
         this.energy = initialAnimalEnergy;
-        this.parents = new ArrayList<Animal>();
+        this.parents = new ArrayList<>();
+    }
+
+    public Animal(Animal parent1, Animal parent2)
+    {
+        this.initializeAnimalStats();
+        this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
+        this.position = parent1.getPosition();
+        this.genes = new Genes(parent1, parent2);
+        this.energy = 2 * parentEnergyCost;
+        this.parents = new ArrayList<>(List.of(parent1, parent2));
+    }
+
+    private void initializeAnimalStats()
+    {
         this.children = 0;
         this.descendants = 0;
         this.eatenGrass = 0;
         this.daysAlive = 0;
         this.funeralDay = 0;
     }
+
     @Override
     public Vector2d getPosition() {
         return this.position;
@@ -58,21 +61,27 @@ public class Animal implements WorldElement
         return this.genes;
     }
 
+    public int getDaysAlive()
+    {
+        return this.daysAlive;
+    }
+
+    public int getChildren()
+    {
+        return this.children;
+    }
+
     public MapDirection getDirection()
     {
         return this.direction;
     }
 
-    private void overRightBound()
-    {
-        Vector2d temporaryVector = this.getPosition();
-        this.position = new Vector2d(0,temporaryVector.getY());
+    private void overRightBound() {
+        this.position = new Vector2d(0, this.getPosition().getY());
     }
 
-    private void overLeftBound()
-    {
-        Vector2d temporaryVector = this.getPosition();
-        this.position = new Vector2d(mapWidth, temporaryVector.getY());
+    private void overLeftBound() {
+        this.position = new Vector2d(mapWidth, this.getPosition().getY());
     }
 
 
@@ -128,7 +137,7 @@ public class Animal implements WorldElement
             }
         }
         }
-
+//    Kuba: Nie jestem pewien odnośnie tworzenia nowego setu za każdym razem i przechowywanie tego setu za każdym wywołaniem tej funkcji
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent,this);
         this.children++;
@@ -146,19 +155,12 @@ public class Animal implements WorldElement
     }
 
     public boolean isStronger(Animal animal) {
-        if(this.getEnergy() > animal.getEnergy())
-            return true;
-        if(this.getEnergy() < animal.getEnergy())
-            return false;
-        if(this.daysAlive > animal.daysAlive)
-            return true;
-        if(this.daysAlive < animal.daysAlive)
-            return false;
-        if (this.children > animal.children)
-            return true;
-        if(this.children < animal.children)
-            return false;
-        Random random = new Random();
-        return random.nextBoolean();
+        if (this.energy != animal.getEnergy()) {
+            return this.energy > animal.getEnergy();
+        }
+        if (this.daysAlive != animal.getDaysAlive()) {
+            return this.daysAlive > animal.getDaysAlive();
+        }
+        return this.children > animal.getChildren();
     }
 }

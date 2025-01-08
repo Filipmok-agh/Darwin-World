@@ -6,6 +6,7 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import agh.ics.oop.darwinWorld.Elements.WorldElement;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
@@ -14,6 +15,8 @@ public abstract class AbstractMap implements WorldMap {
     protected LinkedList<Animal> animals;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
+    ArrayList<Vector2d> junglePositions;
+    ArrayList<Vector2d> steppePositions;
 
     public AbstractMap() {
         this.day = 0;
@@ -33,16 +36,14 @@ public abstract class AbstractMap implements WorldMap {
 
         }
     }
-
-    public void removeDeadAnimals(){
-        for(Animal animal : animals){
-            if (animal.getEnergy() < dailyEnergyCost){
-                animal.setFuneralDay(this.day);
-                this.animals.remove(animal);
-            }
-        }
-        //git
+//    Kuba: Nie wiem czy nie lepiej zostawić tą funkcję jako abstract i przeniesienie tego do JungleMap
+    public void removeDeadAnimals()
+    {
+        animals = animals.stream()
+                .filter(animal -> animal.getEnergy() >= dailyEnergyCost)
+                .collect(Collectors.toCollection(LinkedList::new));
     }
+
 
     public void animalsMovement() {
         this.dailyAnimals = new HashMap<>();
@@ -68,6 +69,7 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
     //Skróciłem tą metodę bo bez sensu jest przechodzić po każdym zwierzaku i sprawdzać czy akurat tam jest trawa
+//    Kuba: Znaczy jak ja to zaimplementowałem to eatPlant przechodziło przez całą listę bo było osobnym wywołaniem, ale rzeczywiście lepiej przejść po wszystkich pozycjach raz a nie 2 razy
 
     public void animalActivities(){
         for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values())
@@ -76,21 +78,41 @@ public abstract class AbstractMap implements WorldMap {
             if (animalsAtThisPosition.size() < 2) {break;}
             int potentialPairs = animalsAtThisPosition.size() / 2;
             for (int i = 0; i < potentialPairs; i++) {
-                Animal father = animalsAtThisPosition.get(2*i);
-                Animal mother = animalsAtThisPosition.get(2*i+1);
-                if (mother.getEnergy() >= energyToBeFed && father.getEnergy() >= energyToBeFed) {
-                    Animal child = father.breeding(mother);
+                Animal parent1 = animalsAtThisPosition.get(2*i);
+                Animal parent2 = animalsAtThisPosition.get(2*i+1);
+                if (parent1.getEnergy() >= energyToBeFed && parent2.getEnergy() >= energyToBeFed) {
+                    Animal child = parent1.breeding(parent2);
                     this.animals.add(child);
                 }
             }
         }
     }
+//    Kuba: Nie jestem pewien czy dobrze to rozumiem, ale wygląda na to, że im więcej dodanej trawy => niższy lastIndex => pozycje z niższym lastIndexem będą częściej brane pod uwagę w losowaniu
+    private void spawnGrassInArea(List<Vector2d> positions, int grassCount)
+    {
+        int grassPlaced = 0;
+        int lastIndex = positions.size() - 1;
+        while (grassPlaced < grassCount && lastIndex >= 0)
+        {
+            int randomIndex = new Random().nextInt(lastIndex+1);
+            Vector2d tempPosition = positions.get(randomIndex);
+            if (grasses.get(tempPosition) == null) {
+                place(new Grass(tempPosition));
+                grassPlaced++;
+            }
+            positions.set(randomIndex, positions.get(lastIndex));
+            positions.set(lastIndex, tempPosition);
+            lastIndex--;
+        }
+    }
 
-    abstract public void spawnGrass();
-
-
-
-
+    public void spawnGrass()
+    {
+        int jungleGrass = (int) Math.ceil((double) (initialPlantCount * 4) / 5);
+        int steppeGrass = (int) Math.floor((double) (initialPlantCount / 5));
+        spawnGrassInArea(this.junglePositions, jungleGrass);
+        spawnGrassInArea(this.steppePositions, steppeGrass);
+    }
 
     protected void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
         boolean inserted = false;
@@ -120,4 +142,5 @@ public abstract class AbstractMap implements WorldMap {
             grasses.put(element.getPosition(), new Grass(element.getPosition()));
         }
     }
+
 }
