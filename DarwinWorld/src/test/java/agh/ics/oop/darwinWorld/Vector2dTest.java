@@ -28,13 +28,13 @@ class Vector2dTest {
         Vector2d v1 = new Vector2d(2,5);
 
         //then
-        assertFalse(v1.IsYInRange(3,4));
-        assertFalse(v1.IsYInRange(6,8));
+        assertFalse(v1.isYInRange(3,4));
+        assertFalse(v1.isYInRange(6,8));
 
-        assertTrue(v1.IsYInRange(3,5));
-        assertTrue(v1.IsYInRange(3,6));
-        assertTrue(v1.IsYInRange(1,10));
-        assertTrue(v1.IsYInRange(1,7));
+        assertTrue(v1.isYInRange(3,5));
+        assertTrue(v1.isYInRange(3,6));
+        assertTrue(v1.isYInRange(1,10));
+        assertTrue(v1.isYInRange(1,7));
     }
 
     @Test

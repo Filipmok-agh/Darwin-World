@@ -48,13 +48,14 @@ public class Genes
         }
     }
 
-    public int next() {
+    public void next() {
         if (index >= length) {
             index = 0;
         }
-        int gen = this.genes.get(index);
-        index++;
-        return gen;
+        else
+        {
+            index++;
+        }
     }
 
     public int curr() {
@@ -69,7 +70,9 @@ public class Genes
     private void mutation(){
         if (geneSwap && new Random().nextBoolean()) {
             swapMutation();
-        } else {
+        }
+        else
+        {
             randomMutation();
         }
     }
