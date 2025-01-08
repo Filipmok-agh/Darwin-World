@@ -41,11 +41,11 @@ public class Animal implements WorldElement
 
     private void initializeAnimalStats()
     {
-    this.children = 0;
-    this.descendants = 0;
-    this.eatenGrass = 0;
-    this.daysAlive = 0;
-    this.funeralDay = 0;
+        this.children = 0;
+        this.descendants = 0;
+        this.eatenGrass = 0;
+        this.daysAlive = 0;
+        this.funeralDay = 0;
     }
 
     @Override
@@ -76,16 +76,12 @@ public class Animal implements WorldElement
         return this.direction;
     }
 
-    private void overRightBound()
-    {
-        Vector2d temporaryVector = this.getPosition();
-        this.position = new Vector2d(0,temporaryVector.getY());
+    private void overRightBound() {
+        this.position = new Vector2d(0, this.getPosition().getY());
     }
 
-    private void overLeftBound()
-    {
-        Vector2d temporaryVector = this.getPosition();
-        this.position = new Vector2d(mapWidth, temporaryVector.getY());
+    private void overLeftBound() {
+        this.position = new Vector2d(mapWidth, this.getPosition().getY());
     }
 
 
@@ -141,7 +137,7 @@ public class Animal implements WorldElement
             }
         }
         }
-
+//    Kuba: Nie jestem pewien odnośnie tworzenia nowego setu za każdym razem i przechowywanie tego setu za każdym wywołaniem tej funkcji
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent,this);
         this.children++;

@@ -35,10 +35,12 @@ public class CorpseMap extends AbstractMap {
     @Override
     public void removeDeadAnimals()
     {
+//        Kuba: Wydaje mi się, że tutaj trzeba usuwać jungle i regenerować step, można przechować listę wszystkich pozycji
         animals = animals.stream()
                 .peek(animal -> {
                     if (animal.getEnergy() < dailyEnergyCost) {
                         animal.setFuneralDay(this.day);
+//                        Kuba: Czy nie mamy dodawać jungle w miejscu i dookoła truchła?
                         if (steppePositionsSet.contains(animal.getPosition())) {
                             steppePositions.remove(animal.getPosition());
                             steppePositionsSet.remove(animal.getPosition());

@@ -36,7 +36,7 @@ public abstract class AbstractMap implements WorldMap {
 
         }
     }
-
+//    Kuba: Nie wiem czy nie lepiej zostawić tą funkcję jako abstract i przeniesienie tego do JungleMap
     public void removeDeadAnimals()
     {
         animals = animals.stream()
@@ -69,6 +69,7 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
     //Skróciłem tą metodę bo bez sensu jest przechodzić po każdym zwierzaku i sprawdzać czy akurat tam jest trawa
+//    Kuba: Znaczy jak ja to zaimplementowałem to eatPlant przechodziło przez całą listę bo było osobnym wywołaniem, ale rzeczywiście lepiej przejść po wszystkich pozycjach raz a nie 2 razy
 
     public void animalActivities(){
         for(LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values())
@@ -86,7 +87,7 @@ public abstract class AbstractMap implements WorldMap {
             }
         }
     }
-
+//    Kuba: Nie jestem pewien czy dobrze to rozumiem, ale wygląda na to, że im więcej dodanej trawy => niższy lastIndex => pozycje z niższym lastIndexem będą częściej brane pod uwagę w losowaniu
     private void spawnGrassInArea(List<Vector2d> positions, int grassCount)
     {
         int grassPlaced = 0;
