@@ -46,7 +46,6 @@ public class Genes {
     }
 
     public void next() {
-        System.out.println(index);
         if (index == length-1) {
             index = 0;
         } else {
