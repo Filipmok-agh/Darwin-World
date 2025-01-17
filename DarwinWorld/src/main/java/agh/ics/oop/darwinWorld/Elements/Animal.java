@@ -83,22 +83,20 @@ public class Animal implements WorldElement {
     public void move() {
         this.energy = this.energy - dailyEnergyCost;
         this.daysAlive++;
-        Vector2d positionToProcess = this.getPosition();
-        MapDirection directionToProcess = this.getDirection();
-
-        for (int i = 0; i < this.genes.curr(); i++) {
-            directionToProcess = directionToProcess.next();
-        }
-        positionToProcess = positionToProcess.add(directionToProcess.toUnitVector());
-
-        if (positionToProcess.isYInRange(0, mapHeight)) {
-            if (positionToProcess.isXGreaterThan(mapWidth)) {
+        Integer currentDirection = this.getDirection().toNumber();
+        Integer currentMove = this.genes.curr();
+        Vector2d currentPosition = this.getPosition();
+        MapDirection directionToProcess = MapDirection.fromNumber((currentDirection+currentMove)%8);
+        Vector2d positionToProcess = this.getPosition().add(directionToProcess.toUnitVector());
+        if (positionToProcess.isYInRange(0, mapHeight-1)) {
+            if (positionToProcess.isXGreaterThan(mapWidth-1)) {
                 this.overRightBound(positionToProcess);
-            } else if (positionToProcess.isXLessThan(mapWidth)) {
+            } else if (positionToProcess.isXLessThan(0)) {
                 this.overLeftBound(positionToProcess);
             } else {
                 this.position = positionToProcess;
             }
+            this.direction = directionToProcess;
         } else {
             this.direction = this.direction.opposite();
         }

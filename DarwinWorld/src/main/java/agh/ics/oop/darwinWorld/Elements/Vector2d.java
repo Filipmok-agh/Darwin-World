@@ -11,6 +11,11 @@ public class Vector2d {
         this.y = y;
     }
 
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ')';
+    }
+
     public Vector2d add(Vector2d v) {
         int newX = this.x + v.x;
         int newY = this.y + v.y;

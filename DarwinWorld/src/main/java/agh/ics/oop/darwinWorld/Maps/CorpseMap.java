@@ -23,7 +23,6 @@ public class CorpseMap extends AbstractMap {
     }
 
     private void allPositions(ArrayList<Vector2d> arrayList, HashSet<Vector2d> hashSet) {
-
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 Vector2d position = new Vector2d(j, i);

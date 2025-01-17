@@ -12,7 +12,7 @@ import static agh.ics.oop.darwinWorld.Config.*;
 
 public abstract class AbstractMap implements WorldMap {
     protected int day;
-    protected LinkedList<Animal> animals;
+    public LinkedList<Animal> animals;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
     ArrayList<Vector2d> junglePositions;
@@ -28,18 +28,18 @@ public abstract class AbstractMap implements WorldMap {
     public void addInitialAnimals() {
         Random random = new Random();
         for (int i = 0; i < initialAnimalCount; i++) {
-            int randomX = random.nextInt(mapWidth);
-            int randomY = random.nextInt(mapHeight);
+            int randomX = random.nextInt(mapWidth-1);
+            int randomY = random.nextInt(mapHeight-1);
             Vector2d position = new Vector2d(randomX, randomY);
             Animal animal = new Animal(position);
             this.animals.add(animal);
-
         }
     }
 
     public abstract void removeDeadAnimals();
 
     public void animalsMovement() {
+        this.day++;
         this.dailyAnimals = new HashMap<>();
         for (Animal animal : animals) {
             animal.move();
@@ -51,7 +51,7 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void eatPlant(Animal animal) {
+    private void eatPlant(Animal animal) {
         if (grasses.containsKey(animal.getPosition())) {
             animal.eat();
             grasses.remove(animal.getPosition());
@@ -62,7 +62,7 @@ public abstract class AbstractMap implements WorldMap {
         for (LinkedList<Animal> animalsAtThisPosition : dailyAnimals.values()) {
             eatPlant(animalsAtThisPosition.getFirst());
             if (animalsAtThisPosition.size() < 2) {
-                break;
+                continue;
             }
             int potentialPairs = animalsAtThisPosition.size() / 2;
             for (int i = 0; i < potentialPairs; i++) {
@@ -92,9 +92,9 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void spawnGrass() {
-        int jungleGrass = (int) Math.ceil((double) (initialPlantCount * 4) / 5);
-        int steppeGrass = (int) Math.floor((double) (initialPlantCount / 5));
+    public void spawnGrass(Integer amount) {
+        int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
+        int steppeGrass = (int) Math.floor((double) (amount / 5));
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
@@ -113,7 +113,7 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    public void place(WorldElement element) {
+    private void place(WorldElement element) {
         if (element instanceof Animal) {
             animals.add((Animal) element);
             if (dailyAnimals.containsKey(element.getPosition())) {
