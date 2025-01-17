@@ -6,8 +6,7 @@ import java.util.Random;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
-public class Genes
-{
+public class Genes {
     private final ArrayList<Integer> genes = new ArrayList<>();
     private int index;
     private final int length;
@@ -19,19 +18,17 @@ public class Genes
 
         Genes parent1Genes = parent1.getGenes();
         Genes parent2Genes = parent2.getGenes();
-        int genesFromParent1 = parent1.getEnergy()*length/(parent2.getEnergy()+parent1.getEnergy());
+        int genesFromParent1 = parent1.getEnergy() * length / (parent2.getEnergy() + parent1.getEnergy());
         if (random.nextBoolean()) {
             this.genes.addAll(parent1Genes.getLeftGenes(genesFromParent1));
             this.genes.addAll(parent2Genes.getRightGenes(genesFromParent1));
-        }
-        else
-        {
+        } else {
             int genesFromParent2 = length - genesFromParent1;
             this.genes.addAll(parent2Genes.getLeftGenes(genesFromParent2));
             this.genes.addAll(parent1Genes.getRightGenes(genesFromParent2));
         }
         int mutationsNumber = random.nextInt(minMutations, maxMutations + 1);
-        if (mutationsNumber != 0){
+        if (mutationsNumber != 0) {
             for (int i = 0; i < mutationsNumber; i++) {
                 mutation();
             }
@@ -42,7 +39,7 @@ public class Genes
         this.length = genomeLength;
         Random random = new Random();
         index = random.nextInt(length);
-        for(int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             int randomGen = random.nextInt(8);
             this.genes.add(randomGen);
         }
@@ -51,9 +48,7 @@ public class Genes
     public void next() {
         if (index >= length) {
             index = 0;
-        }
-        else
-        {
+        } else {
             index++;
         }
     }
@@ -62,17 +57,14 @@ public class Genes
         return this.genes.get(index);
     }
 
-    public int getGen(int i)
-    {
+    public int getGen(int i) {
         return this.genes.get(i);
     }
 
-    private void mutation(){
+    private void mutation() {
         if (geneSwap && new Random().nextBoolean()) {
             swapMutation();
-        }
-        else
-        {
+        } else {
             randomMutation();
         }
     }
@@ -86,19 +78,18 @@ public class Genes
         this.genes.set(randomIndex2, temp);
     }
 
-    private void randomMutation()
-    {
+    private void randomMutation() {
         Random random = new Random();
         int randomIndex1 = random.nextInt(length);
         int randomGen = random.nextInt(8);
         this.genes.set(randomIndex1, randomGen);
     }
 
-    private List<Integer> getLeftGenes(Integer num){
-        return this.genes.subList(0,num);
+    private List<Integer> getLeftGenes(Integer num) {
+        return this.genes.subList(0, num);
     }
 
-    private List<Integer> getRightGenes(Integer num){
-        return this.genes.subList(num,length);
+    private List<Integer> getRightGenes(Integer num) {
+        return this.genes.subList(num, length);
     }
 }

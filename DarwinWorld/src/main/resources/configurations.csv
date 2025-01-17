@@ -1,0 +1,3 @@
+ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap
+2,950,100,970,150,15,100,10,60,40,10,1,4,false,false
+1,50,100,70,150,15,100,10,60,40,10,1,4,false,false

@@ -6,21 +6,20 @@ import java.util.*;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
-public class Animal implements WorldElement
-{
+public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2d position;
     private int energy;
     private final ArrayList<Animal> parents;
-    private Genes genes;
+    private HashSet<Animal> descendantsSet;
+    private final Genes genes;
     private int children;
     private int descendants;
     private int eatenGrass;
     private int daysAlive;
     private int funeralDay;
 
-    public Animal(Vector2d position)
-    {
+    public Animal(Vector2d position) {
         this.initializeAnimalStats();
         this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = position;
@@ -29,8 +28,7 @@ public class Animal implements WorldElement
         this.parents = new ArrayList<>();
     }
 
-    public Animal(Animal parent1, Animal parent2)
-    {
+    public Animal(Animal parent1, Animal parent2) {
         this.initializeAnimalStats();
         this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = parent1.getPosition();
@@ -39,8 +37,8 @@ public class Animal implements WorldElement
         this.parents = new ArrayList<>(List.of(parent1, parent2));
     }
 
-    private void initializeAnimalStats()
-    {
+    private void initializeAnimalStats() {
+        this.descendantsSet = new HashSet<Animal>();
         this.children = 0;
         this.descendants = 0;
         this.eatenGrass = 0;
@@ -61,27 +59,24 @@ public class Animal implements WorldElement
         return this.genes;
     }
 
-    public int getDaysAlive()
-    {
+    public int getDaysAlive() {
         return this.daysAlive;
     }
 
-    public int getChildren()
-    {
+    public int getChildren() {
         return this.children;
     }
 
-    public MapDirection getDirection()
-    {
+    public MapDirection getDirection() {
         return this.direction;
     }
 
-    private void overRightBound() {
-        this.position = new Vector2d(0, this.getPosition().getY());
+    private void overRightBound(Vector2d positionToProcess) {
+        this.position = new Vector2d(0, positionToProcess.getY());
     }
 
-    private void overLeftBound() {
-        this.position = new Vector2d(mapWidth, this.getPosition().getY());
+    private void overLeftBound(Vector2d positionToProcess) {
+        this.position = new Vector2d(mapWidth, positionToProcess.getY());
     }
 
 
@@ -91,29 +86,20 @@ public class Animal implements WorldElement
         Vector2d positionToProcess = this.getPosition();
         MapDirection directionToProcess = this.getDirection();
 
-        for(int i = 0; i < this.genes.curr(); i++)
-        {
-            directionToProcess= directionToProcess.next();
+        for (int i = 0; i < this.genes.curr(); i++) {
+            directionToProcess = directionToProcess.next();
         }
-        positionToProcess= positionToProcess.add(directionToProcess.toUnitVector());
+        positionToProcess = positionToProcess.add(directionToProcess.toUnitVector());
 
-        if (positionToProcess.isYInRange(0,mapHeight))
-        {
-            if (positionToProcess.isXGreaterThan(mapWidth))
-            {
-                this.overRightBound();
-            }
-            else if (positionToProcess.isXLessThan(mapWidth))
-            {
-                this.overLeftBound();
-            }
-            else
-            {
+        if (positionToProcess.isYInRange(0, mapHeight)) {
+            if (positionToProcess.isXGreaterThan(mapWidth)) {
+                this.overRightBound(positionToProcess);
+            } else if (positionToProcess.isXLessThan(mapWidth)) {
+                this.overLeftBound(positionToProcess);
+            } else {
                 this.position = positionToProcess;
             }
-        }
-        else
-        {
+        } else {
             this.direction = this.direction.opposite();
         }
         this.genes.next();
@@ -124,29 +110,22 @@ public class Animal implements WorldElement
         this.energy = this.energy + plantEnergy;
     }
 
-    private void updateDescendantsCount(HashSet<Animal> updatedDescendantsSet)
-    {
-        if (!updatedDescendantsSet.contains(this))
-        {
+    private void updateDescendantsSet(Animal newDescendant) {
+        if (!this.descendantsSet.contains(newDescendant)) {
+            this.descendantsSet.add(newDescendant);
             this.descendants++;
-            updatedDescendantsSet.add(this);
-            if(!this.parents.isEmpty())
-            {
-                this.parents.get(0).updateDescendantsCount(updatedDescendantsSet);
-                this.parents.get(1).updateDescendantsCount(updatedDescendantsSet);
+            for (Animal parent : this.parents) {
+                parent.updateDescendantsSet(newDescendant);
             }
         }
-        }
-//    Kuba: Nie jestem pewien odnośnie tworzenia nowego setu za każdym razem i przechowywanie tego setu za każdym wywołaniem tej funkcji
-    //        Filip : Aktualnie nie mam lepszego pomysłu na rozwiązanie tej kwestii
+    }
 
     public Animal breeding(Animal parent) {
-        Animal child = new Animal(parent,this);
+        Animal child = new Animal(parent, this);
         this.children++;
         parent.children++;
-        HashSet<Animal> updatedDescendantsSet = new HashSet<>();
-        this.updateDescendantsCount(updatedDescendantsSet);
-        parent.updateDescendantsCount(updatedDescendantsSet);
+        this.updateDescendantsSet(child);
+        parent.updateDescendantsSet(child);
         this.energy -= parentEnergyCost;
         parent.energy -= parentEnergyCost;
         return child;

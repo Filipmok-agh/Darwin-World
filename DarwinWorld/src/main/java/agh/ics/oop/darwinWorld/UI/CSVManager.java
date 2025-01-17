@@ -3,14 +3,9 @@ package agh.ics.oop.darwinWorld.UI;
 import agh.ics.oop.darwinWorld.Config;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
 
-public class CSVManager
-{
-    private static final String fileName = System.getProperty("user.home") + "/Documents/configurations.csv";
+public class CSVManager {
+    private static final String fileName = "DarwinWorld/src/main/resources/configurations.csv";
 
 
     public CSVManager() {
@@ -28,19 +23,14 @@ public class CSVManager
         }
     }
 
-
-
-    public boolean loadConfig(int id) throws IOException
-    {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName)))
-        {
+    public boolean loadConfig(int id) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 int configId = Integer.parseInt(parts[0]);
-                if(configId == id)
-                {
+                if (configId == id) {
                     Config.mapHeight = Integer.parseInt(parts[1]);
                     Config.mapWidth = Integer.parseInt(parts[2]);
                     Config.initialPlantCount = Integer.parseInt(parts[3]);
@@ -53,13 +43,13 @@ public class CSVManager
                     Config.genomeLength = Integer.parseInt(parts[10]);
                     Config.minMutations = Integer.parseInt(parts[11]);
                     Config.maxMutations = Integer.parseInt(parts[12]);
-                    Config.lifeGivingCorpses=Boolean.parseBoolean(parts[13]);
+                    Config.lifeGivingCorpses = Boolean.parseBoolean(parts[13]);
                     Config.geneSwap = Boolean.parseBoolean(parts[14]);
                     return true;
                 }
             }
             return false;
-        }catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return false;
         }

@@ -2,8 +2,7 @@ package agh.ics.oop.darwinWorld.Maps;
 
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
-public enum MapDirection
-{
+public enum MapDirection {
     NORTH,
     NORTH_EAST,
     EAST,
@@ -13,10 +12,8 @@ public enum MapDirection
     WEST,
     NORTH_WEST;
 
-    public MapDirection next()
-    {
-        return switch(this)
-        {
+    public MapDirection next() {
+        return switch (this) {
             case NORTH -> NORTH_EAST;
             case NORTH_EAST -> EAST;
             case EAST -> SOUTH_EAST;
@@ -28,25 +25,21 @@ public enum MapDirection
         };
     }
 
-    public Vector2d toUnitVector()
-    {
-        return switch (this)
-        {
-            case NORTH -> new Vector2d(0,1);
-            case NORTH_EAST -> new Vector2d(1,1);
-            case EAST -> new Vector2d(1,0);
-            case SOUTH_EAST -> new Vector2d(1,-1);
-            case SOUTH -> new Vector2d(0,-1);
-            case SOUTH_WEST -> new Vector2d(-1,-1);
-            case WEST -> new Vector2d(-1,0);
-            case NORTH_WEST -> new Vector2d(-1,1);
+    public Vector2d toUnitVector() {
+        return switch (this) {
+            case NORTH -> new Vector2d(0, 1);
+            case NORTH_EAST -> new Vector2d(1, 1);
+            case EAST -> new Vector2d(1, 0);
+            case SOUTH_EAST -> new Vector2d(1, -1);
+            case SOUTH -> new Vector2d(0, -1);
+            case SOUTH_WEST -> new Vector2d(-1, -1);
+            case WEST -> new Vector2d(-1, 0);
+            case NORTH_WEST -> new Vector2d(-1, 1);
         };
     }
 
-    public MapDirection opposite()
-    {
-        return switch (this)
-        {
+    public MapDirection opposite() {
+        return switch (this) {
             case NORTH -> SOUTH;
             case NORTH_EAST -> SOUTH_WEST;
             case EAST -> WEST;

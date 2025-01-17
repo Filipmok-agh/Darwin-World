@@ -9,8 +9,7 @@ import javafx.scene.control.Spinner;
 
 import java.io.IOException;
 
-public class MenuPresenter
-{
+public class MenuPresenter {
     @FXML
     private Spinner<Integer> initialID;
     @FXML
@@ -57,6 +56,7 @@ public class MenuPresenter
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void showAllert(String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Alert");
@@ -64,6 +64,7 @@ public class MenuPresenter
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     private void fillUIFromConfig() {
         mapHeightID.getValueFactory().setValue(Config.mapHeight);
         mapWidthID.getValueFactory().setValue(Config.mapWidth);
@@ -88,13 +89,11 @@ public class MenuPresenter
             CSVManager manager = new CSVManager();
             try {
                 boolean loaded = manager.loadConfig(initialID.getValue());
-                if (loaded)
-                {
+                if (loaded) {
 
                     fillUIFromConfig();
                     showAllert("Dane załadowane poprawnie");
-                }
-                else {
+                } else {
                     showError("Podane ID nie istnieje");
                 }
             } catch (IOException e) {
@@ -103,25 +102,21 @@ public class MenuPresenter
         });
         startButton.setOnAction(event -> {
             int mapHeight = mapHeightID.getValue();
-            if (mapHeight <5)
-            {
+            if (mapHeight < 5) {
                 showError("Wysokość mapy musi wynosić co najmniej 5");
                 return;
             }
             int mapWidth = mapWidthID.getValue();
-            if (mapWidth <5)
-            {
+            if (mapWidth < 5) {
                 showError("Szerokość mapy musi wynosić co najmniej 5");
             }
             int initialPlantCount = initialPlantCountID.getValue();
-            if (initialPlantCount > mapHeight*mapWidth)
-            {
+            if (initialPlantCount > mapHeight * mapWidth) {
                 showError("Startowa ilość roślin jest większa niż ilość wszystkich pól");
                 return;
             }
             int dailyPlantGrowth = dailyPlantGrowthID.getValue();
-            if (dailyPlantGrowth > mapHeight*mapWidth)
-            {
+            if (dailyPlantGrowth > mapHeight * mapWidth) {
                 showError("Ilość roślin wyrastająca każdego dnia jest większa niż ilość wszystkich pól");
                 return;
             }
@@ -130,16 +125,14 @@ public class MenuPresenter
             int initialAnimalEnergy = initialAnimalEnergyID.getValue();
             int energyToBeFed = energyToBeFedID.getValue();
             int parentEnergyCost = parentEnergyCostID.getValue();
-            if (parentEnergyCost>energyToBeFed)
-            {
+            if (parentEnergyCost > energyToBeFed) {
                 showError("Koszt energii stworzenia potomka jest większy niż energia potrzebna do romnażania się");
                 return;
             }
             int genomeLength = genomeLengthID.getValue();
             int minMutations = minMutationsID.getValue();
             int maxMutations = maxMutationsID.getValue();
-            if (minMutations>maxMutations)
-            {
+            if (minMutations > maxMutations) {
                 showError("Minimalna ilość mutacji jest większa od maksymalnej ilości mutacji");
                 return;
             }
@@ -164,26 +157,22 @@ public class MenuPresenter
             Config.lifeGivingCorpses = lifeGivingCorpses;
             Config.geneSwap = geneSwap;
 
-            if (saveBox)
-            {
+            if (saveBox) {
                 CSVManager manager = new CSVManager();
                 try {
                     boolean saved = manager.saveConfig(saveNumber);
-                    if (saved)
-                    {
+                    if (saved) {
                         fillUIFromConfig();
                         showAllert("Dane zapisane poprawnie");
                         showAllert("Symulacja rozpoczęta");
 //                        startSimulation()
-                    }
-                    else {
+                    } else {
                         showError("Podane ID jest już zajęte");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-            }
-            else {
+            } else {
                 showAllert("Symulacja rozpoczęta");
 //                startSimulation()
             }

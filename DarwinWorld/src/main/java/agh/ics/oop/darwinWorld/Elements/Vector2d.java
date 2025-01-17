@@ -2,8 +2,7 @@ package agh.ics.oop.darwinWorld.Elements;
 
 import java.util.Objects;
 
-public class Vector2d
-{
+public class Vector2d {
     private final int x;
     private final int y;
 
@@ -11,6 +10,7 @@ public class Vector2d
         this.x = x;
         this.y = y;
     }
+
     public Vector2d add(Vector2d v) {
         int newX = this.x + v.x;
         int newY = this.y + v.y;
@@ -20,6 +20,7 @@ public class Vector2d
     public int getX() {
         return x;
     }
+
     public int getY() {
         return y;
     }
