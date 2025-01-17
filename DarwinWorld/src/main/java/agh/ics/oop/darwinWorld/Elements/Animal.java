@@ -85,7 +85,6 @@ public class Animal implements WorldElement {
         this.daysAlive++;
         Integer currentDirection = this.getDirection().toNumber();
         Integer currentMove = this.genes.curr();
-        Vector2d currentPosition = this.getPosition();
         MapDirection directionToProcess = MapDirection.fromNumber((currentDirection+currentMove)%8);
         Vector2d positionToProcess = this.getPosition().add(directionToProcess.toUnitVector());
         if (positionToProcess.isYInRange(0, mapHeight-1)) {

@@ -57,6 +57,11 @@ public class JungleMap extends AbstractMap {
     @Override
     public void removeDeadAnimals() {
         animals = animals.stream()
+                .peek(animal -> {
+                    if (animal.getEnergy() < dailyEnergyCost) {
+                        animal.setFuneralDay(this.day);
+                    }
+                })
                 .filter(animal -> animal.getEnergy() >= dailyEnergyCost)
                 .collect(Collectors.toCollection(LinkedList::new));
     }

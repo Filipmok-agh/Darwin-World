@@ -7,7 +7,7 @@ import javafx.application.Application;
 
 public class Main {
     public static void main(String[] args) {
-        Application.launch(MenuApp.class);
+//        Application.launch(MenuApp.class);
         Config.mapHeight = 13;
         Config.mapWidth = 13;
         Config.initialPlantCount = 10;

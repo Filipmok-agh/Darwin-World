@@ -13,6 +13,7 @@ import static agh.ics.oop.darwinWorld.Config.*;
 public abstract class AbstractMap implements WorldMap {
     protected int day;
     public LinkedList<Animal> animals;
+    public LinkedList<Animal> animalsHistory;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
     ArrayList<Vector2d> junglePositions;
@@ -20,6 +21,7 @@ public abstract class AbstractMap implements WorldMap {
 
     public AbstractMap() {
         this.day = 0;
+        this.animalsHistory = new LinkedList<>();
         this.animals = new LinkedList<>();
         this.grasses = new HashMap<>();
         this.dailyAnimals = new HashMap<>();
@@ -33,6 +35,7 @@ public abstract class AbstractMap implements WorldMap {
             Vector2d position = new Vector2d(randomX, randomY);
             Animal animal = new Animal(position);
             this.animals.add(animal);
+            this.animalsHistory.add(animal);
         }
     }
 
@@ -71,6 +74,7 @@ public abstract class AbstractMap implements WorldMap {
                 if (parent1.getEnergy() >= energyToBeFed && parent2.getEnergy() >= energyToBeFed) {
                     Animal child = parent1.breeding(parent2);
                     this.animals.add(child);
+                    this.animalsHistory.add(child);
                 }
             }
         }
