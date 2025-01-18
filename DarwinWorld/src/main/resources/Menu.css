@@ -1,0 +1,48 @@
+VBox {
+    -fx-alignment: center;
+}
+
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 15;
+}
+Label
+{
+    -fx-pref-width: 300;
+    -fx-pref-height: 40;
+    -fx-font-size: 15;
+}
+Spinner {
+    -fx-pref-width: 70;
+}
+Button{
+    -fx-end-margin: 15;
+    -fx-font-size: 18;
+}
+.title1 {
+    -fx-pref-width: 270;
+    -fx-font-size: 30;
+    -fx-padding: 10;
+}
+.title2 {
+    -fx-pref-width: 360;
+    -fx-font-size: 30;
+    -fx-padding: 10;
+}
+.title3 {
+    -fx-pref-width: 350;
+    -fx-font-size: 30;
+    -fx-padding: 10;
+}
+.additional1
+{
+    -fx-pref-width: 130;
+}
+.additional2
+{
+    -fx-pref-width: 80;
+}
+.additional3
+{
+    -fx-pref-width: 50;
+}

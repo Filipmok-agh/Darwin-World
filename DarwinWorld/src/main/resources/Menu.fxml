@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.darwinWorld.UI.MenuPresenter"
+            minHeight="550.0" minWidth="850.0" stylesheets="Menu.css">
+
+    <top>
+        <VBox>
+            <Label text="Wczytaj symulację" styleClass="title1"/>
+            <Spinner min="0" max="1000" editable="true" initialValue="1" fx:id="initialID"/>
+            <Button text="Wczytaj" fx:id="loadButton"/>
+        </VBox>
+    </top>
+    <center>
+        <VBox>
+            <Label text="Ustawienia podstawowe: " styleClass="title2"/>
+            <HBox>
+                <Label text="Wysokość mapy"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="50" fx:id="mapHeightID"/>
+                <Label text="Szerokość mapy"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="mapWidthID"/>
+            </HBox>
+            <HBox>
+                <Label text="Startowa liczba roślin"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="70" fx:id="initialPlantCountID"/>
+                <Label text="Liczba roślin wyrastająca każdego dnia"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="150" fx:id="dailyPlantGrowthID"/>
+            </HBox>
+            <HBox>
+                <Label text="Energia zapewniana przez zjedzenie rośliny"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="15" fx:id="plantEnergyID"/>
+                <Label text="Startowa energia zwierzaków"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="initialAnimalCountID"/>
+            </HBox>
+            <HBox>
+                <Label text="Startowa liczba zwierzaków"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="10" fx:id="initialAnimalEnergyID"/>
+                <Label text="Energia konieczna do rozmnażania"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="60" fx:id="energyToBeFedID"/>
+            </HBox>
+            <HBox>
+                <Label text="Energia zużywana przy rozmnażaniu"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="40" fx:id="parentEnergyCostID"/>
+                <Label text="Długość genomu zwierzaków"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="10" fx:id="genomeLengthID"/>
+            </HBox>
+            <HBox>
+                <Label text="Minimalna liczba mutacji"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="1" fx:id="minMutationsID"/>
+                <Label text="Maksymalna liczba mutacji"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="4" fx:id="maxMutationsID"/>
+            </HBox>
+            <Label text="Ustawienia dodatkowe: " styleClass="title3"/>
+            <HBox>
+                <Label text="Życiodajne truchła" styleClass="additional1"/>
+                <CheckBox fx:id="lifeGivingCorpsesID"/>
+                <Label text="Podmianka" styleClass="additional2"/>
+                <CheckBox fx:id="geneSwapID"/>
+            </HBox>
+
+        </VBox>
+    </center>
+    <bottom>
+        <VBox>
+            <HBox>
+                <Label text="Zapisz" styleClass="additional3"/>
+                <CheckBox fx:id="saveBoxID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="0" fx:id="saveNumberID"/>
+            </HBox>
+            <HBox>
+                <Button text="Rozpocznij symulacje" fx:id="startButton"/>
+            </HBox>
+        </VBox>
+    </bottom>
+</BorderPane>
