@@ -28,17 +28,17 @@
                 <Label text="Startowa liczba roślin"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="70" fx:id="initialPlantCountID"/>
                 <Label text="Liczba roślin wyrastająca każdego dnia"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="150" fx:id="dailyPlantGrowthID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="dailyPlantGrowthID"/>
             </HBox>
             <HBox>
                 <Label text="Energia zapewniana przez zjedzenie rośliny"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="15" fx:id="plantEnergyID"/>
                 <Label text="Startowa energia zwierzaków"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="initialAnimalCountID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="initialAnimalEnergyID"/>
             </HBox>
             <HBox>
                 <Label text="Startowa liczba zwierzaków"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="10" fx:id="initialAnimalEnergyID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="40" fx:id="initialAnimalCountID"/>
                 <Label text="Energia konieczna do rozmnażania"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="60" fx:id="energyToBeFedID"/>
             </HBox>

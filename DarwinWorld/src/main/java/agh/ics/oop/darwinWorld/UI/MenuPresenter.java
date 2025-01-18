@@ -6,6 +6,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Spinner;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -163,20 +164,27 @@ public class MenuPresenter {
                     boolean saved = manager.saveConfig(saveNumber);
                     if (saved) {
                         fillUIFromConfig();
+                        Stage stage = (Stage) startButton.getScene().getWindow();
+                        stage.close();
                         showAllert("Dane zapisane poprawnie");
                         showAllert("Symulacja rozpoczęta");
-//                        startSimulation()
+                        new SimulationApp().start(new Stage());
                     } else {
                         showError("Podane ID jest już zajęte");
                     }
-                } catch (IOException e) {
+                } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
             } else {
+                Stage stage = (Stage) startButton.getScene().getWindow();
+                stage.close();
                 showAllert("Symulacja rozpoczęta");
-//                startSimulation()
+                try {
+                    new SimulationApp().start(new Stage());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
             }
-
         });
     }
 

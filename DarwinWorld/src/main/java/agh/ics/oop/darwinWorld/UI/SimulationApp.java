@@ -1,8 +1,8 @@
 package agh.ics.oop.darwinWorld.UI;
 
-public class MenuApp extends BaseApp {
+public class SimulationApp extends BaseApp {
     @Override
     protected String getFxmlFileName() {
-        return "Menu.fxml";
+        return "Simulation.fxml";
     }
 }
