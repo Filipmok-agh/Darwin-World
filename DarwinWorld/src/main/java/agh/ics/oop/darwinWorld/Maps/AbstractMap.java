@@ -16,7 +16,7 @@ public abstract class AbstractMap implements WorldMap {
     public LinkedList<Animal> animalsHistory;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
-    ArrayList<Vector2d> junglePositions;
+    ArrayList<Vector2d> junglePositions = new ArrayList<>();
     ArrayList<Vector2d> steppePositions;
 
     public AbstractMap() {
@@ -37,6 +37,21 @@ public abstract class AbstractMap implements WorldMap {
             this.animals.add(animal);
             this.animalsHistory.add(animal);
         }
+    }
+
+    @Override
+    public ArrayList<Vector2d> getJunglePositions() {
+        return junglePositions;
+    }
+
+    @Override
+    public HashMap<Vector2d, LinkedList<Animal>> getDailyAnimals() {
+        return dailyAnimals;
+    }
+
+    @Override
+    public HashMap<Vector2d, Grass> getGrasses() {
+        return grasses;
     }
 
     public abstract void removeDeadAnimals();
@@ -80,25 +95,27 @@ public abstract class AbstractMap implements WorldMap {
         }
     }
 
-    private void spawnGrassInArea(List<Vector2d> positions, int grassCount) {
+    private void spawnGrassInArea(ArrayList<Vector2d> positions, int grassCount) {
         int grassPlaced = 0;
-        int lastIndex = positions.size() - 1;
-        while (grassPlaced < grassCount && lastIndex >= 0) {
-            int randomIndex = new Random().nextInt(lastIndex + 1);
-            Vector2d tempPosition = positions.get(randomIndex);
-            if (grasses.get(tempPosition) == null) {
-                place(new Grass(tempPosition));
-                grassPlaced++;
+        if (!positions.isEmpty()) {
+            int lastIndex = positions.size() - 1;
+            while (grassPlaced < grassCount && lastIndex >= 0) {
+                int randomIndex = new Random().nextInt(lastIndex + 1);
+                Vector2d tempPosition = positions.get(randomIndex);
+                if (grasses.get(tempPosition) == null) {
+                    grasses.put(tempPosition, new Grass(tempPosition));
+                    grassPlaced++;
+                }
+                positions.set(randomIndex, positions.get(lastIndex));
+                positions.set(lastIndex, tempPosition);
+                lastIndex--;
             }
-            positions.set(randomIndex, positions.get(lastIndex));
-            positions.set(lastIndex, tempPosition);
-            lastIndex--;
         }
     }
 
     public void spawnGrass(Integer amount) {
         int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
-        int steppeGrass = (int) Math.floor((double) (amount / 5));
+        int steppeGrass = amount / 5;
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
@@ -114,19 +131,6 @@ public abstract class AbstractMap implements WorldMap {
         }
         if (!inserted) {
             animalsAtPosition.addLast(animal);
-        }
-    }
-
-    private void place(WorldElement element) {
-        if (element instanceof Animal) {
-            animals.add((Animal) element);
-            if (dailyAnimals.containsKey(element.getPosition())) {
-                addAnimal(dailyAnimals.get(element.getPosition()), (Animal) element);
-            } else {
-                dailyAnimals.put(element.getPosition(), new LinkedList<>(List.of((Animal) element)));
-            }
-        } else {
-            grasses.put(element.getPosition(), new Grass(element.getPosition()));
         }
     }
 }

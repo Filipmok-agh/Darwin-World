@@ -1,20 +1,22 @@
 package agh.ics.oop.darwinWorld.Elements;
 
 import agh.ics.oop.darwinWorld.Maps.MapDirection;
+import javafx.scene.paint.Color;
 
 import java.util.*;
 
 import static agh.ics.oop.darwinWorld.Config.*;
+import static java.lang.Math.min;
 
 public class Animal implements WorldElement {
     private MapDirection direction;
     private Vector2d position;
     private int energy;
-    private final ArrayList<Animal> parents;
-    private HashSet<Animal> descendantsSet;
+    private final Animal[] parents;
     private final Genes genes;
-    private int children;
-    private int descendants;
+    private ArrayList<Animal> children;
+    private int childrenAmount;
+    private int descendantsAmount;
     private int eatenGrass;
     private int daysAlive;
     private int funeralDay;
@@ -25,7 +27,7 @@ public class Animal implements WorldElement {
         this.position = position;
         this.genes = new Genes();
         this.energy = initialAnimalEnergy;
-        this.parents = new ArrayList<>();
+        this.parents = new Animal[]{};
     }
 
     public Animal(Animal parent1, Animal parent2) {
@@ -34,13 +36,13 @@ public class Animal implements WorldElement {
         this.position = parent1.getPosition();
         this.genes = new Genes(parent1, parent2);
         this.energy = 2 * parentEnergyCost;
-        this.parents = new ArrayList<>(List.of(parent1, parent2));
+        this.parents = new Animal[]{parent1, parent2};
     }
 
     private void initializeAnimalStats() {
-        this.descendantsSet = new HashSet<Animal>();
-        this.children = 0;
-        this.descendants = 0;
+        this.children = new ArrayList<>();
+        this.childrenAmount = 0;
+        this.descendantsAmount = 0;
         this.eatenGrass = 0;
         this.daysAlive = 0;
         this.funeralDay = 0;
@@ -63,8 +65,8 @@ public class Animal implements WorldElement {
         return this.daysAlive;
     }
 
-    public int getChildren() {
-        return this.children;
+    public int getChildrenAmount() {
+        return this.childrenAmount;
     }
 
     public MapDirection getDirection() {
@@ -76,7 +78,7 @@ public class Animal implements WorldElement {
     }
 
     private void overLeftBound(Vector2d positionToProcess) {
-        this.position = new Vector2d(mapWidth, positionToProcess.getY());
+        this.position = new Vector2d(mapWidth - 1, positionToProcess.getY());
     }
 
 
@@ -85,10 +87,10 @@ public class Animal implements WorldElement {
         this.daysAlive++;
         Integer currentDirection = this.getDirection().toNumber();
         Integer currentMove = this.genes.curr();
-        MapDirection directionToProcess = MapDirection.fromNumber((currentDirection+currentMove)%8);
+        MapDirection directionToProcess = MapDirection.fromNumber((currentDirection + currentMove) % 8);
         Vector2d positionToProcess = this.getPosition().add(directionToProcess.toUnitVector());
-        if (positionToProcess.isYInRange(0, mapHeight-1)) {
-            if (positionToProcess.isXGreaterThan(mapWidth-1)) {
+        if (positionToProcess.isYInRange(0, mapHeight - 1)) {
+            if (positionToProcess.isXGreaterThan(mapWidth - 1)) {
                 this.overRightBound(positionToProcess);
             } else if (positionToProcess.isXLessThan(0)) {
                 this.overLeftBound(positionToProcess);
@@ -107,22 +109,23 @@ public class Animal implements WorldElement {
         this.energy = this.energy + plantEnergy;
     }
 
-    private void updateDescendantsSet(Animal newDescendant) {
-        if (!this.descendantsSet.contains(newDescendant)) {
-            this.descendantsSet.add(newDescendant);
-            this.descendants++;
-            for (Animal parent : this.parents) {
-                parent.updateDescendantsSet(newDescendant);
-            }
+    private void updateDescendantsCount(HashSet<Animal> updatedDescendantsSet) {
+        if (updatedDescendantsSet.contains(this)) {
+            return;
+        }
+        updatedDescendantsSet.add(this);
+        this.descendantsAmount++;
+        for (Animal parent : this.parents) {
+            parent.updateDescendantsCount(updatedDescendantsSet);
         }
     }
 
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent, this);
-        this.children++;
-        parent.children++;
-        this.updateDescendantsSet(child);
-        parent.updateDescendantsSet(child);
+        this.children.add(child);
+        parent.children.add(child);
+        this.childrenAmount = this.children.size();
+        parent.childrenAmount = parent.children.size();
         this.energy -= parentEnergyCost;
         parent.energy -= parentEnergyCost;
         return child;
@@ -139,6 +142,15 @@ public class Animal implements WorldElement {
         if (this.daysAlive != animal.getDaysAlive()) {
             return this.daysAlive > animal.getDaysAlive();
         }
-        return this.children > animal.getChildren();
+        return this.childrenAmount > animal.getChildrenAmount();
+    }
+
+    public Color getColor() {
+        double daysLeft = (double) energy / dailyEnergyCost;
+        if (daysLeft > 30) {
+            return Color.CYAN;
+        }
+        int green = (int) (255 * Math.max(0.0, Math.min(1, (daysLeft / 30))));
+        return Color.rgb(255, green, 0);
     }
 }

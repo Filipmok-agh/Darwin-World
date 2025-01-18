@@ -5,20 +5,18 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
 public class CorpseMap extends AbstractMap {
-
-    ArrayList<Vector2d> junglePositions;
-    ArrayList<Vector2d> steppePositions;
-    HashSet<Vector2d> steppePositionsSet;
+    public HashSet<Vector2d> steppePositionsSet;
 
     public CorpseMap() {
-        junglePositions = new ArrayList<>();
-        steppePositionsSet = new HashSet<>();
-        steppePositions = new ArrayList<>();
+        this.junglePositions = new ArrayList<>();
+        this.steppePositionsSet = new HashSet<>();
+        this.steppePositions = new ArrayList<>();
         allPositions(steppePositions, steppePositionsSet);
     }
 
@@ -38,10 +36,16 @@ public class CorpseMap extends AbstractMap {
                 .peek(animal -> {
                     if (animal.getEnergy() < dailyEnergyCost) {
                         animal.setFuneralDay(this.day);
-                        if (steppePositionsSet.contains(animal.getPosition())) {
-                            steppePositions.remove(animal.getPosition());
-                            steppePositionsSet.remove(animal.getPosition());
-                            junglePositions.add(animal.getPosition());
+                        for (int i = 0; i <= 8; i+=2) {
+                            Vector2d position = animal.getPosition();
+                            if (i != 8){
+                                position = position.add(MapDirection.values()[i].toUnitVector());
+                            }
+                            if (steppePositionsSet.contains(position)) {
+                                steppePositions.remove(position);
+                                steppePositionsSet.remove(position);
+                                junglePositions.add(position);
+                            }
                         }
                     }
                 })

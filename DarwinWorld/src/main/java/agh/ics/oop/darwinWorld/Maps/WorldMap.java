@@ -1,6 +1,12 @@
 package agh.ics.oop.darwinWorld.Maps;
 
 import agh.ics.oop.darwinWorld.Elements.Animal;
+import agh.ics.oop.darwinWorld.Elements.Grass;
+import agh.ics.oop.darwinWorld.Elements.Vector2d;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 public interface WorldMap {
     void removeDeadAnimals();
@@ -8,4 +14,7 @@ public interface WorldMap {
     void animalActivities();
     void spawnGrass(Integer amount);
     void addInitialAnimals();
+    ArrayList<Vector2d> getJunglePositions();
+    HashMap<Vector2d, LinkedList<Animal>> getDailyAnimals();
+    HashMap<Vector2d, Grass> getGrasses();
 }
