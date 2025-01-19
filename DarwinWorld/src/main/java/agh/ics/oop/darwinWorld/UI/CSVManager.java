@@ -6,7 +6,7 @@ import java.io.*;
 
 public class CSVManager {
     private static final String fileName = "DarwinWorld/src/main/resources/configurations.csv";
-
+    private Config config = new Config();
 
     public CSVManager() {
         File file = new File(fileName);
@@ -23,6 +23,16 @@ public class CSVManager {
         }
     }
 
+    public Config getConfig()
+    {
+        return config;
+    }
+
+    public void setConfig(Config config)
+    {
+        this.config = config;
+    }
+
     public boolean loadConfig(int id) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -31,20 +41,20 @@ public class CSVManager {
                 String[] parts = line.split(",");
                 int configId = Integer.parseInt(parts[0]);
                 if (configId == id) {
-                    Config.mapHeight = Integer.parseInt(parts[1]);
-                    Config.mapWidth = Integer.parseInt(parts[2]);
-                    Config.initialPlantCount = Integer.parseInt(parts[3]);
-                    Config.dailyPlantGrowth = Integer.parseInt(parts[4]);
-                    Config.plantEnergy = Integer.parseInt(parts[5]);
-                    Config.initialAnimalCount = Integer.parseInt(parts[6]);
-                    Config.initialAnimalEnergy = Integer.parseInt(parts[7]);
-                    Config.energyToBeFed = Integer.parseInt(parts[8]);
-                    Config.parentEnergyCost = Integer.parseInt(parts[9]);
-                    Config.genomeLength = Integer.parseInt(parts[10]);
-                    Config.minMutations = Integer.parseInt(parts[11]);
-                    Config.maxMutations = Integer.parseInt(parts[12]);
-                    Config.lifeGivingCorpses = Boolean.parseBoolean(parts[13]);
-                    Config.geneSwap = Boolean.parseBoolean(parts[14]);
+                    config.mapHeight = Integer.parseInt(parts[1]);
+                    config.mapWidth = Integer.parseInt(parts[2]);
+                    config.initialPlantCount = Integer.parseInt(parts[3]);
+                    config.dailyPlantGrowth = Integer.parseInt(parts[4]);
+                    config.plantEnergy = Integer.parseInt(parts[5]);
+                    config.initialAnimalCount = Integer.parseInt(parts[6]);
+                    config.initialAnimalEnergy = Integer.parseInt(parts[7]);
+                    config.energyToBeFed = Integer.parseInt(parts[8]);
+                    config.parentEnergyCost = Integer.parseInt(parts[9]);
+                    config.genomeLength = Integer.parseInt(parts[10]);
+                    config.minMutations = Integer.parseInt(parts[11]);
+                    config.maxMutations = Integer.parseInt(parts[12]);
+                    config.lifeGivingCorpses = Boolean.parseBoolean(parts[13]);
+                    config.geneSwap = Boolean.parseBoolean(parts[14]);
                     return true;
                 }
             }
@@ -73,20 +83,20 @@ public class CSVManager {
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
             StringBuilder sb = new StringBuilder();
             sb.append(id).append(",");
-            sb.append(Config.mapHeight).append(",");
-            sb.append(Config.mapWidth).append(",");
-            sb.append(Config.initialPlantCount).append(",");
-            sb.append(Config.dailyPlantGrowth).append(",");
-            sb.append(Config.plantEnergy).append(",");
-            sb.append(Config.initialAnimalCount).append(",");
-            sb.append(Config.initialAnimalEnergy).append(",");
-            sb.append(Config.energyToBeFed).append(",");
-            sb.append(Config.parentEnergyCost).append(",");
-            sb.append(Config.genomeLength).append(",");
-            sb.append(Config.minMutations).append(",");
-            sb.append(Config.maxMutations).append(",");
-            sb.append(Config.lifeGivingCorpses).append(",");
-            sb.append(Config.geneSwap);
+            sb.append(config.mapHeight).append(",");
+            sb.append(config.mapWidth).append(",");
+            sb.append(config.initialPlantCount).append(",");
+            sb.append(config.dailyPlantGrowth).append(",");
+            sb.append(config.plantEnergy).append(",");
+            sb.append(config.initialAnimalCount).append(",");
+            sb.append(config.initialAnimalEnergy).append(",");
+            sb.append(config.energyToBeFed).append(",");
+            sb.append(config.parentEnergyCost).append(",");
+            sb.append(config.genomeLength).append(",");
+            sb.append(config.minMutations).append(",");
+            sb.append(config.maxMutations).append(",");
+            sb.append(config.lifeGivingCorpses).append(",");
+            sb.append(config.geneSwap);
             writer.println(sb.toString());
             return true;
         } catch (IOException e) {
