@@ -5,25 +5,22 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import static agh.ics.oop.darwinWorld.Config.*;
 
 public class CorpseMap extends AbstractMap {
-
-    ArrayList<Vector2d> junglePositions;
-    ArrayList<Vector2d> steppePositions;
-    HashSet<Vector2d> steppePositionsSet;
+    public HashSet<Vector2d> steppePositionsSet;
 
     public CorpseMap() {
-        junglePositions = new ArrayList<>();
-        steppePositionsSet = new HashSet<>();
-        steppePositions = new ArrayList<>();
+        this.junglePositions = new ArrayList<>();
+        this.steppePositionsSet = new HashSet<>();
+        this.steppePositions = new ArrayList<>();
         allPositions(steppePositions, steppePositionsSet);
     }
 
     private void allPositions(ArrayList<Vector2d> arrayList, HashSet<Vector2d> hashSet) {
-
         for (int i = 0; i < mapHeight; i++) {
             for (int j = 0; j < mapWidth; j++) {
                 Vector2d position = new Vector2d(j, i);
@@ -32,21 +29,23 @@ public class CorpseMap extends AbstractMap {
             }
         }
     }
+
     @Override
-    public void removeDeadAnimals()
-    {
-//        Kuba: Wydaje mi się, że tutaj trzeba usuwać jungle i regenerować step, można przechować listę wszystkich pozycji
-//        Filip: Pytałem dzisiaj Bemaja i powiedział, że jak nigdzie nie jest napisane, że te pola stają się lepsze na jakiś czas to nie trzeba.
+    public void removeDeadAnimals() {
         animals = animals.stream()
                 .peek(animal -> {
                     if (animal.getEnergy() < dailyEnergyCost) {
                         animal.setFuneralDay(this.day);
-//                        Kuba: Czy nie mamy dodawać jungle w miejscu i dookoła truchła?
-//                        Filip: Faktycznie, zapomniałem o tym, naprawię to
-                        if (steppePositionsSet.contains(animal.getPosition())) {
-                            steppePositions.remove(animal.getPosition());
-                            steppePositionsSet.remove(animal.getPosition());
-                            junglePositions.add(animal.getPosition());
+                        for (int i = 0; i <= 8; i+=2) {
+                            Vector2d position = animal.getPosition();
+                            if (i != 8){
+                                position = position.add(MapDirection.values()[i].toUnitVector());
+                            }
+                            if (steppePositionsSet.contains(position)) {
+                                steppePositions.remove(position);
+                                steppePositionsSet.remove(position);
+                                junglePositions.add(position);
+                            }
                         }
                     }
                 })

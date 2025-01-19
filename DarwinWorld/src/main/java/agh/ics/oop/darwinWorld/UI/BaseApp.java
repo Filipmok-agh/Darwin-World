@@ -1,0 +1,20 @@
+package agh.ics.oop.darwinWorld.UI;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public abstract class BaseApp extends Application {
+    protected abstract String getFxmlFileName();
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(getFxmlFileName()));
+        Parent root = loader.load();
+        primaryStage.setTitle("Darwin World");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
+}
