@@ -6,7 +6,6 @@ import javafx.scene.paint.Color;
 
 import java.util.*;
 
-import static agh.ics.oop.darwinWorld.Config.*;
 import static java.lang.Math.min;
 
 public class Animal implements WorldElement {
@@ -28,7 +27,7 @@ public class Animal implements WorldElement {
         this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = position;
         this.config = config;
-        this.genes = new Genes();
+        this.genes = new Genes(config);
         this.energy = config.initialAnimalEnergy;
         this.parents = new Animal[]{};
     }
@@ -52,7 +51,19 @@ public class Animal implements WorldElement {
         this.funeralDay = 0;
     }
 
-    @Override
+    public int getDescendantsAmount() {
+        this.updateDescendantsCount();
+        return this.descendantsAmount;
+    }
+
+    public int getEatenGrass() {
+        return this.eatenGrass;
+    }
+
+    public int getFuneralDay() {
+        return this.funeralDay;
+    }
+
     public Vector2d getPosition() {
         return this.position;
     }
@@ -77,6 +88,10 @@ public class Animal implements WorldElement {
         return this.direction;
     }
 
+    public Config getConfig() {
+        return config;
+    }
+
     private void overRightBound(Vector2d positionToProcess) {
         this.position = new Vector2d(0, positionToProcess.getY());
     }
@@ -90,7 +105,7 @@ public class Animal implements WorldElement {
         this.energy = this.energy - config.dailyEnergyCost;
         this.daysAlive++;
         Integer currentDirection = this.getDirection().toNumber();
-        Integer currentMove = this.genes.curr();
+        Integer currentMove = this.genes.getCurrentGene();
         MapDirection directionToProcess = MapDirection.fromNumber((currentDirection + currentMove) % 8);
         Vector2d positionToProcess = this.getPosition().add(directionToProcess.toUnitVector());
         if (positionToProcess.isYInRange(0, config.mapHeight - 1)) {
@@ -105,7 +120,7 @@ public class Animal implements WorldElement {
         } else {
             this.direction = this.direction.opposite();
         }
-        this.genes.next();
+        this.genes.nextGene();
     }
 
     public void eat() {
@@ -113,23 +128,16 @@ public class Animal implements WorldElement {
         this.energy = this.energy + config.plantEnergy;
     }
 
-    private void updateDescendantsCount(HashSet<Animal> updatedDescendantsSet) {
-        if (updatedDescendantsSet.contains(this)) {
-            return;
-        }
-        updatedDescendantsSet.add(this);
-        this.descendantsAmount++;
-        for (Animal parent : this.parents) {
-            parent.updateDescendantsCount(updatedDescendantsSet);
-        }
+    private void updateDescendantsCount()
+    {
     }
 
     public Animal breeding(Animal parent) {
         Animal child = new Animal(parent, this);
         this.children.add(child);
         parent.children.add(child);
-        this.childrenAmount = this.children.size();
-        parent.childrenAmount = parent.children.size();
+        this.childrenAmount +=1;
+        parent.childrenAmount += 1;
         this.energy -= config.parentEnergyCost;
         parent.energy -= config.parentEnergyCost;
         return child;
