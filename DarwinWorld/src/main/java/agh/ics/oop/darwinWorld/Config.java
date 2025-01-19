@@ -1,24 +1,46 @@
 package agh.ics.oop.darwinWorld;
 
-public class Config
-{
+public class Config {
 
-    public static int dailyEnergyCost = 5;
+    public int dailyEnergyCost = 5;
 
-//    Wszystkie zmienne konfiguracyjne z punktu symulacja
+    public int mapHeight;
+    public int mapWidth;
+    public int initialPlantCount;
+    public int plantEnergy;
+    public int dailyPlantGrowth;
+    public boolean lifeGivingCorpses;
+    public int initialAnimalCount;
+    public int initialAnimalEnergy;
+    public int energyToBeFed;
+    public int parentEnergyCost;
+    public int minMutations;
+    public int maxMutations;
+    public boolean geneSwap;
+    public int genomeLength;
 
-    public static int mapHeight;
-    public static int mapWidth;
-    public static int initialPlantCount;
-    public static int plantEnergy;
-    public static int dailyPlantGrowth;
-    public static boolean lifeGivingCorpses;
-    public static int initialAnimalCount;
-    public static int initialAnimalEnergy;
-    public static int energyToBeFed;
-    public static int parentEnergyCost;
-    public static int minMutations;
-    public static int maxMutations;
-    public static boolean geneSwap;
-    public static int genomeLength ;
+    public Config()
+    {
+    }
+
+    @Override
+    public String toString() {
+        return "Config{" +
+                "dailyEnergyCost=" + dailyEnergyCost +
+                ", mapHeight=" + mapHeight +
+                ", mapWidth=" + mapWidth +
+                ", initialPlantCount=" + initialPlantCount +
+                ", plantEnergy=" + plantEnergy +
+                ", dailyPlantGrowth=" + dailyPlantGrowth +
+                ", lifeGivingCorpses=" + lifeGivingCorpses +
+                ", initialAnimalCount=" + initialAnimalCount +
+                ", initialAnimalEnergy=" + initialAnimalEnergy +
+                ", energyToBeFed=" + energyToBeFed +
+                ", parentEnergyCost=" + parentEnergyCost +
+                ", minMutations=" + minMutations +
+                ", maxMutations=" + maxMutations +
+                ", geneSwap=" + geneSwap +
+                ", genomeLength=" + genomeLength +
+                '}';
+    }
 }
