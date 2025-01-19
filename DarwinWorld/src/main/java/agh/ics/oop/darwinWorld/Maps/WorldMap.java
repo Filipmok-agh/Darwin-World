@@ -17,4 +17,19 @@ public interface WorldMap {
     ArrayList<Vector2d> getJunglePositions();
     HashMap<Vector2d, LinkedList<Animal>> getDailyAnimals();
     HashMap<Vector2d, Grass> getGrasses();
+
+    int getAnimalsCount();
+
+    int getGrassCount();
+
+    int getFreeFields();
+
+    double getAvgAnimalEnergy();
+
+    double getAvgDaysAlive();
+
+    double getAvgChildCount();
+
+    ArrayList<Integer> getMostPopularGen();
+
 }
