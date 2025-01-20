@@ -102,35 +102,33 @@ public abstract class AbstractMap implements WorldMap {
         double sumOfAnimalEnergy = 0;
         double sumOfChildrenCount = 0;
         Map<Integer, Integer> geneFrequencyMap = new HashMap<>();
-
-        for (Animal animal : animals) {
-            for (Integer gene : animal.getGenes().getGenes()) {
-                geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
-            }
-            sumOfAnimalEnergy += animal.getEnergy();
-            sumOfChildrenCount += animal.getChildrenAmount();
-            animal.move();
-            if (dailyAnimals.containsKey(animal.getPosition())) {
-                addAnimal(dailyAnimals.get(animal.getPosition()), animal);
-            } else {
-                dailyAnimals.put(animal.getPosition(), new LinkedList<>(List.of(animal)));
-            }
-        }
-
         if (!animals.isEmpty()) {
+            for (Animal animal : animals) {
+                for (Integer gene : animal.getGenes().getGenes()) {
+                    geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
+                }
+                sumOfAnimalEnergy += animal.getEnergy();
+                sumOfChildrenCount += animal.getChildrenAmount();
+                animal.move();
+                if (dailyAnimals.containsKey(animal.getPosition())) {
+                    addAnimal(dailyAnimals.get(animal.getPosition()), animal);
+                } else {
+                    dailyAnimals.put(animal.getPosition(), new LinkedList<>(List.of(animal)));
+                }
+            }
             this.avgAnimalEnergy=sumOfAnimalEnergy/animals.size();
             this.avgChildCount=sumOfChildrenCount/animals.size();
+            int maxCount = Collections.max(geneFrequencyMap.values());
+            this.mostPopularGen = new ArrayList<>();
+            for (Map.Entry<Integer, Integer> entry : geneFrequencyMap.entrySet()) {
+                if (entry.getValue() == maxCount) {
+                    mostPopularGen.add(entry.getKey());
+                }
+            }
         }
         else{
             this.avgAnimalEnergy=0;
             this.avgChildCount=0;
-        }
-        int maxCount = Collections.max(geneFrequencyMap.values());
-        this.mostPopularGen = new ArrayList<>();
-        for (Map.Entry<Integer, Integer> entry : geneFrequencyMap.entrySet()) {
-            if (entry.getValue() == maxCount) {
-                mostPopularGen.add(entry.getKey());
-            }
         }
     }
 

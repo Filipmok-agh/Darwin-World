@@ -107,7 +107,9 @@ public class SimulationPresenter {
 
                     }
                     if (map.getGrasses().containsKey(position)) {
-                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0));
+                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
+                        circle.setStroke(Color.GRAY);
+                        circle.setStrokeWidth(1);
                         cell.getChildren().add(circle);
                     }
                     if (map.getDailyAnimals().containsKey(position)) {
@@ -135,7 +137,9 @@ public class SimulationPresenter {
                     cell.getChildren().add(tile);
                     cell.setOnMouseClicked(event -> onCellClicked(position));
                     if (map.getGrasses().containsKey(position)) {
-                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0));
+                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
+                        circle.setStroke(Color.GRAY);
+                        circle.setStrokeWidth(1);
                         cell.getChildren().add(circle);
                     }
                     if (map.getDailyAnimals().containsKey(position)) {
@@ -176,7 +180,9 @@ public class SimulationPresenter {
                 cell.getChildren().add(tile);
                 cell.setOnMouseClicked(event -> onCellClicked(position));
                 if (map.getGrasses().containsKey(position)) {
-                    Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0));
+                    Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
+                    circle.setStroke(Color.GRAY);
+                    circle.setStrokeWidth(1);
                     cell.getChildren().add(circle);
                 }
                 if (map.getDailyAnimals().containsKey(position)) {
@@ -249,8 +255,13 @@ public class SimulationPresenter {
     private void updateMap() {
         map.removeDeadAnimals();
         map.animalsMovement();
-        map.animalActivities();
-        map.spawnGrass(config.dailyPlantGrowth);
+        if (map.getAnimalsCount() == 0){
+            simulationStopped = true;
+            runButton.disabledProperty();
+        } else {
+            map.animalActivities();
+            map.spawnGrass(config.dailyPlantGrowth);
+        }
         drawGrid();
         drawStats();
         drawAnimalStats();
