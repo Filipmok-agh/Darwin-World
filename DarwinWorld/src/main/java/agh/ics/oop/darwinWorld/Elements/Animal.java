@@ -23,7 +23,7 @@ public class Animal {
     private Config config;
     private boolean highlight = false;
 
-    public Animal(Vector2d position,Config config) {
+    public Animal(Vector2d position, Config config) {
         this.initializeAnimalStats();
         this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = position;
@@ -35,7 +35,7 @@ public class Animal {
 
     public Animal(Animal parent1, Animal parent2) {
         this.initializeAnimalStats();
-        this.config= parent1.config;
+        this.config = parent1.config;
         this.direction = MapDirection.values()[new Random().nextInt(MapDirection.values().length)];
         this.position = parent1.getPosition();
         this.genes = new Genes(parent1, parent2);
@@ -141,7 +141,7 @@ public class Animal {
         this.descendantsAmount = descendants.size();
     }
 
-    private void updateChildDescendantsSet(Set<Animal> descendants){
+    private void updateChildDescendantsSet(Set<Animal> descendants) {
         for (Animal child : this.children) {
             if (!descendants.contains(child)) {
                 descendants.add(child);
@@ -154,7 +154,7 @@ public class Animal {
         Animal child = new Animal(parent, this);
         this.children.add(child);
         parent.children.add(child);
-        this.childrenAmount +=1;
+        this.childrenAmount += 1;
         parent.childrenAmount += 1;
         this.energy -= config.parentEnergyCost;
         parent.energy -= config.parentEnergyCost;

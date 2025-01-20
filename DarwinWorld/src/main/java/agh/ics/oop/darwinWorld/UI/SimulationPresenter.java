@@ -21,52 +21,30 @@ import javafx.scene.control.Button;
 import java.util.LinkedList;
 
 public class SimulationPresenter {
-
-
     private WorldMap map;
     private int gridsize;
     private Config config;
     private boolean simulationStopped = false;
     private Animal selectedAnimal = null;
-
-    @FXML
-    private GridPane mapGrid;
-    @FXML
-    private Button runButton;
-    @FXML
-    private Label animalsCount;
-    @FXML
-    private Label grassCount;
-    @FXML
-    private Label freeFields;
-    @FXML
-    private Label mostPopularGen;
-    @FXML
-    private Label avgAnimalEnergy;
-    @FXML
-    private Label avgDaysAlive;
-    @FXML
-    private Label avgChildCount;
-    @FXML
-    private Label obsGens;
-    @FXML
-    private Label obsCurrGen;
-    @FXML
-    private Label obsEnergy;
-    @FXML
-    private Label obsGrassCount;
-    @FXML
-    private Label obsChildCount;
-    @FXML
-    private Label obsDescendantsCount;
-    @FXML
-    private Label obsDaysAlive;
-    @FXML
-    private Label obsFuneralDay;
-    @FXML
-    private Button geneButton;
-    @FXML
-    private Button greenButton;
+    @FXML private GridPane mapGrid;
+    @FXML private Button runButton;
+    @FXML private Label animalsCount;
+    @FXML private Label grassCount;
+    @FXML private Label freeFields;
+    @FXML private Label mostPopularGen;
+    @FXML private Label avgAnimalEnergy;
+    @FXML private Label avgDaysAlive;
+    @FXML private Label avgChildCount;
+    @FXML private Label obsGens;
+    @FXML private Label obsCurrGen;
+    @FXML private Label obsEnergy;
+    @FXML private Label obsGrassCount;
+    @FXML private Label obsChildCount;
+    @FXML private Label obsDescendantsCount;
+    @FXML private Label obsDaysAlive;
+    @FXML private Label obsFuneralDay;
+    @FXML private Button geneButton;
+    @FXML private Button greenButton;
 
     public void setConfig(Config config) {
         this.config = config;
@@ -74,7 +52,7 @@ public class SimulationPresenter {
 
     @FXML
     public void initialize() {
-        this.gridsize = Math.min(900/config.mapHeight, 1600/config.mapWidth);
+        this.gridsize = Math.min(900 / config.mapHeight, 1600 / config.mapWidth);
         this.map = (config.lifeGivingCorpses) ? new CorpseMap(config) : new JungleMap(config);
         map.spawnGrass(config.initialPlantCount);
         drawGrid();
@@ -85,10 +63,8 @@ public class SimulationPresenter {
 
     }
 
-    private void drawGreenFields()
-    {
-        if(simulationStopped)
-        {
+    private void drawGreenFields() {
+        if (simulationStopped) {
             mapGrid.getChildren().clear();
             for (int row = 0; row < config.mapHeight; row++) {
                 for (int col = 0; col < config.mapWidth; col++) {
@@ -125,8 +101,7 @@ public class SimulationPresenter {
     }
 
     private void drawAnimalsWithMostPopularGene() {
-        if (simulationStopped)
-        {
+        if (simulationStopped) {
             mapGrid.getChildren().clear();
             for (int row = 0; row < config.mapHeight; row++) {
                 for (int col = 0; col < config.mapWidth; col++) {
@@ -152,13 +127,10 @@ public class SimulationPresenter {
                                 break;
                             }
                         }
-                        if(hasCommonGenes)
-                        {
+                        if (hasCommonGenes) {
                             Circle circle = new Circle((double) gridsize / 2, Color.rgb(148, 0, 211));
                             cell.getChildren().add(circle);
-                        }
-                        else
-                        {
+                        } else {
                             Circle circle = new Circle((double) gridsize / 2, animal.getColor());
                             cell.getChildren().add(circle);
                         }
@@ -255,7 +227,7 @@ public class SimulationPresenter {
     private void updateMap() {
         map.removeDeadAnimals();
         map.animalsMovement();
-        if (map.getAnimalsCount() == 0){
+        if (map.getAnimalsCount() == 0) {
             simulationStopped = true;
             runButton.disabledProperty();
         } else {

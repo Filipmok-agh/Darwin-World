@@ -37,14 +37,13 @@ public class CorpseMap extends AbstractMap {
         AtomicInteger deadAnimalsCount = new AtomicInteger(0);
         animals = animals.stream()
                 .peek(animal -> {
-                    if (animal.getEnergy() < config.dailyEnergyCost)
-                    {
+                    if (animal.getEnergy() < config.dailyEnergyCost) {
                         totalDeadDaysCount.addAndGet(animal.getDaysAlive());
                         deadAnimalsCount.incrementAndGet();
                         animal.setFuneralDay(this.day);
-                        for (int i = 0; i <= 8; i+=2) {
+                        for (int i = 0; i <= 8; i += 2) {
                             Vector2d position = animal.getPosition();
-                            if (i != 8){
+                            if (i != 8) {
                                 position = position.add(MapDirection.values()[i].toUnitVector());
                             }
                             if (steppePositionsSet.contains(position)) {

@@ -23,13 +23,11 @@ public class CSVManager {
         }
     }
 
-    public Config getConfig()
-    {
+    public Config getConfig() {
         return config;
     }
 
-    public void setConfig(Config config)
-    {
+    public void setConfig(Config config) {
         this.config = config;
     }
 

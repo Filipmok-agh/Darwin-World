@@ -50,11 +50,13 @@ public class Genes {
             this.genes.add(randomGen);
         }
     }
+
     public ArrayList<Integer> getGenes() {
         return genes;
     }
+
     public void nextGene() {
-        if (currentGeneIndex == genomeLength -1) {
+        if (currentGeneIndex == genomeLength - 1) {
             currentGeneIndex = 0;
         } else {
             currentGeneIndex++;

@@ -14,44 +14,25 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class MenuPresenter {
-    @FXML
-    private Spinner<Integer> initialID;
-    @FXML
-    private Button loadButton;
-    @FXML
-    private Spinner<Integer> saveNumberID;
-    @FXML
-    private CheckBox saveBoxID;
-    @FXML
-    private Button startButton;
-    @FXML
-    private Spinner<Integer> mapHeightID;
-    @FXML
-    private Spinner<Integer> initialPlantCountID;
-    @FXML
-    private Spinner<Integer> mapWidthID;
-    @FXML
-    private Spinner<Integer> dailyPlantGrowthID;
-    @FXML
-    private Spinner<Integer> plantEnergyID;
-    @FXML
-    private Spinner<Integer> initialAnimalCountID;
-    @FXML
-    private Spinner<Integer> initialAnimalEnergyID;
-    @FXML
-    private Spinner<Integer> energyToBeFedID;
-    @FXML
-    private Spinner<Integer> parentEnergyCostID;
-    @FXML
-    private Spinner<Integer> genomeLengthID;
-    @FXML
-    private Spinner<Integer> minMutationsID;
-    @FXML
-    private Spinner<Integer> maxMutationsID;
-    @FXML
-    private CheckBox lifeGivingCorpsesID;
-    @FXML
-    private CheckBox geneSwapID;
+    @FXML private Spinner<Integer> initialID;
+    @FXML private Button loadButton;
+    @FXML private Spinner<Integer> saveNumberID;
+    @FXML private CheckBox saveBoxID;
+    @FXML private Button startButton;
+    @FXML private Spinner<Integer> mapHeightID;
+    @FXML private Spinner<Integer> initialPlantCountID;
+    @FXML private Spinner<Integer> mapWidthID;
+    @FXML private Spinner<Integer> dailyPlantGrowthID;
+    @FXML private Spinner<Integer> plantEnergyID;
+    @FXML private Spinner<Integer> initialAnimalCountID;
+    @FXML private Spinner<Integer> initialAnimalEnergyID;
+    @FXML private Spinner<Integer> energyToBeFedID;
+    @FXML private Spinner<Integer> parentEnergyCostID;
+    @FXML private Spinner<Integer> genomeLengthID;
+    @FXML private Spinner<Integer> minMutationsID;
+    @FXML private Spinner<Integer> maxMutationsID;
+    @FXML private CheckBox lifeGivingCorpsesID;
+    @FXML private CheckBox geneSwapID;
 
     private Config config = new Config();
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
