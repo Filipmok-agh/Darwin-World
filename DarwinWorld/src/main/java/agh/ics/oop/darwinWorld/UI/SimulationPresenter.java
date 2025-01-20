@@ -76,7 +76,6 @@ public class SimulationPresenter {
     public void initialize() {
         this.gridsize = Math.min(900/config.mapHeight, 1600/config.mapWidth);
         this.map = (config.lifeGivingCorpses) ? new CorpseMap(config) : new JungleMap(config);
-        map.addInitialAnimals();
         map.spawnGrass(config.initialPlantCount);
         drawGrid();
 
@@ -235,9 +234,13 @@ public class SimulationPresenter {
 
     private void onCellClicked(Vector2d position) {
         if (simulationStopped) {
+            if (selectedAnimal != null) {
+                selectedAnimal.setHighlight(false);
+            }
             if (map.getDailyAnimals().containsKey(position)) {
                 LinkedList<Animal> animals = map.getDailyAnimals().get(position);
                 selectedAnimal = animals.getFirst();
+                selectedAnimal.setHighlight(true);
                 drawAnimalStats();
             }
         }

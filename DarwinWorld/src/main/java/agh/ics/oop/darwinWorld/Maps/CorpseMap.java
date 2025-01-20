@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CorpseMap extends AbstractMap {
-    public HashSet<Vector2d> steppePositionsSet;
+    protected HashSet<Vector2d> steppePositionsSet;
 
     public CorpseMap(Config config) {
         super(config);

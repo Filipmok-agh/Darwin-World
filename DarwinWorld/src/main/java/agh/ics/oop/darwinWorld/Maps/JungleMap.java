@@ -48,7 +48,7 @@ public class JungleMap extends AbstractMap {
                 possiblePositions.add(new Vector2d(j, i));
             }
         }
-        for (int i = this.upperJungleBound + 1; i < config.mapHeight + 1; i++) {
+        for (int i = this.lowerJungleBound+lines; i < config.mapHeight; i++) {
             for (int j = 0; j < config.mapWidth; j++) {
                 possiblePositions.add(new Vector2d(j, i));
             }

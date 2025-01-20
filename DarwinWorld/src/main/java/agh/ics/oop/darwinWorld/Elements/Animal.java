@@ -8,7 +8,7 @@ import java.util.*;
 
 import static java.lang.Math.min;
 
-public class Animal implements WorldElement {
+public class Animal {
     private MapDirection direction;
     private Vector2d position;
     private int energy;
@@ -21,6 +21,7 @@ public class Animal implements WorldElement {
     private int daysAlive;
     private int funeralDay;
     private Config config;
+    private boolean highlight = false;
 
     public Animal(Vector2d position,Config config) {
         this.initializeAnimalStats();
@@ -54,6 +55,10 @@ public class Animal implements WorldElement {
     public int getDescendantsAmount() {
         this.updateDescendantsCount();
         return this.descendantsAmount;
+    }
+
+    public void setHighlight(boolean highlight) {
+        this.highlight = highlight;
     }
 
     public int getEatenGrass() {
@@ -158,6 +163,9 @@ public class Animal implements WorldElement {
     }
 
     public Color getColor() {
+        if (highlight) {
+            return Color.BLACK;
+        }
         double daysLeft = (double) energy / config.dailyEnergyCost;
         if (daysLeft > 30) {
             return Color.CYAN;

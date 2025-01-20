@@ -4,21 +4,17 @@ import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Elements.Grass;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
-import agh.ics.oop.darwinWorld.Elements.WorldElement;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static agh.ics.oop.darwinWorld.Config.*;
 
 public abstract class AbstractMap implements WorldMap {
     protected int day;
-    public LinkedList<Animal> animals;
-    public LinkedList<Animal> animalsHistory;
+    protected LinkedList<Animal> animals;
+    protected LinkedList<Animal> animalsHistory;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
-    ArrayList<Vector2d> junglePositions = new ArrayList<>();
-    ArrayList<Vector2d> steppePositions;
+    protected ArrayList<Vector2d> junglePositions = new ArrayList<>();
+    protected ArrayList<Vector2d> steppePositions;
     protected Config config;
     private double avgAnimalEnergy;
     protected double avgDaysAlive=0;
@@ -34,6 +30,7 @@ public abstract class AbstractMap implements WorldMap {
         this.grasses = new HashMap<>();
         this.dailyAnimals = new HashMap<>();
         this.avgAnimalEnergy = config.initialAnimalEnergy;
+        addInitialAnimals();
     }
 
     public int getAnimalsCount() {
@@ -47,7 +44,8 @@ public abstract class AbstractMap implements WorldMap {
 
     @Override
     public int getFreeFields() {
-        return (config.mapHeight - 1) * (config.mapWidth - 1) - this.grasses.size();
+        System.out.println(config.mapHeight);
+        return (config.mapHeight) * (config.mapWidth) - this.grasses.size();
     }
 
     @Override
@@ -85,7 +83,7 @@ public abstract class AbstractMap implements WorldMap {
         return grasses;
     }
 
-    public void addInitialAnimals() {
+    private void addInitialAnimals() {
         Random random = new Random();
         for (int i = 0; i < config.initialAnimalCount; i++) {
             int randomX = random.nextInt(config.mapWidth-1);
@@ -188,7 +186,7 @@ public abstract class AbstractMap implements WorldMap {
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
 
-    protected void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
+    private void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
         boolean inserted = false;
         for (int i = 0; i < animalsAtPosition.size(); i++) {
             if (animal.isStronger(animalsAtPosition.get(i))) {
