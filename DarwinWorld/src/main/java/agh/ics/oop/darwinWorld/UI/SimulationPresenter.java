@@ -124,13 +124,7 @@ public class SimulationPresenter {
                     if (map.getDailyAnimals().containsKey(position)) {
                         LinkedList<Animal> animals = map.getDailyAnimals().get(position);
                         Animal animal = animals.getFirst();
-                        boolean hasCommonGenes = false;
-                        for (Integer gene : animal.getGenes().getGenes()) {
-                            if (map.getMostPopularGen().contains(gene)) {
-                                hasCommonGenes = true;
-                                break;
-                            }
-                        }
+                        boolean hasCommonGenes = map.getMostPopularGen().equals(animal.getGenes().getGenes());
                         if (hasCommonGenes) {
                             Circle circle = new Circle((double) gridsize / 2, Color.rgb(148, 0, 211));
                             cell.getChildren().add(circle);
@@ -194,7 +188,7 @@ public class SimulationPresenter {
             obsEnergy.setText("Energy amount: " + selectedAnimal.getEnergy());
             obsGrassCount.setText("Number of plants eaten: " + selectedAnimal.getEatenGrass());
             obsChildCount.setText("Number of children: " + selectedAnimal.getChildrenAmount());
-            obsDescendantsCount.setText("Number of descedants: " + selectedAnimal.getDescendantsAmount());
+            obsDescendantsCount.setText("Number of descendants: " + selectedAnimal.getDescendantsAmount());
             obsDaysAlive.setText("Days Alive: " + selectedAnimal.getDaysAlive());
             if (selectedAnimal.getEnergy() > 0) {
                 obsFuneralDay.setText("Funeral Day: -");
@@ -229,7 +223,6 @@ public class SimulationPresenter {
     }
 
     private void updateMap() {
-        System.out.println("running");
         map.removeDeadAnimals();
         map.animalsMovement();
         if (map.getAnimalsCount() == 0) {

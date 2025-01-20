@@ -2,13 +2,10 @@ package agh.ics.oop.darwinWorld.Maps;
 
 
 import agh.ics.oop.darwinWorld.Config;
-import agh.ics.oop.darwinWorld.Elements.Grass;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 

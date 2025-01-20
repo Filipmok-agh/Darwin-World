@@ -101,12 +101,11 @@ public abstract class AbstractMap implements WorldMap {
         this.dailyAnimals = new HashMap<>();
         double sumOfAnimalEnergy = 0;
         double sumOfChildrenCount = 0;
-        Map<Integer, Integer> geneFrequencyMap = new HashMap<>();
+        Map<ArrayList<Integer>, Integer> geneFrequencyMap = new HashMap<>();
         if (!animals.isEmpty()) {
             for (Animal animal : animals) {
-                for (Integer gene : animal.getGenes().getGenes()) {
-                    geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
-                }
+                ArrayList<Integer> gene = animal.getGenes().getGenes();
+                geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
                 sumOfAnimalEnergy += animal.getEnergy();
                 sumOfChildrenCount += animal.getChildrenAmount();
                 animal.move();
@@ -120,9 +119,9 @@ public abstract class AbstractMap implements WorldMap {
             this.avgChildCount=sumOfChildrenCount/animals.size();
             int maxCount = Collections.max(geneFrequencyMap.values());
             this.mostPopularGen = new ArrayList<>();
-            for (Map.Entry<Integer, Integer> entry : geneFrequencyMap.entrySet()) {
+            for (Map.Entry<ArrayList<Integer>, Integer> entry : geneFrequencyMap.entrySet()) {
                 if (entry.getValue() == maxCount) {
-                    mostPopularGen.add(entry.getKey());
+                    this.mostPopularGen = entry.getKey();
                 }
             }
         }

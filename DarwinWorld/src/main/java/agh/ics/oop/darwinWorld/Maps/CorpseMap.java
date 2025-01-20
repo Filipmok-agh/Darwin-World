@@ -1,12 +1,9 @@
 package agh.ics.oop.darwinWorld.Maps;
 
 import agh.ics.oop.darwinWorld.Config;
-import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
-import java.awt.*;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
