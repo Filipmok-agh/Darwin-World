@@ -24,5 +24,9 @@ public class SimulationApp extends Application {
         primaryStage.setTitle("Darwin World");
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+        primaryStage.setOnCloseRequest(event -> {
+            presenter.stopSimulation();
+        });
+
     }
 }

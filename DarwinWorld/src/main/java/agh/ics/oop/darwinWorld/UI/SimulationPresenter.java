@@ -50,6 +50,10 @@ public class SimulationPresenter {
         this.config = config;
     }
 
+    public void stopSimulation() {
+        simulationStopped = true;
+    }
+
     @FXML
     public void initialize() {
         this.gridsize = Math.min(900 / config.mapHeight, 1600 / config.mapWidth);
@@ -225,6 +229,7 @@ public class SimulationPresenter {
     }
 
     private void updateMap() {
+        System.out.println("running");
         map.removeDeadAnimals();
         map.animalsMovement();
         if (map.getAnimalsCount() == 0) {
