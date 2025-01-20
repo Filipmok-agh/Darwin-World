@@ -44,7 +44,6 @@ public abstract class AbstractMap implements WorldMap {
 
     @Override
     public int getFreeFields() {
-        System.out.println(config.mapHeight);
         return (config.mapHeight) * (config.mapWidth) - this.grasses.size();
     }
 

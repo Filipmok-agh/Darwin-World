@@ -133,8 +133,21 @@ public class Animal {
         this.energy = this.energy + config.plantEnergy;
     }
 
-    private void updateDescendantsCount()
-    {
+    private void updateDescendantsCount() {
+        Set<Animal> descendants = new HashSet<>(this.children);
+        for (Animal child : this.children) {
+            child.updateChildDescendantsSet(descendants);
+        }
+        this.descendantsAmount = descendants.size();
+    }
+
+    private void updateChildDescendantsSet(Set<Animal> descendants){
+        for (Animal child : this.children) {
+            if (!descendants.contains(child)) {
+                descendants.add(child);
+                child.updateChildDescendantsSet(descendants);
+            }
+        }
     }
 
     public Animal breeding(Animal parent) {
