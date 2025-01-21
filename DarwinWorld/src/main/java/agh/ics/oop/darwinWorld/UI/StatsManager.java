@@ -94,7 +94,7 @@ public class StatsManager {
     }
 
     public String getCurrentGene() {
-        return "Current Gene: " + animal.getGenes().getCurrentGene();
+        return "Current Gene: " + animal.getGenes().getIndex();
     }
 
     public String getEnergy() {

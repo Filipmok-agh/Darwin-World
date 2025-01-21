@@ -51,6 +51,10 @@ public class Genes {
         }
     }
 
+    public int getIndex() {
+        return currentGeneIndex;
+    }
+
     public ArrayList<Integer> getGenes() {
         return genes;
     }

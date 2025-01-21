@@ -50,4 +50,9 @@ class GenesTest {
         }
         assertEquals(firstGene, genes.getCurrentGene());
     }
+    @Test
+    void testGetIndex(){
+        Genes genes = new Genes(config);
+        assertTrue(genes.getIndex() >= 0 && genes.getIndex() < config.genomeLength);
+    }
 }
