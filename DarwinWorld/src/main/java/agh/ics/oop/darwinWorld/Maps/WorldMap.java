@@ -36,4 +36,6 @@ public interface WorldMap {
     double getAvgChildCount();
 
     ArrayList<Integer> getMostPopularGen();
+
+    int getDay();
 }

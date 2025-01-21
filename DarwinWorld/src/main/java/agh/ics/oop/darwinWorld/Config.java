@@ -18,6 +18,7 @@ public class Config {
     public int maxMutations;
     public boolean geneSwap;
     public int genomeLength;
+    public boolean saveStats;
 
     public Config()
     {
@@ -41,6 +42,7 @@ public class Config {
                 ", maxMutations=" + maxMutations +
                 ", geneSwap=" + geneSwap +
                 ", genomeLength=" + genomeLength +
+                ", saveStats=" + saveStats +
                 '}';
     }
 }

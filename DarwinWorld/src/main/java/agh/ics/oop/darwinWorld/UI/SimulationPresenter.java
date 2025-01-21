@@ -18,7 +18,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
+import java.util.UUID;
 
 public class SimulationPresenter {
     private WorldMap map;
@@ -26,25 +32,47 @@ public class SimulationPresenter {
     private Config config;
     private boolean simulationStopped = false;
     private Animal selectedAnimal = null;
-    @FXML private GridPane mapGrid;
-    @FXML private Button runButton;
-    @FXML private Label animalsCount;
-    @FXML private Label grassCount;
-    @FXML private Label freeFields;
-    @FXML private Label mostPopularGen;
-    @FXML private Label avgAnimalEnergy;
-    @FXML private Label avgDaysAlive;
-    @FXML private Label avgChildCount;
-    @FXML private Label obsGens;
-    @FXML private Label obsCurrGen;
-    @FXML private Label obsEnergy;
-    @FXML private Label obsGrassCount;
-    @FXML private Label obsChildCount;
-    @FXML private Label obsDescendantsCount;
-    @FXML private Label obsDaysAlive;
-    @FXML private Label obsFuneralDay;
-    @FXML private Button geneButton;
-    @FXML private Button greenButton;
+    private String uniqueId = UUID.randomUUID().toString();
+    @FXML
+    private GridPane mapGrid;
+    @FXML
+    private Button runButton;
+    @FXML
+    private Label day;
+    @FXML
+    private Label animalsCount;
+    @FXML
+    private Label grassCount;
+    @FXML
+    private Label freeFields;
+    @FXML
+    private Label mostPopularGen;
+    @FXML
+    private Label avgAnimalEnergy;
+    @FXML
+    private Label avgDaysAlive;
+    @FXML
+    private Label avgChildCount;
+    @FXML
+    private Label obsGens;
+    @FXML
+    private Label obsCurrGen;
+    @FXML
+    private Label obsEnergy;
+    @FXML
+    private Label obsGrassCount;
+    @FXML
+    private Label obsChildCount;
+    @FXML
+    private Label obsDescendantsCount;
+    @FXML
+    private Label obsDaysAlive;
+    @FXML
+    private Label obsFuneralDay;
+    @FXML
+    private Button geneButton;
+    @FXML
+    private Button greenButton;
 
     public void setConfig(Config config) {
         this.config = config;
@@ -172,6 +200,7 @@ public class SimulationPresenter {
     }
 
     private void drawStats() {
+        day.setText("Current day: " + map.getDay());
         animalsCount.setText("Total number of animals: " + map.getAnimalsCount());
         grassCount.setText("Total number of plants: " + map.getGrassCount());
         freeFields.setText("Number of free fields: " + map.getFreeFields());
@@ -235,5 +264,40 @@ public class SimulationPresenter {
         drawGrid();
         drawStats();
         drawAnimalStats();
+        if (config.saveStats) {
+            saveStatsToCSV();
+        }
+    }
+
+    private void saveStatsToCSV() {
+        Path statsDir = Paths.get("DarwinWorld/src/main/resources/simulation_stats");
+        try {
+            if (!Files.exists(statsDir)) {
+                Files.createDirectory(statsDir);
+            }
+
+            String filename = "simulation_stats_" + uniqueId + ".csv";
+            Path filePath = statsDir.resolve(filename);
+            FileWriter writer = new FileWriter(filePath.toFile(), true);
+
+            if (Files.size(filePath) == 0) {
+                writer.write("Day,AnimalsCount,GrassCount,FreeFields,AvgAnimalEnergy,AvgDaysAlive,AvgChildCount,MostPopularGen\n");
+            }
+
+            writer.write(
+                    map.getDay() + "," +
+                        map.getAnimalsCount() + "," +
+                        map.getGrassCount() + "," +
+                        map.getFreeFields() + "," +
+                        map.getAvgAnimalEnergy() + "," +
+                        map.getAvgDaysAlive() + "," +
+                        map.getAvgChildCount() + "," +
+                        map.getMostPopularGen().toString().replace(",", " ") + "\n"
+            );
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

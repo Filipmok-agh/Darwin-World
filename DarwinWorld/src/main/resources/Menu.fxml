@@ -67,9 +67,13 @@
     <bottom>
         <VBox>
             <HBox>
-                <Label text="Zapisz" styleClass="additional3"/>
+                <Label text="Zapisz Konfigurację" styleClass="additional3"/>
                 <CheckBox fx:id="saveBoxID"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="0" fx:id="saveNumberID"/>
+            </HBox>
+            <HBox>
+                <Label text="Zapisz Statystyki" styleClass="additional4"/>
+                <CheckBox fx:id="statSaveBoxID"/>
             </HBox>
             <HBox>
                 <Button text="Rozpocznij symulacje" fx:id="startButton"/>

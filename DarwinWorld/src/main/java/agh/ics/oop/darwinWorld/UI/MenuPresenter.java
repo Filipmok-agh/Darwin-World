@@ -18,6 +18,7 @@ public class MenuPresenter {
     @FXML private Button loadButton;
     @FXML private Spinner<Integer> saveNumberID;
     @FXML private CheckBox saveBoxID;
+    @FXML private CheckBox statSaveBoxID;
     @FXML private Button startButton;
     @FXML private Spinner<Integer> mapHeightID;
     @FXML private Spinner<Integer> initialPlantCountID;
@@ -111,9 +112,11 @@ public class MenuPresenter {
             config.maxMutations = maxMutations;
             config.lifeGivingCorpses = lifeGivingCorpsesID.isSelected();
             config.geneSwap = geneSwapID.isSelected();
+            config.saveStats = statSaveBoxID.isSelected();
 
             boolean saveBox = saveBoxID.isSelected();
             int saveNumber = saveNumberID.getValue();
+
 
             if (saveBox) {
                 CSVManager manager = new CSVManager();

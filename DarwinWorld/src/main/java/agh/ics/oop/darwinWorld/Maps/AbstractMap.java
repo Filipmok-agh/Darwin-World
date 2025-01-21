@@ -33,6 +33,10 @@ public abstract class AbstractMap implements WorldMap {
         addInitialAnimals();
     }
 
+    public int getDay() {
+        return this.day;
+    }
+
     public int getAnimalsCount() {
         return this.animals.size();
     }
@@ -84,13 +88,22 @@ public abstract class AbstractMap implements WorldMap {
 
     private void addInitialAnimals() {
         Random random = new Random();
+        Map<ArrayList<Integer>, Integer> geneFrequencyMap = new HashMap<>();
         for (int i = 0; i < config.initialAnimalCount; i++) {
             int randomX = random.nextInt(config.mapWidth-1);
             int randomY = random.nextInt(config.mapHeight-1);
             Vector2d position = new Vector2d(randomX, randomY);
             Animal animal = new Animal(position,config);
+            ArrayList<Integer> gene = animal.getGenes().getGenes();
+            geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
             this.animals.add(animal);
             this.animalsHistory.add(animal);
+        }
+        int maxCount = Collections.max(geneFrequencyMap.values());
+        for (Map.Entry<ArrayList<Integer>, Integer> entry : geneFrequencyMap.entrySet()) {
+            if (entry.getValue() == maxCount) {
+                this.mostPopularGen = entry.getKey();
+            }
         }
     }
 

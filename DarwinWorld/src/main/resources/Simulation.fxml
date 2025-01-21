@@ -13,6 +13,7 @@
         <VBox spacing="15">
             <VBox>
                 <Label text="General Statistics:" style="-fx-font-size: 30px;"/>
+                <Label style="-fx-font-size: 15px;" fx:id="day" text="Current day: "/>
                 <Label style="-fx-font-size: 15px;" fx:id="animalsCount" text="Total number of animals: "/>
                 <Label style="-fx-font-size: 15px;" fx:id="grassCount" text="Total number of plants: "/>
                 <Label style="-fx-font-size: 15px;" fx:id="freeFields" text="Number of free fields: "/>
