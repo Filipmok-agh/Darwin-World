@@ -44,13 +44,13 @@ public class StatsManager {
 
             writer.write(
                     map.getDay() + ";" +
-                            map.getAnimalsCount() + ";" +
-                            map.getGrassCount() + ";" +
-                            map.getFreeFields() + ";" +
-                            ((int) Math.round(map.getAvgAnimalEnergy())) + ";" +
-                            ((int) Math.round(map.getAvgDaysAlive())) + ";" +
-                            ((int) Math.round(map.getAvgChildCount())) + ";" +
-                            map.getMostPopularGen().toString().replace(",", " ") + "\n"
+                        map.getAnimalsCount() + ";" +
+                        map.getGrassCount() + ";" +
+                        map.getFreeFields() + ";" +
+                        String.format("%.3f", (map.getAvgAnimalEnergy())) + ";" +
+                        String.format("%.3f",(map.getAvgDaysAlive())) + ";" +
+                        String.format("%.3f", (map.getAvgChildCount())) + ";" +
+                        map.getMostPopularGen().toString().replace(",", " ") + "\n"
             );
         } catch (IOException e) {
             e.printStackTrace();

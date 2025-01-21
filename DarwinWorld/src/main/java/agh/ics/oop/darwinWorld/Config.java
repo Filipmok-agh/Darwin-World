@@ -2,8 +2,7 @@ package agh.ics.oop.darwinWorld;
 
 public class Config {
 
-    public int dailyEnergyCost = 5;
-
+    public int dailyEnergyCost;
     public int mapHeight;
     public int mapWidth;
     public int initialPlantCount;
@@ -19,6 +18,7 @@ public class Config {
     public boolean geneSwap;
     public int genomeLength;
     public boolean saveStats;
+    public int refreshRate;
 
     public Config() {}
 
@@ -41,6 +41,7 @@ public class Config {
                 ", geneSwap=" + geneSwap +
                 ", genomeLength=" + genomeLength +
                 ", saveStats=" + saveStats +
+                ", refreshRate=" + refreshRate +
                 '}';
     }
 }

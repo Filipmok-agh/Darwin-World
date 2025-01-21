@@ -35,7 +35,7 @@
             </VBox>
             <VBox spacing="15" alignment="CENTER">
                 <Button text="Show animals with most popular gene" fx:id="geneButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
-                <Button text="Switch visibility jungle" fx:id="greenButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
+                <Button text="Switch jungle tiles visibility" fx:id="greenButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
             </VBox>
             <VBox alignment="CENTER">
                 <Button text="Stop" fx:id="runButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>

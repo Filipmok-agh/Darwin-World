@@ -15,7 +15,7 @@ public class CSVManager {
             System.out.println("Plik nie istnieje, próbuję go utworzyć...");
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-                writer.println("ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap");
+                writer.println("ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap,dailyEnergyCost");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -92,7 +92,8 @@ public class CSVManager {
                     config.minMutations + "," +
                     config.maxMutations + "," +
                     config.lifeGivingCorpses + "," +
-                    config.geneSwap;
+                    config.geneSwap + "," +
+                    config.dailyEnergyCost;
             writer.println(row);
             return true;
         } catch (IOException e) {

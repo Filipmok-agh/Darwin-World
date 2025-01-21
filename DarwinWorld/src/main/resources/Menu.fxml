@@ -6,7 +6,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.ics.oop.darwinWorld.UI.MenuPresenter"
-            minHeight="550.0" minWidth="850.0" stylesheets="Menu.css">
+            minHeight="600.0" minWidth="850.0" stylesheets="Menu.css">
 
     <top>
         <VBox>
@@ -54,6 +54,12 @@
                 <Label text="Maksymalna liczba mutacji"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="4" fx:id="maxMutationsID"/>
             </HBox>
+            <HBox>
+                <Label text="Energia używana każdego dnia"/>
+                <Spinner min="1" max="1000" editable="true" initialValue="5" fx:id="dailyEnergyCostID"/>
+                <Label text="Częstotliwość zmian"/>
+                <Spinner min="30" max="5000" editable="true" initialValue="50" fx:id="refreshRateID"/>
+            </HBox>
             <Label text="Ustawienia dodatkowe: " styleClass="title3"/>
             <HBox>
                 <Label text="Życiodajne truchła" styleClass="additional1"/>
@@ -61,7 +67,6 @@
                 <Label text="Podmianka" styleClass="additional2"/>
                 <CheckBox fx:id="geneSwapID"/>
             </HBox>
-
         </VBox>
     </center>
     <bottom>

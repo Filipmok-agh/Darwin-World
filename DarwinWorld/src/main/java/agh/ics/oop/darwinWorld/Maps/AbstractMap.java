@@ -185,6 +185,10 @@ public abstract class AbstractMap implements WorldMap {
     public void spawnGrass(Integer amount) {
         int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
         int steppeGrass = (int) Math.floor((double) amount / 5) ;
+        while (this.steppePositions.size() < steppeGrass*5) {
+            jungleGrass += (int) Math.ceil((double) steppeGrass/5);
+            steppeGrass -= (int) Math.ceil((double) steppeGrass/5);
+        }
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }

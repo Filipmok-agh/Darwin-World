@@ -34,6 +34,8 @@ public class MenuPresenter {
     @FXML private Spinner<Integer> maxMutationsID;
     @FXML private CheckBox lifeGivingCorpsesID;
     @FXML private CheckBox geneSwapID;
+    @FXML private Spinner<Integer> dailyEnergyCostID;
+    @FXML private Spinner<Integer> refreshRateID;
 
     private Config config = new Config();
     private final ExecutorService threadPool = Executors.newCachedThreadPool();
@@ -74,6 +76,7 @@ public class MenuPresenter {
             maxMutationsID.getValueFactory().setValue(config.maxMutations);
             lifeGivingCorpsesID.setSelected(config.lifeGivingCorpses);
             geneSwapID.setSelected(config.geneSwap);
+            dailyEnergyCostID.getValueFactory().setValue(config.dailyEnergyCost);
         });
     }
 
@@ -113,6 +116,8 @@ public class MenuPresenter {
             config.lifeGivingCorpses = lifeGivingCorpsesID.isSelected();
             config.geneSwap = geneSwapID.isSelected();
             config.saveStats = statSaveBoxID.isSelected();
+            config.refreshRate = refreshRateID.getValue();
+            config.dailyEnergyCost = dailyEnergyCostID.getValue();
 
             boolean saveBox = saveBoxID.isSelected();
             int saveNumber = saveNumberID.getValue();

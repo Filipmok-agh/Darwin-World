@@ -145,7 +145,7 @@ public class SimulationPresenter {
             }
         }
         if (!simulationStopped) {
-            PauseTransition pause = new PauseTransition(Duration.millis(60));  // Adjust the duration as needed
+            PauseTransition pause = new PauseTransition(Duration.millis(config.refreshRate));
             pause.setOnFinished(event -> updateMap());
             pause.play();
         }
