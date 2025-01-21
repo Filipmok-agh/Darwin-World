@@ -3,6 +3,7 @@ package agh.ics.oop.darwinWorld.Elements;
 import agh.ics.oop.darwinWorld.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import javafx.scene.paint.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,7 +19,7 @@ class AnimalTest
         config.mapHeight = 10;
         config.mapWidth = 10;
         config.initialPlantCount = 20;
-        config.plantEnergy = 50;
+        config.plantEnergy = 5;
         config.dailyPlantGrowth = 5;
         config.lifeGivingCorpses = false;
         config.initialAnimalCount = 5;
@@ -69,10 +70,16 @@ class AnimalTest
 
     @Test
     void testIsStronger() {
-        Animal weakerAnimal = new Animal(new Vector2d(6, 6), config);
-        weakerAnimal.move(); // Reduce energy by daily cost
+        Animal otherAnimal = new Animal(new Vector2d(5, 5), config);
 
-        assertTrue(animal.isStronger(weakerAnimal));
+        otherAnimal.eat();
+        assertFalse(animal.isStronger(otherAnimal));
+
+        animal.eat();
+        animal.move();
+        animal.eat();
+        animal.eat();
+        assertTrue(animal.isStronger(otherAnimal));
     }
 
     @Test
@@ -83,4 +90,18 @@ class AnimalTest
         assertEquals(2, animal.getDescendantsAmount());
     }
 
+    @Test
+    void testHighlightAndColor() {
+        animal.setHighlight(true);
+        assertEquals(Color.BLACK, animal.getColor());
+
+        animal.setHighlight(false);
+        animal.eat();
+        assertNotEquals(Color.BLACK, animal.getColor());
+    }
+
+    @Test
+    void testGetFuneralDay() {
+        assertEquals(0, animal.getFuneralDay());
+    }
 }
