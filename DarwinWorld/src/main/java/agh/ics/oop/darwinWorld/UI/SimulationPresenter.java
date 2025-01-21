@@ -33,6 +33,7 @@ public class SimulationPresenter {
     private boolean simulationStopped = false;
     private Animal selectedAnimal = null;
     private String uniqueId = UUID.randomUUID().toString();
+    private StatsManager statsManager;
     @FXML
     private GridPane mapGrid;
     @FXML
@@ -87,6 +88,7 @@ public class SimulationPresenter {
         this.gridsize = Math.min(900 / config.mapHeight, 1600 / config.mapWidth);
         this.map = (config.lifeGivingCorpses) ? new CorpseMap(config) : new JungleMap(config);
         map.spawnGrass(config.initialPlantCount);
+        this.statsManager = new StatsManager(this.map, uniqueId);
         drawGrid();
 
         runButton.setOnAction(event -> toggleSimulation());
@@ -200,32 +202,30 @@ public class SimulationPresenter {
     }
 
     private void drawStats() {
-        day.setText("Current day: " + map.getDay());
-        animalsCount.setText("Total number of animals: " + map.getAnimalsCount());
-        grassCount.setText("Total number of plants: " + map.getGrassCount());
-        freeFields.setText("Number of free fields: " + map.getFreeFields());
-        avgAnimalEnergy.setText("Average energy level: " + (int) Math.round(map.getAvgAnimalEnergy()));
-        avgDaysAlive.setText("Average days alive: " + (int) Math.round(map.getAvgDaysAlive()));
-        avgChildCount.setText("Average number of children: " + (int) Math.round(map.getAvgChildCount()));
-        mostPopularGen.setText("Most popular genotype: " + map.getMostPopularGen().toString());
+        day.setText(statsManager.getCurrentDay());
+        animalsCount.setText(statsManager.getAnimalsCount());
+        grassCount.setText(statsManager.getGrassCount());
+        freeFields.setText(statsManager.getFreeFields());
+        avgAnimalEnergy.setText(statsManager.getAvgAnimalEnergy());
+        avgDaysAlive.setText(statsManager.getAvgDaysAlive());
+        avgChildCount.setText(statsManager.getAvgChildCount());
+        mostPopularGen.setText(statsManager.getMostPopularGen());
     }
 
     private void drawAnimalStats() {
         if (selectedAnimal != null) {
-            obsGens.setText("Genome: " + selectedAnimal.getGenes().getGenes().toString());
-            obsCurrGen.setText("Current Gene: " + selectedAnimal.getGenes().getCurrentGene());
-            obsEnergy.setText("Energy amount: " + selectedAnimal.getEnergy());
-            obsGrassCount.setText("Number of plants eaten: " + selectedAnimal.getEatenGrass());
-            obsChildCount.setText("Number of children: " + selectedAnimal.getChildrenAmount());
-            obsDescendantsCount.setText("Number of descendants: " + selectedAnimal.getDescendantsAmount());
-            obsDaysAlive.setText("Days Alive: " + selectedAnimal.getDaysAlive());
-            if (selectedAnimal.getEnergy() > 0) {
-                obsFuneralDay.setText("Funeral Day: -");
-            } else {
-                obsFuneralDay.setText("Funeral Day: " + selectedAnimal.getFuneralDay());
-            }
+            statsManager.setAnimal(selectedAnimal);
+            obsGens.setText(statsManager.getGenome());
+            obsCurrGen.setText(statsManager.getCurrentGene());
+            obsEnergy.setText(statsManager.getEnergy());
+            obsGrassCount.setText(statsManager.getPlantsEaten());
+            obsChildCount.setText(statsManager.getChildrenCount());
+            obsDescendantsCount.setText(statsManager.getDescendantsCount());
+            obsDaysAlive.setText(statsManager.getDaysAlive());
+            obsFuneralDay.setText(statsManager.getFuneralDay());
         }
     }
+
 
     private void toggleSimulation() {
         simulationStopped = !simulationStopped;
@@ -265,39 +265,8 @@ public class SimulationPresenter {
         drawStats();
         drawAnimalStats();
         if (config.saveStats) {
-            saveStatsToCSV();
+            statsManager.saveStatsToCSV();
         }
     }
 
-    private void saveStatsToCSV() {
-        Path statsDir = Paths.get("DarwinWorld/src/main/resources/simulation_stats");
-        try {
-            if (!Files.exists(statsDir)) {
-                Files.createDirectory(statsDir);
-            }
-
-            String filename = "simulation_stats_" + uniqueId + ".csv";
-            Path filePath = statsDir.resolve(filename);
-            FileWriter writer = new FileWriter(filePath.toFile(), true);
-
-            if (Files.size(filePath) == 0) {
-                writer.write("Day,AnimalsCount,GrassCount,FreeFields,AvgAnimalEnergy,AvgDaysAlive,AvgChildCount,MostPopularGen\n");
-            }
-
-            writer.write(
-                    map.getDay() + "," +
-                        map.getAnimalsCount() + "," +
-                        map.getGrassCount() + "," +
-                        map.getFreeFields() + "," +
-                        map.getAvgAnimalEnergy() + "," +
-                        map.getAvgDaysAlive() + "," +
-                        map.getAvgChildCount() + "," +
-                        map.getMostPopularGen().toString().replace(",", " ") + "\n"
-            );
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }
