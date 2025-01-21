@@ -80,13 +80,13 @@ class Vector2dTest {
     @Test
     void testGetX(){
         Vector2d v1 = new Vector2d(1,2);
-        assertEquals(1,v1.getX());
+        assertEquals(1,v1.x());
     }
 
     @Test
     void testGetY(){
         Vector2d v1 = new Vector2d(1,2);
-        assertEquals(2,v1.getY());
+        assertEquals(2,v1.y());
     }
 
     @Test
