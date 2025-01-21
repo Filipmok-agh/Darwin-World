@@ -1,6 +1,7 @@
 package agh.ics.oop.darwinWorld.UI;
 
 import agh.ics.oop.darwinWorld.Config;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -9,80 +10,142 @@ import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MenuPresenter {
-    @FXML
-    private Spinner<Integer> initialID;
-    @FXML
-    private Button loadButton;
-    @FXML
-    private Spinner<Integer> saveNumberID;
-    @FXML
-    private CheckBox saveBoxID;
-    @FXML
-    private Button startButton;
-    @FXML
-    private Spinner<Integer> mapHeightID;
-    @FXML
-    private Spinner<Integer> initialPlantCountID;
-    @FXML
-    private Spinner<Integer> mapWidthID;
-    @FXML
-    private Spinner<Integer> dailyPlantGrowthID;
-    @FXML
-    private Spinner<Integer> plantEnergyID;
-    @FXML
-    private Spinner<Integer> initialAnimalCountID;
-    @FXML
-    private Spinner<Integer> initialAnimalEnergyID;
-    @FXML
-    private Spinner<Integer> energyToBeFedID;
-    @FXML
-    private Spinner<Integer> parentEnergyCostID;
-    @FXML
-    private Spinner<Integer> genomeLengthID;
-    @FXML
-    private Spinner<Integer> minMutationsID;
-    @FXML
-    private Spinner<Integer> maxMutationsID;
-    @FXML
-    private CheckBox lifeGivingCorpsesID;
-    @FXML
-    private CheckBox geneSwapID;
+    @FXML private Spinner<Integer> initialID;
+    @FXML private Button loadButton;
+    @FXML private Spinner<Integer> saveNumberID;
+    @FXML private CheckBox saveBoxID;
+    @FXML private CheckBox statSaveBoxID;
+    @FXML private Button startButton;
+    @FXML private Spinner<Integer> mapHeightID;
+    @FXML private Spinner<Integer> initialPlantCountID;
+    @FXML private Spinner<Integer> mapWidthID;
+    @FXML private Spinner<Integer> dailyPlantGrowthID;
+    @FXML private Spinner<Integer> plantEnergyID;
+    @FXML private Spinner<Integer> initialAnimalCountID;
+    @FXML private Spinner<Integer> initialAnimalEnergyID;
+    @FXML private Spinner<Integer> energyToBeFedID;
+    @FXML private Spinner<Integer> parentEnergyCostID;
+    @FXML private Spinner<Integer> genomeLengthID;
+    @FXML private Spinner<Integer> minMutationsID;
+    @FXML private Spinner<Integer> maxMutationsID;
+    @FXML private CheckBox lifeGivingCorpsesID;
+    @FXML private CheckBox geneSwapID;
+
+    private Config config = new Config();
+    private final ExecutorService threadPool = Executors.newCachedThreadPool();
 
     private void showError(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Błąd konfiguracji");
-        alert.setHeaderText("Nieprawidłowe ustawienia");
-        alert.setContentText(message);
-        alert.showAndWait();
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Błąd konfiguracji");
+            alert.setHeaderText("Nieprawidłowe ustawienia");
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
-    private void showAllert(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Alert");
-        alert.setHeaderText("Dane");
-        alert.setContentText(message);
-        alert.showAndWait();
+    private void showAlert(String message) {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Alert");
+            alert.setHeaderText("Dane");
+            alert.setContentText(message);
+            alert.showAndWait();
+        });
     }
 
     private void fillUIFromConfig() {
-        mapHeightID.getValueFactory().setValue(Config.mapHeight);
-        mapWidthID.getValueFactory().setValue(Config.mapWidth);
-        initialPlantCountID.getValueFactory().setValue(Config.initialPlantCount);
-        dailyPlantGrowthID.getValueFactory().setValue(Config.dailyPlantGrowth);
-        plantEnergyID.getValueFactory().setValue(Config.plantEnergy);
-        initialAnimalCountID.getValueFactory().setValue(Config.initialAnimalCount);
-        initialAnimalEnergyID.getValueFactory().setValue(Config.initialAnimalEnergy);
-        energyToBeFedID.getValueFactory().setValue(Config.energyToBeFed);
-        parentEnergyCostID.getValueFactory().setValue(Config.parentEnergyCost);
-        genomeLengthID.getValueFactory().setValue(Config.genomeLength);
-        minMutationsID.getValueFactory().setValue(Config.minMutations);
-        maxMutationsID.getValueFactory().setValue(Config.maxMutations);
-        lifeGivingCorpsesID.setSelected(Config.lifeGivingCorpses);
-        geneSwapID.setSelected(Config.geneSwap);
+        Platform.runLater(() -> {
+            mapHeightID.getValueFactory().setValue(config.mapHeight);
+            mapWidthID.getValueFactory().setValue(config.mapWidth);
+            initialPlantCountID.getValueFactory().setValue(config.initialPlantCount);
+            dailyPlantGrowthID.getValueFactory().setValue(config.dailyPlantGrowth);
+            plantEnergyID.getValueFactory().setValue(config.plantEnergy);
+            initialAnimalCountID.getValueFactory().setValue(config.initialAnimalCount);
+            initialAnimalEnergyID.getValueFactory().setValue(config.initialAnimalEnergy);
+            energyToBeFedID.getValueFactory().setValue(config.energyToBeFed);
+            parentEnergyCostID.getValueFactory().setValue(config.parentEnergyCost);
+            genomeLengthID.getValueFactory().setValue(config.genomeLength);
+            minMutationsID.getValueFactory().setValue(config.minMutations);
+            maxMutationsID.getValueFactory().setValue(config.maxMutations);
+            lifeGivingCorpsesID.setSelected(config.lifeGivingCorpses);
+            geneSwapID.setSelected(config.geneSwap);
+        });
     }
 
+    private void validateAndStartSimulation() {
+        try {
+            int mapHeight = mapHeightID.getValue();
+            if (mapHeight < 5) throw new IllegalArgumentException("Wysokość mapy musi wynosić co najmniej 5");
+            int mapWidth = mapWidthID.getValue();
+            if (mapWidth < 5) throw new IllegalArgumentException("Szerokość mapy musi wynosić co najmniej 5");
+            int initialPlantCount = initialPlantCountID.getValue();
+            if (initialPlantCount > mapHeight * mapWidth)
+                throw new IllegalArgumentException("Startowa ilość roślin jest większa niż ilość wszystkich pól");
+            int dailyPlantGrowth = dailyPlantGrowthID.getValue();
+            if (dailyPlantGrowth > mapHeight * mapWidth)
+                throw new IllegalArgumentException("Ilość roślin wyrastająca każdego dnia jest większa niż ilość wszystkich pól");
+            int parentEnergyCost = parentEnergyCostID.getValue();
+            int energyToBeFed = energyToBeFedID.getValue();
+            if (parentEnergyCost > energyToBeFed)
+                throw new IllegalArgumentException("Koszt energii stworzenia potomka jest większy niż energia potrzebna do romnażania się");
+            int minMutations = minMutationsID.getValue();
+            int maxMutations = maxMutationsID.getValue();
+            if (minMutations > maxMutations)
+                throw new IllegalArgumentException("Minimalna ilość mutacji jest większa od maksymalnej ilości mutacji");
+
+            config.mapHeight = mapHeight;
+            config.mapWidth = mapWidth;
+            config.initialPlantCount = initialPlantCount;
+            config.dailyPlantGrowth = dailyPlantGrowth;
+            config.plantEnergy = plantEnergyID.getValue();
+            config.initialAnimalCount = initialAnimalCountID.getValue();
+            config.initialAnimalEnergy = initialAnimalEnergyID.getValue();
+            config.energyToBeFed = energyToBeFed;
+            config.parentEnergyCost = parentEnergyCost;
+            config.genomeLength = genomeLengthID.getValue();
+            config.minMutations = minMutations;
+            config.maxMutations = maxMutations;
+            config.lifeGivingCorpses = lifeGivingCorpsesID.isSelected();
+            config.geneSwap = geneSwapID.isSelected();
+            config.saveStats = statSaveBoxID.isSelected();
+
+            boolean saveBox = saveBoxID.isSelected();
+            int saveNumber = saveNumberID.getValue();
+
+
+            if (saveBox) {
+                CSVManager manager = new CSVManager();
+                manager.setConfig(config);
+                if (!manager.saveConfig(saveNumber))
+                    throw new IllegalArgumentException("Podane ID jest już zajęte");
+                showAlert("Dane zapisane poprawnie");
+                saveBoxID.setSelected(false);
+            }
+
+            threadPool.execute(() -> {
+                try {
+                    Platform.runLater(() -> {
+                        try {
+                            new SimulationApp(config).start(new Stage());
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        } catch (IllegalArgumentException e) {
+            showError(e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @FXML
     void initialize() {
@@ -91,9 +154,9 @@ public class MenuPresenter {
             try {
                 boolean loaded = manager.loadConfig(initialID.getValue());
                 if (loaded) {
-
+                    config = manager.getConfig();
                     fillUIFromConfig();
-                    showAllert("Dane załadowane poprawnie");
+                    showAlert("Dane załadowane poprawnie");
                 } else {
                     showError("Podane ID nie istnieje");
                 }
@@ -101,91 +164,11 @@ public class MenuPresenter {
                 throw new RuntimeException(e);
             }
         });
-        startButton.setOnAction(event -> {
-            int mapHeight = mapHeightID.getValue();
-            if (mapHeight < 5) {
-                showError("Wysokość mapy musi wynosić co najmniej 5");
-                return;
-            }
-            int mapWidth = mapWidthID.getValue();
-            if (mapWidth < 5) {
-                showError("Szerokość mapy musi wynosić co najmniej 5");
-            }
-            int initialPlantCount = initialPlantCountID.getValue();
-            if (initialPlantCount > mapHeight * mapWidth) {
-                showError("Startowa ilość roślin jest większa niż ilość wszystkich pól");
-                return;
-            }
-            int dailyPlantGrowth = dailyPlantGrowthID.getValue();
-            if (dailyPlantGrowth > mapHeight * mapWidth) {
-                showError("Ilość roślin wyrastająca każdego dnia jest większa niż ilość wszystkich pól");
-                return;
-            }
-            int plantEnergy = plantEnergyID.getValue();
-            int initialAnimalCount = initialAnimalCountID.getValue();
-            int initialAnimalEnergy = initialAnimalEnergyID.getValue();
-            int energyToBeFed = energyToBeFedID.getValue();
-            int parentEnergyCost = parentEnergyCostID.getValue();
-            if (parentEnergyCost > energyToBeFed) {
-                showError("Koszt energii stworzenia potomka jest większy niż energia potrzebna do romnażania się");
-                return;
-            }
-            int genomeLength = genomeLengthID.getValue();
-            int minMutations = minMutationsID.getValue();
-            int maxMutations = maxMutationsID.getValue();
-            if (minMutations > maxMutations) {
-                showError("Minimalna ilość mutacji jest większa od maksymalnej ilości mutacji");
-                return;
-            }
-            boolean lifeGivingCorpses = lifeGivingCorpsesID.isSelected();
-            boolean geneSwap = geneSwapID.isSelected();
-            boolean saveBox = saveBoxID.isSelected();
-            int saveNumber = saveNumberID.getValue();
 
-
-            Config.mapHeight = mapHeight;
-            Config.mapWidth = mapWidth;
-            Config.initialPlantCount = initialPlantCount;
-            Config.dailyPlantGrowth = dailyPlantGrowth;
-            Config.plantEnergy = plantEnergy;
-            Config.initialAnimalCount = initialAnimalCount;
-            Config.initialAnimalEnergy = initialAnimalEnergy;
-            Config.energyToBeFed = energyToBeFed;
-            Config.parentEnergyCost = parentEnergyCost;
-            Config.genomeLength = genomeLength;
-            Config.minMutations = minMutations;
-            Config.maxMutations = maxMutations;
-            Config.lifeGivingCorpses = lifeGivingCorpses;
-            Config.geneSwap = geneSwap;
-
-            if (saveBox) {
-                CSVManager manager = new CSVManager();
-                try {
-                    boolean saved = manager.saveConfig(saveNumber);
-                    if (saved) {
-                        fillUIFromConfig();
-                        Stage stage = (Stage) startButton.getScene().getWindow();
-                        stage.close();
-                        showAllert("Dane zapisane poprawnie");
-                        showAllert("Symulacja rozpoczęta");
-                        new SimulationApp().start(new Stage());
-                    } else {
-                        showError("Podane ID jest już zajęte");
-                    }
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                Stage stage = (Stage) startButton.getScene().getWindow();
-                stage.close();
-                showAllert("Symulacja rozpoczęta");
-                try {
-                    new SimulationApp().start(new Stage());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+        startButton.setOnAction(event -> validateAndStartSimulation());
     }
 
+    public void shutdownThreadPool() {
+        threadPool.shutdown();
+    }
 }

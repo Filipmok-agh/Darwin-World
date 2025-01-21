@@ -1,6 +1,5 @@
-package agh.ics.oop.darwinWorld;
+package agh.ics.oop.darwinWorld.Elements;
 
-import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import agh.ics.oop.darwinWorld.Maps.MapDirection;
 import org.junit.jupiter.api.Test;
 

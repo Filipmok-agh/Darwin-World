@@ -1,42 +1,74 @@
 package agh.ics.oop.darwinWorld.Maps;
 
+import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Elements.Grass;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
-import agh.ics.oop.darwinWorld.Elements.WorldElement;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static agh.ics.oop.darwinWorld.Config.*;
 
 public abstract class AbstractMap implements WorldMap {
     protected int day;
-    public LinkedList<Animal> animals;
-    public LinkedList<Animal> animalsHistory;
+    protected LinkedList<Animal> animals;
+    protected LinkedList<Animal> animalsHistory;
     protected HashMap<Vector2d, Grass> grasses;
     protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
-    ArrayList<Vector2d> junglePositions = new ArrayList<>();
-    ArrayList<Vector2d> steppePositions;
+    protected ArrayList<Vector2d> junglePositions = new ArrayList<>();
+    protected ArrayList<Vector2d> steppePositions;
+    protected Config config;
+    private double avgAnimalEnergy;
+    protected double avgDaysAlive=0;
+    private double avgChildCount=0;
+    private ArrayList<Integer> mostPopularGen;
 
-    public AbstractMap() {
+
+    public AbstractMap(Config config) {
+        this.config = config;
         this.day = 0;
         this.animalsHistory = new LinkedList<>();
         this.animals = new LinkedList<>();
         this.grasses = new HashMap<>();
         this.dailyAnimals = new HashMap<>();
+        this.avgAnimalEnergy = config.initialAnimalEnergy;
+        addInitialAnimals();
     }
 
-    public void addInitialAnimals() {
-        Random random = new Random();
-        for (int i = 0; i < initialAnimalCount; i++) {
-            int randomX = random.nextInt(mapWidth-1);
-            int randomY = random.nextInt(mapHeight-1);
-            Vector2d position = new Vector2d(randomX, randomY);
-            Animal animal = new Animal(position);
-            this.animals.add(animal);
-            this.animalsHistory.add(animal);
-        }
+    public int getDay() {
+        return this.day;
+    }
+
+    public int getAnimalsCount() {
+        return this.animals.size();
+    }
+
+    @Override
+    public int getGrassCount() {
+        return this.grasses.size();
+    }
+
+    @Override
+    public int getFreeFields() {
+        return (config.mapHeight) * (config.mapWidth) - this.grasses.size();
+    }
+
+    @Override
+    public double getAvgAnimalEnergy() {
+        return this.avgAnimalEnergy;
+    }
+
+    @Override
+    public double getAvgDaysAlive() {
+        return this.avgDaysAlive;
+    }
+
+    @Override
+    public double getAvgChildCount() {
+        return this.avgChildCount;
+    }
+
+    @Override
+    public ArrayList<Integer> getMostPopularGen() {
+        return this.mostPopularGen;
     }
 
     @Override
@@ -54,18 +86,61 @@ public abstract class AbstractMap implements WorldMap {
         return grasses;
     }
 
+    private void addInitialAnimals() {
+        Random random = new Random();
+        Map<ArrayList<Integer>, Integer> geneFrequencyMap = new HashMap<>();
+        for (int i = 0; i < config.initialAnimalCount; i++) {
+            int randomX = random.nextInt(config.mapWidth-1);
+            int randomY = random.nextInt(config.mapHeight-1);
+            Vector2d position = new Vector2d(randomX, randomY);
+            Animal animal = new Animal(position,config);
+            ArrayList<Integer> gene = animal.getGenes().getGenes();
+            geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
+            this.animals.add(animal);
+            this.animalsHistory.add(animal);
+        }
+        int maxCount = Collections.max(geneFrequencyMap.values());
+        for (Map.Entry<ArrayList<Integer>, Integer> entry : geneFrequencyMap.entrySet()) {
+            if (entry.getValue() == maxCount) {
+                this.mostPopularGen = entry.getKey();
+            }
+        }
+    }
+
     public abstract void removeDeadAnimals();
 
     public void animalsMovement() {
         this.day++;
         this.dailyAnimals = new HashMap<>();
-        for (Animal animal : animals) {
-            animal.move();
-            if (dailyAnimals.containsKey(animal.getPosition())) {
-                addAnimal(dailyAnimals.get(animal.getPosition()), animal);
-            } else {
-                dailyAnimals.put(animal.getPosition(), new LinkedList<>(List.of(animal)));
+        double sumOfAnimalEnergy = 0;
+        double sumOfChildrenCount = 0;
+        Map<ArrayList<Integer>, Integer> geneFrequencyMap = new HashMap<>();
+        if (!animals.isEmpty()) {
+            for (Animal animal : animals) {
+                ArrayList<Integer> gene = animal.getGenes().getGenes();
+                geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
+                sumOfAnimalEnergy += animal.getEnergy();
+                sumOfChildrenCount += animal.getChildrenAmount();
+                animal.move();
+                if (dailyAnimals.containsKey(animal.getPosition())) {
+                    addAnimal(dailyAnimals.get(animal.getPosition()), animal);
+                } else {
+                    dailyAnimals.put(animal.getPosition(), new LinkedList<>(List.of(animal)));
+                }
             }
+            this.avgAnimalEnergy=sumOfAnimalEnergy/animals.size();
+            this.avgChildCount=sumOfChildrenCount/animals.size();
+            int maxCount = Collections.max(geneFrequencyMap.values());
+            this.mostPopularGen = new ArrayList<>();
+            for (Map.Entry<ArrayList<Integer>, Integer> entry : geneFrequencyMap.entrySet()) {
+                if (entry.getValue() == maxCount) {
+                    this.mostPopularGen = entry.getKey();
+                }
+            }
+        }
+        else{
+            this.avgAnimalEnergy=0;
+            this.avgChildCount=0;
         }
     }
 
@@ -86,7 +161,7 @@ public abstract class AbstractMap implements WorldMap {
             for (int i = 0; i < potentialPairs; i++) {
                 Animal parent1 = animalsAtThisPosition.get(2 * i);
                 Animal parent2 = animalsAtThisPosition.get(2 * i + 1);
-                if (parent1.getEnergy() >= energyToBeFed && parent2.getEnergy() >= energyToBeFed) {
+                if (parent1.getEnergy() >= config.energyToBeFed && parent2.getEnergy() >= config.energyToBeFed) {
                     Animal child = parent1.breeding(parent2);
                     this.animals.add(child);
                     this.animalsHistory.add(child);
@@ -115,12 +190,12 @@ public abstract class AbstractMap implements WorldMap {
 
     public void spawnGrass(Integer amount) {
         int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
-        int steppeGrass = amount / 5;
+        int steppeGrass = (int) Math.floor((double) amount / 5) ;
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
 
-    protected void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
+    private void addAnimal(LinkedList<Animal> animalsAtPosition, Animal animal) {
         boolean inserted = false;
         for (int i = 0; i < animalsAtPosition.size(); i++) {
             if (animal.isStronger(animalsAtPosition.get(i))) {

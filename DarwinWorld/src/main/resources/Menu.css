@@ -20,17 +20,17 @@ Button{
     -fx-font-size: 18;
 }
 .title1 {
-    -fx-pref-width: 270;
+    -fx-pref-width: 280;
     -fx-font-size: 30;
     -fx-padding: 10;
 }
 .title2 {
-    -fx-pref-width: 360;
+    -fx-pref-width: 380;
     -fx-font-size: 30;
     -fx-padding: 10;
 }
 .title3 {
-    -fx-pref-width: 350;
+    -fx-pref-width: 360;
     -fx-font-size: 30;
     -fx-padding: 10;
 }
@@ -44,5 +44,9 @@ Button{
 }
 .additional3
 {
-    -fx-pref-width: 50;
+    -fx-pref-width: 140;
+}
+.additional4
+{
+    -fx-pref-width: 130;
 }

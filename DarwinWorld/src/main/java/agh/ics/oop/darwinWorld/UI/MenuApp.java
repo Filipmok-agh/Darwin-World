@@ -1,8 +1,18 @@
 package agh.ics.oop.darwinWorld.UI;
 
-public class MenuApp extends BaseApp {
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class MenuApp extends Application {
     @Override
-    protected String getFxmlFileName() {
-        return "Menu.fxml";
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("Menu.fxml"));
+        Parent root = loader.load();
+        primaryStage.setTitle("Darwin World");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
     }
 }
