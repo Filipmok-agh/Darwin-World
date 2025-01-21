@@ -20,9 +20,7 @@ public class Config {
     public int genomeLength;
     public boolean saveStats;
 
-    public Config()
-    {
-    }
+    public Config() {}
 
     @Override
     public String toString() {
