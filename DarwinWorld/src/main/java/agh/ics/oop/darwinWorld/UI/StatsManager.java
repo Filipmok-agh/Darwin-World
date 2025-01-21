@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Map;
 
 public class StatsManager {
     private final Path statsDirectory;
@@ -87,7 +86,7 @@ public class StatsManager {
     }
 
     public String getMostPopularGen() {
-        return "Most popular genotype: " + map.getMostPopularGen().toString();
+        return "Most popular genotype: \n" + map.getMostPopularGen().toString();
     }
 
     public String getGenome() {

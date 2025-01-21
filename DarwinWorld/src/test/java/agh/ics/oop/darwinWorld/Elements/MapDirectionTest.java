@@ -1,6 +1,6 @@
 package agh.ics.oop.darwinWorld.Elements;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,7 +17,7 @@ class MapDirectionTest {
         MapDirection east = MapDirection.EAST;
         MapDirection north_east = MapDirection.NORTH_EAST;
 
-        assertEquals(north.toUnitVector(),new Vector2d(0,1));
+        Assertions.assertEquals(north.toUnitVector(),new Vector2d(0,1));
         assertEquals(north_east.toUnitVector(),new Vector2d(1,1));
         assertEquals(west.toUnitVector(),new Vector2d(-1,0));
         assertEquals(south.toUnitVector(),new Vector2d(0,-1));

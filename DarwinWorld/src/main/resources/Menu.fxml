@@ -26,7 +26,7 @@
             </HBox>
             <HBox>
                 <Label text="Startowa liczba roślin"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="70" fx:id="initialPlantCountID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="500" fx:id="initialPlantCountID"/>
                 <Label text="Liczba roślin wyrastająca każdego dnia"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="dailyPlantGrowthID"/>
             </HBox>
@@ -46,7 +46,7 @@
                 <Label text="Energia zużywana przy rozmnażaniu"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="40" fx:id="parentEnergyCostID"/>
                 <Label text="Długość genomu zwierzaków"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="10" fx:id="genomeLengthID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="4" fx:id="genomeLengthID"/>
             </HBox>
             <HBox>
                 <Label text="Minimalna liczba mutacji"/>

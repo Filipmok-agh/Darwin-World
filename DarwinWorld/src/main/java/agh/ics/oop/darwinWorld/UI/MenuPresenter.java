@@ -148,7 +148,7 @@ public class MenuPresenter {
     }
 
     @FXML
-    void initialize() {
+    private void initialize() {
         loadButton.setOnAction(event -> {
             CSVManager manager = new CSVManager();
             try {

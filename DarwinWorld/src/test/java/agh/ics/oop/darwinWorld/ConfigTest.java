@@ -1,5 +1,5 @@
-import agh.ics.oop.darwinWorld.Config;
-import org.junit.jupiter.api.BeforeEach;
+package agh.ics.oop.darwinWorld;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

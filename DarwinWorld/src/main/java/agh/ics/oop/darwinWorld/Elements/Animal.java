@@ -160,10 +160,10 @@ public class Animal {
             return Color.BLACK;
         }
         double daysLeft = (double) energy / config.dailyEnergyCost;
-        if (daysLeft > 30) {
+        if (daysLeft > 50) {
             return Color.CYAN;
         }
-        int green = (int) (255 * Math.max(0.0, Math.min(1, (daysLeft / 30))));
+        int green = (int) (255 * Math.max(0.0, Math.min(1, (daysLeft / 50))));
         return Color.rgb(255, green, 0);
     }
 }

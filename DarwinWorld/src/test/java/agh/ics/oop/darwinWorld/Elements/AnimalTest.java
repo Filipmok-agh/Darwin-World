@@ -1,9 +1,8 @@
 package agh.ics.oop.darwinWorld.Elements;
 
+import agh.ics.oop.darwinWorld.Config;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import agh.ics.oop.darwinWorld.Config;
-import agh.ics.oop.darwinWorld.Elements.Animal;
 
 import static org.junit.jupiter.api.Assertions.*;
 

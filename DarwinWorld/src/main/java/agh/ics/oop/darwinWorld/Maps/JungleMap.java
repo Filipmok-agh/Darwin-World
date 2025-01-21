@@ -21,7 +21,7 @@ public class JungleMap extends AbstractMap {
         this.steppePositions = steppePossiblePositions();
     }
 
-    public ArrayList<Vector2d> junglePossiblePositions() {
+    private ArrayList<Vector2d> junglePossiblePositions() {
         ArrayList<Vector2d> possiblePositions = new ArrayList<>();
         for (int i = this.lowerJungleBound; i < this.lowerJungleBound + lines; i++) {
             for (int j = 0; j < config.mapWidth; j++) {
@@ -31,8 +31,7 @@ public class JungleMap extends AbstractMap {
         return possiblePositions;
     }
 
-
-    public ArrayList<Vector2d> steppePossiblePositions() {
+    private ArrayList<Vector2d> steppePossiblePositions() {
         ArrayList<Vector2d> possiblePositions = new ArrayList<>();
         for (int i = 0; i < this.lowerJungleBound; i++) {
             for (int j = 0; j < config.mapWidth; j++) {

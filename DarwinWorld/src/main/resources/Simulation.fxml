@@ -10,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml"
             minHeight="900.0" minWidth="1900">
     <left>
-        <VBox spacing="15">
+        <VBox spacing="15" style="-fx-padding: 5px">
             <VBox>
                 <Label text="General Statistics:" style="-fx-font-size: 30px;"/>
                 <Label style="-fx-font-size: 15px;" fx:id="day" text="Current day: "/>
@@ -35,7 +35,7 @@
             </VBox>
             <VBox spacing="15" alignment="CENTER">
                 <Button text="Show animals with most popular gene" fx:id="geneButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
-                <Button text="Show preferred fields" fx:id="greenButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
+                <Button text="Switch visibility jungle" fx:id="greenButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
             </VBox>
             <VBox alignment="CENTER">
                 <Button text="Stop" fx:id="runButton" style="-fx-padding: 5px; -fx-font-size: 15px;"/>
