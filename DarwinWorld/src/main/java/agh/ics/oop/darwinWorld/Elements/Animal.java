@@ -1,7 +1,6 @@
 package agh.ics.oop.darwinWorld.Elements;
 
 import agh.ics.oop.darwinWorld.Config;
-import agh.ics.oop.darwinWorld.Maps.MapDirection;
 import javafx.scene.paint.Color;
 
 import java.util.*;

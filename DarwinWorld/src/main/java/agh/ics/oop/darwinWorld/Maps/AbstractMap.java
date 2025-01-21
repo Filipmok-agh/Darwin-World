@@ -8,27 +8,21 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import java.util.*;
 
 public abstract class AbstractMap implements WorldMap {
-    protected int day;
-    protected LinkedList<Animal> animals;
-    protected LinkedList<Animal> animalsHistory;
-    protected HashMap<Vector2d, Grass> grasses;
-    protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
+    protected int day = 0;
+    protected LinkedList<Animal> animals = new LinkedList<>();
+    protected LinkedList<Animal> animalsHistory = new LinkedList<>();
+    protected HashMap<Vector2d, Grass> grasses = new HashMap<>();
+    protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals = new HashMap<>();
     protected ArrayList<Vector2d> junglePositions = new ArrayList<>();
     protected ArrayList<Vector2d> steppePositions;
     protected Config config;
     private double avgAnimalEnergy;
-    protected double avgDaysAlive=0;
-    private double avgChildCount=0;
+    protected double avgDaysAlive = 0;
+    private double avgChildCount = 0;
     private ArrayList<Integer> mostPopularGen;
-
 
     public AbstractMap(Config config) {
         this.config = config;
-        this.day = 0;
-        this.animalsHistory = new LinkedList<>();
-        this.animals = new LinkedList<>();
-        this.grasses = new HashMap<>();
-        this.dailyAnimals = new HashMap<>();
         this.avgAnimalEnergy = config.initialAnimalEnergy;
         addInitialAnimals();
     }

@@ -1,9 +1,7 @@
 package agh.ics.oop.darwinWorld.Maps;
 
-
 import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
-
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -11,18 +9,14 @@ import java.util.stream.Collectors;
 
 
 public class JungleMap extends AbstractMap {
-    int lines;
-    int upperJungleBound;
-    int lowerJungleBound;
-    int jungleArea;
+    private final int lines;
+    private final int lowerJungleBound;
 
 
     public JungleMap(Config config) {
         super(config);
         this.lines = Math.round((float) config.mapHeight / 5);
         this.lowerJungleBound = (config.mapHeight - lines) / 2;
-        this.upperJungleBound = this.lowerJungleBound + this.lines;
-        this.jungleArea = (upperJungleBound - lowerJungleBound - 1) * config.mapWidth;
         this.junglePositions = junglePossiblePositions();
         this.steppePositions = steppePossiblePositions();
     }

@@ -10,15 +10,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Map;
 
-public class StatsManager
-{
+public class StatsManager {
     private final Path statsDirectory;
     private final String uniqueId;
     private final WorldMap map;
     private Animal animal;
 
-    public StatsManager(WorldMap map, String uniqueId)
-    {
+    public StatsManager(WorldMap map, String uniqueId) {
         this.map = map;
         this.uniqueId = uniqueId;
         this.statsDirectory = Paths.get("DarwinWorld/src/main/resources/simulation_stats");
@@ -36,8 +34,7 @@ public class StatsManager
         this.animal = animal;
     }
 
-    public void saveStatsToCSV()
-    {
+    public void saveStatsToCSV() {
         String filename = "simulation_stats_" + uniqueId + ".csv";
         Path filePath = statsDirectory.resolve(filename);
 
@@ -61,43 +58,35 @@ public class StatsManager
         }
     }
 
-    public String getCurrentDay()
-    {
+    public String getCurrentDay() {
         return "Current day: " + map.getDay();
     }
 
-    public String getAnimalsCount()
-    {
+    public String getAnimalsCount() {
         return "Total number of animals: " + map.getAnimalsCount();
     }
 
-    public String getGrassCount()
-    {
+    public String getGrassCount() {
         return "Total number of plants: " + map.getGrassCount();
     }
 
-    public String getFreeFields()
-    {
+    public String getFreeFields() {
         return "Number of free fields: " + map.getFreeFields();
     }
 
-    public String getAvgAnimalEnergy()
-    {
+    public String getAvgAnimalEnergy() {
         return "Average energy level: " + (int) Math.round(map.getAvgAnimalEnergy());
     }
 
-    public String getAvgDaysAlive()
-    {
+    public String getAvgDaysAlive() {
         return "Average days alive: " + (int) Math.round(map.getAvgDaysAlive());
     }
 
-    public String getAvgChildCount()
-    {
+    public String getAvgChildCount() {
         return "Average number of children: " + (int) Math.round(map.getAvgChildCount());
     }
 
-    public String getMostPopularGen()
-    {
+    public String getMostPopularGen() {
         return "Most popular genotype: " + map.getMostPopularGen().toString();
     }
 
