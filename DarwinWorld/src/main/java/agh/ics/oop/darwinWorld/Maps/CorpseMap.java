@@ -54,8 +54,5 @@ public class CorpseMap extends AbstractMap {
                 })
                 .filter(animal -> animal.getEnergy() >= config.dailyEnergyCost)
                 .collect(Collectors.toCollection(LinkedList::new));
-        if (deadAnimalsCount.get() > 0) {
-            super.avgDaysAlive = (super.avgDaysAlive * (animalsHistory.size() - deadAnimalsCount.get()) + totalDeadDaysCount.get()) / animalsHistory.size();
-        }
     }
 }

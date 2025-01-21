@@ -213,6 +213,7 @@ public class SimulationPresenter {
         drawGrid();
         drawStats();
         drawAnimalStats();
+        map.countAvgChildCountAndAvgLifeDuration();
         if (config.saveStats) {
             statsManager.saveStatsToCSV();
         }

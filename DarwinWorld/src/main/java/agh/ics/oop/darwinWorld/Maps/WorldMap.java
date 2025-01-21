@@ -38,4 +38,6 @@ public interface WorldMap {
     ArrayList<Integer> getMostPopularGen();
 
     int getDay();
+
+    void countAvgChildCountAndAvgLifeDuration();
 }
