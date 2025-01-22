@@ -98,8 +98,11 @@ public class MenuPresenter {
                 throw new IllegalArgumentException("The energy cost of creating offspring is greater than the energy needed for reproduction");
             int minMutations = minMutationsID.getValue();
             int maxMutations = maxMutationsID.getValue();
+            int genomeLength = genomeLengthID.getValue();
             if (minMutations > maxMutations)
                 throw new IllegalArgumentException("The minimum number of mutations is greater than the maximum number of mutations");
+            if (maxMutations > genomeLength)
+                throw new IllegalArgumentException("The maximum number of mutations is greater than the genome length");
 
             config.mapHeight = mapHeight;
             config.mapWidth = mapWidth;

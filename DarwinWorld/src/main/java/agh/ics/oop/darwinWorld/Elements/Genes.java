@@ -81,18 +81,20 @@ public class Genes {
 
     private void swapMutation() {
         Random random = new Random();
-        int randomIndex1 = random.nextInt(genomeLength);
+        int randomIndex1 = getIndex();
         int randomIndex2 = random.nextInt(genomeLength);
         int temp = this.genes.get(randomIndex1);
         this.genes.set(randomIndex1, this.genes.get(randomIndex2));
         this.genes.set(randomIndex2, temp);
+        nextGene();
     }
 
     private void randomMutation() {
         Random random = new Random();
-        int randomIndex1 = random.nextInt(genomeLength);
+        int randomIndex = getIndex();
         int randomGen = random.nextInt(8);
-        this.genes.set(randomIndex1, randomGen);
+        this.genes.set(randomIndex, randomGen);
+        nextGene();
     }
 
     private List<Integer> getLeftGenes(Integer num) {
