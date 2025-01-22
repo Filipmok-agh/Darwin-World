@@ -1,4 +1,4 @@
-# Dokumentacja projektu: Darwin World
+# Darwin World
 
 ## Autorzy
 ### **Jakub Fabia, Filip Mokrzycki**
