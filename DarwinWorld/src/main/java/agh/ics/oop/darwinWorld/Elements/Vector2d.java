@@ -1,15 +1,6 @@
 package agh.ics.oop.darwinWorld.Elements;
 
-import java.util.Objects;
-
-public class Vector2d {
-    private final int x;
-    private final int y;
-
-    public Vector2d(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+public record Vector2d(int x, int y) {
 
     @Override
     public String toString() {
@@ -20,14 +11,6 @@ public class Vector2d {
         int newX = this.x + v.x;
         int newY = this.y + v.y;
         return new Vector2d(newX, newY);
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
     }
 
     public boolean isYInRange(int bottom, int top) {
@@ -42,16 +25,4 @@ public class Vector2d {
         return this.x < left;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Vector2d vector2d = (Vector2d) o;
-        return x == vector2d.x && y == vector2d.y;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(x, y);
-    }
 }

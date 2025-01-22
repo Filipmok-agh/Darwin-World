@@ -76,4 +76,33 @@ class Vector2dTest {
         assertTrue(v1.equals(v1));
         assertFalse(v1.equals(null));
     }
+
+    @Test
+    void testGetX(){
+        Vector2d v1 = new Vector2d(1,2);
+        assertEquals(1,v1.x());
+    }
+
+    @Test
+    void testGetY(){
+        Vector2d v1 = new Vector2d(1,2);
+        assertEquals(2,v1.y());
+    }
+
+    @Test
+    void testToString(){
+        Vector2d v1 = new Vector2d(1,2);
+        assertEquals("(1, 2)", v1.toString());
+    }
+
+    @Test
+    void testEquals(){
+        Vector2d v1 = new Vector2d(1,2);
+        Vector2d v2 = new Vector2d(2,1);
+        assertTrue(v1.equals(v1));
+        assertFalse(v1.equals(v2));
+        assertTrue(v1.equals(new Vector2d(1,2)));
+        assertFalse(v1.equals("(1,2)"));
+        assertFalse(v1.equals( new Vector2d(1,1)));
+    }
 }

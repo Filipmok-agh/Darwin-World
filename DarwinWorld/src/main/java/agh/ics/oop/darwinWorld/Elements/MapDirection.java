@@ -1,6 +1,4 @@
-package agh.ics.oop.darwinWorld.Maps;
-
-import agh.ics.oop.darwinWorld.Elements.Vector2d;
+package agh.ics.oop.darwinWorld.Elements;
 
 public enum MapDirection {
     NORTH,
@@ -11,19 +9,6 @@ public enum MapDirection {
     SOUTH_WEST,
     WEST,
     NORTH_WEST;
-
-    public MapDirection next() {
-        return switch (this) {
-            case NORTH -> NORTH_EAST;
-            case NORTH_EAST -> EAST;
-            case EAST -> SOUTH_EAST;
-            case SOUTH_EAST -> SOUTH;
-            case SOUTH -> SOUTH_WEST;
-            case SOUTH_WEST -> WEST;
-            case WEST -> NORTH_WEST;
-            case NORTH_WEST -> NORTH;
-        };
-    }
 
     public Integer toNumber() {
         return switch (this) {
@@ -48,7 +33,7 @@ public enum MapDirection {
             case 5 -> SOUTH_WEST;
             case 6 -> WEST;
             case 7 -> NORTH_WEST;
-            default -> NORTH;
+            default -> throw new IllegalArgumentException("Invalid number for MapDirection: " + number);
         };
     }
 

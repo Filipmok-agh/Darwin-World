@@ -18,61 +18,38 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.scene.control.Button;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.UUID;
 
 public class SimulationPresenter {
     private WorldMap map;
-    private int gridsize;
+    private int gridSize;
     private Config config;
     private boolean simulationStopped = false;
     private Animal selectedAnimal = null;
-    private String uniqueId = UUID.randomUUID().toString();
-    @FXML
-    private GridPane mapGrid;
-    @FXML
-    private Button runButton;
-    @FXML
-    private Label day;
-    @FXML
-    private Label animalsCount;
-    @FXML
-    private Label grassCount;
-    @FXML
-    private Label freeFields;
-    @FXML
-    private Label mostPopularGen;
-    @FXML
-    private Label avgAnimalEnergy;
-    @FXML
-    private Label avgDaysAlive;
-    @FXML
-    private Label avgChildCount;
-    @FXML
-    private Label obsGens;
-    @FXML
-    private Label obsCurrGen;
-    @FXML
-    private Label obsEnergy;
-    @FXML
-    private Label obsGrassCount;
-    @FXML
-    private Label obsChildCount;
-    @FXML
-    private Label obsDescendantsCount;
-    @FXML
-    private Label obsDaysAlive;
-    @FXML
-    private Label obsFuneralDay;
-    @FXML
-    private Button geneButton;
-    @FXML
-    private Button greenButton;
+    private final String uniqueId = UUID.randomUUID().toString();
+    private StatsManager statsManager;
+    boolean isGreenFieldsVisible = false;
+    @FXML private GridPane mapGrid;
+    @FXML private Button runButton;
+    @FXML private Label day;
+    @FXML private Label animalsCount;
+    @FXML private Label grassCount;
+    @FXML private Label freeFields;
+    @FXML private Label mostPopularGen;
+    @FXML private Label avgAnimalEnergy;
+    @FXML private Label avgDaysAlive;
+    @FXML private Label avgChildCount;
+    @FXML private Label obsGens;
+    @FXML private Label obsCurrGen;
+    @FXML private Label obsEnergy;
+    @FXML private Label obsGrassCount;
+    @FXML private Label obsChildCount;
+    @FXML private Label obsDescendantsCount;
+    @FXML private Label obsDaysAlive;
+    @FXML private Label obsFuneralDay;
+    @FXML private Button geneButton;
+    @FXML private Button greenButton;
 
     public void setConfig(Config config) {
         this.config = config;
@@ -83,53 +60,16 @@ public class SimulationPresenter {
     }
 
     @FXML
-    public void initialize() {
-        this.gridsize = Math.min(900 / config.mapHeight, 1600 / config.mapWidth);
+    private void initialize() {
+        this.gridSize = Math.min(900 / config.mapHeight, 1600 / config.mapWidth);
         this.map = (config.lifeGivingCorpses) ? new CorpseMap(config) : new JungleMap(config);
         map.spawnGrass(config.initialPlantCount);
+        this.statsManager = new StatsManager(this.map, uniqueId);
         drawGrid();
 
         runButton.setOnAction(event -> toggleSimulation());
         geneButton.setOnAction(event -> drawAnimalsWithMostPopularGene());
-        greenButton.setOnAction(event -> drawGreenFields());
-
-    }
-
-    private void drawGreenFields() {
-        if (simulationStopped) {
-            mapGrid.getChildren().clear();
-            for (int row = 0; row < config.mapHeight; row++) {
-                for (int col = 0; col < config.mapWidth; col++) {
-                    Vector2d position = new Vector2d(col, row);
-                    StackPane cell = new StackPane();
-                    cell.setAlignment(Pos.CENTER);
-                    if (map.getJunglePositions().contains(position)) {
-                        Rectangle tile = new Rectangle(gridsize, gridsize, Color.rgb(60, 105, 48));
-                        cell.getChildren().add(tile);
-                        cell.setOnMouseClicked(event -> onCellClicked(position));
-
-                    } else {
-                        Rectangle tile = new Rectangle(gridsize, gridsize, Color.rgb(160, 231, 104));
-                        cell.getChildren().add(tile);
-                        cell.setOnMouseClicked(event -> onCellClicked(position));
-
-                    }
-                    if (map.getGrasses().containsKey(position)) {
-                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
-                        circle.setStroke(Color.GRAY);
-                        circle.setStrokeWidth(1);
-                        cell.getChildren().add(circle);
-                    }
-                    if (map.getDailyAnimals().containsKey(position)) {
-                        LinkedList<Animal> animals = map.getDailyAnimals().get(position);
-                        Animal animal = animals.getFirst();
-                        Circle circle = new Circle((double) gridsize / 2, animal.getColor());
-                        cell.getChildren().add(circle);
-                    }
-                    mapGrid.add(cell, col, config.mapHeight - row - 1);
-                }
-            }
-        }
+        greenButton.setOnAction(event -> isGreenFieldsVisible = !isGreenFieldsVisible);
     }
 
     private void drawAnimalsWithMostPopularGene() {
@@ -140,26 +80,31 @@ public class SimulationPresenter {
                     Vector2d position = new Vector2d(col, row);
                     StackPane cell = new StackPane();
                     cell.setAlignment(Pos.CENTER);
-                    Rectangle tile = new Rectangle(gridsize, gridsize, Color.rgb(160, 231, 104));
+                    Rectangle tile = new Rectangle(gridSize, gridSize, Color.rgb(160, 231, 104));
                     cell.getChildren().add(tile);
                     cell.setOnMouseClicked(event -> onCellClicked(position));
                     if (map.getGrasses().containsKey(position)) {
-                        Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
+                        Circle circle = new Circle((double) gridSize / 3, Color.rgb(0, 255, 0)); // Fill color
                         circle.setStroke(Color.GRAY);
                         circle.setStrokeWidth(1);
                         cell.getChildren().add(circle);
                     }
                     if (map.getDailyAnimals().containsKey(position)) {
                         LinkedList<Animal> animals = map.getDailyAnimals().get(position);
-                        Animal animal = animals.getFirst();
-                        boolean hasCommonGenes = map.getMostPopularGen().equals(animal.getGenes().getGenes());
-                        if (hasCommonGenes) {
-                            Circle circle = new Circle((double) gridsize / 2, Color.rgb(148, 0, 211));
-                            cell.getChildren().add(circle);
-                        } else {
-                            Circle circle = new Circle((double) gridsize / 2, animal.getColor());
-                            cell.getChildren().add(circle);
+                        boolean hasCommonGenes = false;
+                        for (Animal animal : animals) {
+                            hasCommonGenes = map.getMostPopularGen().equals(animal.getGenes().getGenes());
+                            if (hasCommonGenes) {
+                                break;
+                            }
                         }
+                        Circle circle;
+                        if (hasCommonGenes) {
+                            circle = new Circle((double) gridSize / 2, Color.rgb(148, 0, 211));
+                        } else {
+                            circle = new Circle((double) gridSize / 2, animals.getFirst().getColor());
+                        }
+                        cell.getChildren().add(circle);
                     }
                     mapGrid.add(cell, col, config.mapHeight - row - 1);
                 }
@@ -174,11 +119,18 @@ public class SimulationPresenter {
                 Vector2d position = new Vector2d(col, row);
                 StackPane cell = new StackPane();
                 cell.setAlignment(Pos.CENTER);
-                Rectangle tile = new Rectangle(gridsize, gridsize, Color.rgb(160, 231, 104));
-                cell.getChildren().add(tile);
-                cell.setOnMouseClicked(event -> onCellClicked(position));
+                if (map.getJunglePositions().contains(position) && isGreenFieldsVisible) {
+                    Rectangle tile = new Rectangle(gridSize, gridSize, Color.rgb(60, 105, 48));
+                    cell.getChildren().add(tile);
+                    cell.setOnMouseClicked(event -> onCellClicked(position));
+
+                } else {
+                    Rectangle tile = new Rectangle(gridSize, gridSize, Color.rgb(160, 231, 104));
+                    cell.getChildren().add(tile);
+                    cell.setOnMouseClicked(event -> onCellClicked(position));
+                }
                 if (map.getGrasses().containsKey(position)) {
-                    Circle circle = new Circle((double) gridsize / 3, Color.rgb(0, 255, 0)); // Fill color
+                    Circle circle = new Circle((double) gridSize / 3, Color.rgb(0, 255, 0)); // Fill color
                     circle.setStroke(Color.GRAY);
                     circle.setStrokeWidth(1);
                     cell.getChildren().add(circle);
@@ -186,44 +138,41 @@ public class SimulationPresenter {
                 if (map.getDailyAnimals().containsKey(position)) {
                     LinkedList<Animal> animals = map.getDailyAnimals().get(position);
                     Animal animal = animals.getFirst();
-                    Circle circle = new Circle((double) gridsize / 2, animal.getColor());
+                    Circle circle = new Circle((double) gridSize / 2, animal.getColor());
                     cell.getChildren().add(circle);
                 }
                 mapGrid.add(cell, col, config.mapHeight - row - 1);
             }
         }
         if (!simulationStopped) {
-            PauseTransition pause = new PauseTransition(Duration.millis(60));  // Adjust the duration as needed
+            PauseTransition pause = new PauseTransition(Duration.millis(config.refreshRate));
             pause.setOnFinished(event -> updateMap());
             pause.play();
         }
     }
 
     private void drawStats() {
-        day.setText("Current day: " + map.getDay());
-        animalsCount.setText("Total number of animals: " + map.getAnimalsCount());
-        grassCount.setText("Total number of plants: " + map.getGrassCount());
-        freeFields.setText("Number of free fields: " + map.getFreeFields());
-        avgAnimalEnergy.setText("Average energy level: " + (int) Math.round(map.getAvgAnimalEnergy()));
-        avgDaysAlive.setText("Average days alive: " + (int) Math.round(map.getAvgDaysAlive()));
-        avgChildCount.setText("Average number of children: " + (int) Math.round(map.getAvgChildCount()));
-        mostPopularGen.setText("Most popular genotype: " + map.getMostPopularGen().toString());
+        day.setText(statsManager.getCurrentDay());
+        animalsCount.setText(statsManager.getAnimalsCount());
+        grassCount.setText(statsManager.getGrassCount());
+        freeFields.setText(statsManager.getFreeFields());
+        avgAnimalEnergy.setText(statsManager.getAvgAnimalEnergy());
+        avgDaysAlive.setText(statsManager.getAvgDaysAlive());
+        avgChildCount.setText(statsManager.getAvgChildCount());
+        mostPopularGen.setText(statsManager.getMostPopularGen());
     }
 
     private void drawAnimalStats() {
         if (selectedAnimal != null) {
-            obsGens.setText("Genome: " + selectedAnimal.getGenes().getGenes().toString());
-            obsCurrGen.setText("Current Gene: " + selectedAnimal.getGenes().getCurrentGene());
-            obsEnergy.setText("Energy amount: " + selectedAnimal.getEnergy());
-            obsGrassCount.setText("Number of plants eaten: " + selectedAnimal.getEatenGrass());
-            obsChildCount.setText("Number of children: " + selectedAnimal.getChildrenAmount());
-            obsDescendantsCount.setText("Number of descendants: " + selectedAnimal.getDescendantsAmount());
-            obsDaysAlive.setText("Days Alive: " + selectedAnimal.getDaysAlive());
-            if (selectedAnimal.getEnergy() > 0) {
-                obsFuneralDay.setText("Funeral Day: -");
-            } else {
-                obsFuneralDay.setText("Funeral Day: " + selectedAnimal.getFuneralDay());
-            }
+            statsManager.setAnimal(selectedAnimal);
+            obsGens.setText(statsManager.getGenome());
+            obsCurrGen.setText(statsManager.getCurrentGene());
+            obsEnergy.setText(statsManager.getEnergy());
+            obsGrassCount.setText(statsManager.getPlantsEaten());
+            obsChildCount.setText(statsManager.getChildrenCount());
+            obsDescendantsCount.setText(statsManager.getDescendantsCount());
+            obsDaysAlive.setText(statsManager.getDaysAlive());
+            obsFuneralDay.setText(statsManager.getFuneralDay());
         }
     }
 
@@ -264,40 +213,9 @@ public class SimulationPresenter {
         drawGrid();
         drawStats();
         drawAnimalStats();
+        map.countAvgChildCountAndAvgLifeDuration();
         if (config.saveStats) {
-            saveStatsToCSV();
-        }
-    }
-
-    private void saveStatsToCSV() {
-        Path statsDir = Paths.get("DarwinWorld/src/main/resources/simulation_stats");
-        try {
-            if (!Files.exists(statsDir)) {
-                Files.createDirectory(statsDir);
-            }
-
-            String filename = "simulation_stats_" + uniqueId + ".csv";
-            Path filePath = statsDir.resolve(filename);
-            FileWriter writer = new FileWriter(filePath.toFile(), true);
-
-            if (Files.size(filePath) == 0) {
-                writer.write("Day,AnimalsCount,GrassCount,FreeFields,AvgAnimalEnergy,AvgDaysAlive,AvgChildCount,MostPopularGen\n");
-            }
-
-            writer.write(
-                    map.getDay() + "," +
-                        map.getAnimalsCount() + "," +
-                        map.getGrassCount() + "," +
-                        map.getFreeFields() + "," +
-                        map.getAvgAnimalEnergy() + "," +
-                        map.getAvgDaysAlive() + "," +
-                        map.getAvgChildCount() + "," +
-                        map.getMostPopularGen().toString().replace(",", " ") + "\n"
-            );
-
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            statsManager.saveStatsToCSV();
         }
     }
 }

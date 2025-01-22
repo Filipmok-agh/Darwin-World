@@ -15,11 +15,10 @@ public class CSVManager {
             System.out.println("Plik nie istnieje, próbuję go utworzyć...");
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-                writer.println("ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap");
+                writer.println("ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap,dailyEnergyCost");
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        } else {
         }
     }
 
@@ -79,23 +78,23 @@ public class CSVManager {
             return false;
         }
         try (PrintWriter writer = new PrintWriter(new FileWriter(fileName, true))) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(id).append(",");
-            sb.append(config.mapHeight).append(",");
-            sb.append(config.mapWidth).append(",");
-            sb.append(config.initialPlantCount).append(",");
-            sb.append(config.dailyPlantGrowth).append(",");
-            sb.append(config.plantEnergy).append(",");
-            sb.append(config.initialAnimalCount).append(",");
-            sb.append(config.initialAnimalEnergy).append(",");
-            sb.append(config.energyToBeFed).append(",");
-            sb.append(config.parentEnergyCost).append(",");
-            sb.append(config.genomeLength).append(",");
-            sb.append(config.minMutations).append(",");
-            sb.append(config.maxMutations).append(",");
-            sb.append(config.lifeGivingCorpses).append(",");
-            sb.append(config.geneSwap);
-            writer.println(sb.toString());
+            String row = id + "," +
+                    config.mapHeight + "," +
+                    config.mapWidth + "," +
+                    config.initialPlantCount + "," +
+                    config.dailyPlantGrowth + "," +
+                    config.plantEnergy + "," +
+                    config.initialAnimalCount + "," +
+                    config.initialAnimalEnergy + "," +
+                    config.energyToBeFed + "," +
+                    config.parentEnergyCost + "," +
+                    config.genomeLength + "," +
+                    config.minMutations + "," +
+                    config.maxMutations + "," +
+                    config.lifeGivingCorpses + "," +
+                    config.geneSwap + "," +
+                    config.dailyEnergyCost;
+            writer.println(row);
             return true;
         } catch (IOException e) {
             e.printStackTrace();

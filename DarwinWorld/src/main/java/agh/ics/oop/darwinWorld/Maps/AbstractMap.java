@@ -8,27 +8,21 @@ import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import java.util.*;
 
 public abstract class AbstractMap implements WorldMap {
-    protected int day;
-    protected LinkedList<Animal> animals;
-    protected LinkedList<Animal> animalsHistory;
-    protected HashMap<Vector2d, Grass> grasses;
-    protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals;
+    protected int day = 0;
+    protected LinkedList<Animal> animals = new LinkedList<>();
+    protected LinkedList<Animal> animalsHistory = new LinkedList<>();
+    protected HashMap<Vector2d, Grass> grasses = new HashMap<>();
+    protected HashMap<Vector2d, LinkedList<Animal>> dailyAnimals = new HashMap<>();
     protected ArrayList<Vector2d> junglePositions = new ArrayList<>();
     protected ArrayList<Vector2d> steppePositions;
     protected Config config;
     private double avgAnimalEnergy;
-    protected double avgDaysAlive=0;
-    private double avgChildCount=0;
+    protected double avgDaysAlive = 0;
+    private double avgChildCount = 0;
     private ArrayList<Integer> mostPopularGen;
-
 
     public AbstractMap(Config config) {
         this.config = config;
-        this.day = 0;
-        this.animalsHistory = new LinkedList<>();
-        this.animals = new LinkedList<>();
-        this.grasses = new HashMap<>();
-        this.dailyAnimals = new HashMap<>();
         this.avgAnimalEnergy = config.initialAnimalEnergy;
         addInitialAnimals();
     }
@@ -113,14 +107,12 @@ public abstract class AbstractMap implements WorldMap {
         this.day++;
         this.dailyAnimals = new HashMap<>();
         double sumOfAnimalEnergy = 0;
-        double sumOfChildrenCount = 0;
         Map<ArrayList<Integer>, Integer> geneFrequencyMap = new HashMap<>();
         if (!animals.isEmpty()) {
             for (Animal animal : animals) {
                 ArrayList<Integer> gene = animal.getGenes().getGenes();
                 geneFrequencyMap.put(gene, geneFrequencyMap.getOrDefault(gene, 0) + 1);
                 sumOfAnimalEnergy += animal.getEnergy();
-                sumOfChildrenCount += animal.getChildrenAmount();
                 animal.move();
                 if (dailyAnimals.containsKey(animal.getPosition())) {
                     addAnimal(dailyAnimals.get(animal.getPosition()), animal);
@@ -129,7 +121,6 @@ public abstract class AbstractMap implements WorldMap {
                 }
             }
             this.avgAnimalEnergy=sumOfAnimalEnergy/animals.size();
-            this.avgChildCount=sumOfChildrenCount/animals.size();
             int maxCount = Collections.max(geneFrequencyMap.values());
             this.mostPopularGen = new ArrayList<>();
             for (Map.Entry<ArrayList<Integer>, Integer> entry : geneFrequencyMap.entrySet()) {
@@ -140,7 +131,6 @@ public abstract class AbstractMap implements WorldMap {
         }
         else{
             this.avgAnimalEnergy=0;
-            this.avgChildCount=0;
         }
     }
 
@@ -191,6 +181,10 @@ public abstract class AbstractMap implements WorldMap {
     public void spawnGrass(Integer amount) {
         int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
         int steppeGrass = (int) Math.floor((double) amount / 5) ;
+        while (this.steppePositions.size() < steppeGrass*5) {
+            jungleGrass += (int) Math.ceil((double) steppeGrass/5);
+            steppeGrass -= (int) Math.ceil((double) steppeGrass/5);
+        }
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
@@ -207,5 +201,19 @@ public abstract class AbstractMap implements WorldMap {
         if (!inserted) {
             animalsAtPosition.addLast(animal);
         }
+    }
+    public void countAvgChildCountAndAvgLifeDuration(){
+        int sumChildren = 0;
+        int sumDaysAlive = 0;
+        int countDead = 0;
+        for (Animal animal : animalsHistory) {
+            sumChildren += animal.getChildrenAmount();
+            if (animal.getFuneralDay() != 0){
+                sumDaysAlive += animal.getDaysAlive();
+                countDead++;
+            }
+        }
+        this.avgDaysAlive = (countDead == 0) ? 0 : (double) sumDaysAlive / countDead;
+        this.avgChildCount = (double) sumChildren / animalsHistory.size();
     }
 }

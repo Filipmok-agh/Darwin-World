@@ -6,7 +6,7 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.ics.oop.darwinWorld.UI.MenuPresenter"
-            minHeight="550.0" minWidth="850.0" stylesheets="Menu.css">
+            minHeight="600.0" minWidth="850.0" stylesheets="Menu.css">
 
     <top>
         <VBox>
@@ -26,7 +26,7 @@
             </HBox>
             <HBox>
                 <Label text="Startowa liczba roślin"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="70" fx:id="initialPlantCountID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="500" fx:id="initialPlantCountID"/>
                 <Label text="Liczba roślin wyrastająca każdego dnia"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="100" fx:id="dailyPlantGrowthID"/>
             </HBox>
@@ -46,13 +46,19 @@
                 <Label text="Energia zużywana przy rozmnażaniu"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="40" fx:id="parentEnergyCostID"/>
                 <Label text="Długość genomu zwierzaków"/>
-                <Spinner min="0" max="1000" editable="true" initialValue="10" fx:id="genomeLengthID"/>
+                <Spinner min="0" max="1000" editable="true" initialValue="4" fx:id="genomeLengthID"/>
             </HBox>
             <HBox>
                 <Label text="Minimalna liczba mutacji"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="1" fx:id="minMutationsID"/>
                 <Label text="Maksymalna liczba mutacji"/>
                 <Spinner min="0" max="1000" editable="true" initialValue="4" fx:id="maxMutationsID"/>
+            </HBox>
+            <HBox>
+                <Label text="Energia używana każdego dnia"/>
+                <Spinner min="1" max="1000" editable="true" initialValue="5" fx:id="dailyEnergyCostID"/>
+                <Label text="Częstotliwość zmian"/>
+                <Spinner min="30" max="5000" editable="true" initialValue="50" fx:id="refreshRateID"/>
             </HBox>
             <Label text="Ustawienia dodatkowe: " styleClass="title3"/>
             <HBox>
@@ -61,7 +67,6 @@
                 <Label text="Podmianka" styleClass="additional2"/>
                 <CheckBox fx:id="geneSwapID"/>
             </HBox>
-
         </VBox>
     </center>
     <bottom>
