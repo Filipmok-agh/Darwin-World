@@ -77,15 +77,15 @@ public class StatsManager {
     }
 
     public String getAvgAnimalEnergy() {
-        return "Average energy level: " + (int) Math.round(map.getAvgAnimalEnergy());
+        return "Average energy level: " + String.format("%.3f", (map.getAvgAnimalEnergy()));
     }
 
     public String getAvgDaysAlive() {
-        return "Average days alive: " + (int) Math.round(map.getAvgDaysAlive());
+        return "Average days alive: " + String.format("%.3f",(map.getAvgDaysAlive()));
     }
 
     public String getAvgChildCount() {
-        return "Average number of children: " + (int) Math.round(map.getAvgChildCount());
+        return "Average number of children: " + String.format("%.3f", (map.getAvgChildCount()));
     }
 
     public String getMostPopularGen() {
