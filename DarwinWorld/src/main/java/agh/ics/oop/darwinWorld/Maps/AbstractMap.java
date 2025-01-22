@@ -206,14 +206,19 @@ public abstract class AbstractMap implements WorldMap {
         int sumChildren = 0;
         int sumDaysAlive = 0;
         int countDead = 0;
+        int countAlive =0;
         for (Animal animal : animalsHistory) {
-            sumChildren += animal.getChildrenAmount();
             if (animal.getFuneralDay() != 0){
                 sumDaysAlive += animal.getDaysAlive();
                 countDead++;
             }
+            else
+            {
+                sumChildren += animal.getChildrenAmount();
+                countAlive++;
+            }
         }
         this.avgDaysAlive = (countDead == 0) ? 0 : (double) sumDaysAlive / countDead;
-        this.avgChildCount = (double) sumChildren / animalsHistory.size();
+        this.avgChildCount = (countAlive == 0) ? 0 : (double) sumChildren / countAlive;
     }
 }

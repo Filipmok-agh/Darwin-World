@@ -48,13 +48,9 @@ public class JungleMap extends AbstractMap {
 
     @Override
     public void removeDeadAnimals() {
-        AtomicInteger totalDeadDaysCount = new AtomicInteger(0);
-        AtomicInteger deadAnimalsCount = new AtomicInteger(0);
         animals = animals.stream()
                 .peek(animal -> {
                     if (animal.getEnergy() < config.dailyEnergyCost) {
-                        totalDeadDaysCount.addAndGet(animal.getDaysAlive());
-                        deadAnimalsCount.incrementAndGet();
                         animal.setFuneralDay(this.day);
                     }
                 })
