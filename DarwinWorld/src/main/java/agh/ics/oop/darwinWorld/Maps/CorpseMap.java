@@ -10,12 +10,14 @@ import java.util.stream.Collectors;
 
 public class CorpseMap extends AbstractMap {
     protected HashSet<Vector2d> steppePositionsSet;
+    protected Queue<Vector2d> grassOrder;
 
     public CorpseMap(Config config) {
         super(config);
         this.junglePositions = new ArrayList<>();
         this.steppePositionsSet = new HashSet<>();
         this.steppePositions = new ArrayList<>();
+        this.grassOrder = new ArrayDeque<>();
         allPositions(steppePositions, steppePositionsSet);
     }
 
@@ -43,7 +45,20 @@ public class CorpseMap extends AbstractMap {
                             if (steppePositionsSet.contains(position)) {
                                 steppePositions.remove(position);
                                 steppePositionsSet.remove(position);
-                                junglePositions.add(position);
+                                if (junglePositions.size()<(config.mapHeight*config.mapWidth)/5)
+                                {
+                                    junglePositions.add(position);
+                                    grassOrder.offer(position);
+                                }
+                                else
+                                {
+                                    junglePositions.add(position);
+                                    grassOrder.offer(position);
+                                    Vector2d positonToRemove = grassOrder.poll();
+                                    junglePositions.remove(positonToRemove);
+                                    steppePositions.add(positonToRemove);
+                                    steppePositionsSet.add(positonToRemove);
+                                }
                             }
                         }
                     }
