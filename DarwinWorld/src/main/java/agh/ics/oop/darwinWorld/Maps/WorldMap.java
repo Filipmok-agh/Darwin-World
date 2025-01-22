@@ -1,5 +1,6 @@
 package agh.ics.oop.darwinWorld.Maps;
 
+import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Elements.Grass;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
@@ -40,4 +41,6 @@ public interface WorldMap {
     int getDay();
 
     void countAvgChildCountAndAvgLifeDuration();
+
+    Config getConfig();
 }

@@ -5,17 +5,18 @@ import agh.ics.oop.darwinWorld.Elements.MapDirection;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CorpseMap extends AbstractMap {
     protected HashSet<Vector2d> steppePositionsSet;
+    protected Queue<Vector2d> grassOrder;
 
     public CorpseMap(Config config) {
         super(config);
         this.junglePositions = new ArrayList<>();
         this.steppePositionsSet = new HashSet<>();
         this.steppePositions = new ArrayList<>();
+        this.grassOrder = new ArrayDeque<>();
         allPositions(steppePositions, steppePositionsSet);
     }
 
@@ -31,13 +32,9 @@ public class CorpseMap extends AbstractMap {
 
     @Override
     public void removeDeadAnimals() {
-        AtomicInteger totalDeadDaysCount = new AtomicInteger(0);
-        AtomicInteger deadAnimalsCount = new AtomicInteger(0);
         animals = animals.stream()
                 .peek(animal -> {
                     if (animal.getEnergy() < config.dailyEnergyCost) {
-                        totalDeadDaysCount.addAndGet(animal.getDaysAlive());
-                        deadAnimalsCount.incrementAndGet();
                         animal.setFuneralDay(this.day);
                         for (int i = 0; i <= 8; i += 2) {
                             Vector2d position = animal.getPosition();
@@ -47,7 +44,20 @@ public class CorpseMap extends AbstractMap {
                             if (steppePositionsSet.contains(position)) {
                                 steppePositions.remove(position);
                                 steppePositionsSet.remove(position);
-                                junglePositions.add(position);
+                                if (junglePositions.size()<(config.mapHeight*config.mapWidth)/5)
+                                {
+                                    junglePositions.add(position);
+                                    grassOrder.offer(position);
+                                }
+                                else
+                                {
+                                    junglePositions.add(position);
+                                    grassOrder.offer(position);
+                                    Vector2d positonToRemove = grassOrder.poll();
+                                    junglePositions.remove(positonToRemove);
+                                    steppePositions.add(positonToRemove);
+                                    steppePositionsSet.add(positonToRemove);
+                                }
                             }
                         }
                     }

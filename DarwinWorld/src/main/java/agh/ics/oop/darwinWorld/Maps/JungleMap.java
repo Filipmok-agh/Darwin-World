@@ -4,7 +4,6 @@ import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 
@@ -48,13 +47,9 @@ public class JungleMap extends AbstractMap {
 
     @Override
     public void removeDeadAnimals() {
-        AtomicInteger totalDeadDaysCount = new AtomicInteger(0);
-        AtomicInteger deadAnimalsCount = new AtomicInteger(0);
         animals = animals.stream()
                 .peek(animal -> {
                     if (animal.getEnergy() < config.dailyEnergyCost) {
-                        totalDeadDaysCount.addAndGet(animal.getDaysAlive());
-                        deadAnimalsCount.incrementAndGet();
                         animal.setFuneralDay(this.day);
                     }
                 })

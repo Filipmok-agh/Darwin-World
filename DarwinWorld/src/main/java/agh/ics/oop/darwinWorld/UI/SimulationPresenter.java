@@ -69,7 +69,9 @@ public class SimulationPresenter {
 
         runButton.setOnAction(event -> toggleSimulation());
         geneButton.setOnAction(event -> drawAnimalsWithMostPopularGene());
-        greenButton.setOnAction(event -> isGreenFieldsVisible = !isGreenFieldsVisible);
+        greenButton.setOnAction(event -> {
+            isGreenFieldsVisible = !isGreenFieldsVisible;
+        });
     }
 
     private void drawAnimalsWithMostPopularGene() {
@@ -196,6 +198,7 @@ public class SimulationPresenter {
                 selectedAnimal = animals.getFirst();
                 selectedAnimal.setHighlight(true);
                 drawAnimalStats();
+                drawGrid();
             }
         }
     }

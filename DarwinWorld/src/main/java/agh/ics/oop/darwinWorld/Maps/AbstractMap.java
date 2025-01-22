@@ -27,6 +27,10 @@ public abstract class AbstractMap implements WorldMap {
         addInitialAnimals();
     }
 
+    public Config getConfig() {
+        return config;
+    }
+
     public int getDay() {
         return this.day;
     }
@@ -181,10 +185,6 @@ public abstract class AbstractMap implements WorldMap {
     public void spawnGrass(Integer amount) {
         int jungleGrass = (int) Math.ceil((double) (amount * 4) / 5);
         int steppeGrass = (int) Math.floor((double) amount / 5) ;
-        while (this.steppePositions.size() < steppeGrass*5) {
-            jungleGrass += (int) Math.ceil((double) steppeGrass/5);
-            steppeGrass -= (int) Math.ceil((double) steppeGrass/5);
-        }
         spawnGrassInArea(this.junglePositions, jungleGrass);
         spawnGrassInArea(this.steppePositions, steppeGrass);
     }
@@ -206,14 +206,19 @@ public abstract class AbstractMap implements WorldMap {
         int sumChildren = 0;
         int sumDaysAlive = 0;
         int countDead = 0;
+        int countAlive =0;
         for (Animal animal : animalsHistory) {
-            sumChildren += animal.getChildrenAmount();
             if (animal.getFuneralDay() != 0){
                 sumDaysAlive += animal.getDaysAlive();
                 countDead++;
             }
+            else
+            {
+                sumChildren += animal.getChildrenAmount();
+                countAlive++;
+            }
         }
         this.avgDaysAlive = (countDead == 0) ? 0 : (double) sumDaysAlive / countDead;
-        this.avgChildCount = (double) sumChildren / animalsHistory.size();
+        this.avgChildCount = (countAlive == 0) ? 0 : (double) sumChildren / countAlive;
     }
 }

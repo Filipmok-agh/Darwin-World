@@ -1,5 +1,6 @@
 package agh.ics.oop.darwinWorld.UI;
 
+import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Animal;
 import agh.ics.oop.darwinWorld.Maps.WorldMap;
 
@@ -13,10 +14,12 @@ public class StatsManager {
     private final Path statsDirectory;
     private final String uniqueId;
     private final WorldMap map;
+    private final Config config;
     private Animal animal;
 
     public StatsManager(WorldMap map, String uniqueId) {
         this.map = map;
+        this.config = this.map.getConfig();
         this.uniqueId = uniqueId;
         this.statsDirectory = Paths.get("DarwinWorld/src/main/resources/simulation_stats");
 
@@ -118,6 +121,6 @@ public class StatsManager {
     }
 
     public String getFuneralDay() {
-        return animal.getEnergy() > 0 ? "Funeral Day: -" : "Funeral Day: " + animal.getFuneralDay();
+        return animal.getEnergy() > config.dailyEnergyCost ? "Funeral Day: -" : "Funeral Day: " + animal.getFuneralDay();
     }
 }
