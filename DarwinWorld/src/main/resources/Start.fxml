@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.TextFlow?>
+<?import javafx.scene.text.Text?>
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="agh.ics.oop.darwinWorld.UI.StartPresenter"
+            minWidth="700" minHeight="900" stylesheets="Start.css">
+    <center>
+        <VBox alignment="CENTER" spacing="20">
+            <Label text="Darwin World" styleClass="title"/>
+
+            <ImageView fx:id="imageView" fitHeight="600" fitWidth="500">
+                <Image url="@images/logo.jpg"/>
+            </ImageView>
+
+            <Text styleClass="mainText" text="Darwin World is your space for creating, experimenting"/>
+            <Text  styleClass="mainText" text="and discovering new possibilities for the evolution of creatures"/>
+
+            <Button text="Let's begin" styleClass="startButton" fx:id="startButton"/>
+        </VBox>
+    </center>
+</BorderPane>

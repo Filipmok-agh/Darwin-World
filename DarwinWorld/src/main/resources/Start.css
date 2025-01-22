@@ -1,0 +1,28 @@
+.title {
+    -fx-font-size: 45px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2a3d4f;
+}
+
+
+.mainText {
+    -fx-font-size: 23px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-text-fill: #555555;
+    -fx-line-spacing: 5px;
+    -fx-text-alignment: center;
+}
+
+.startButton {
+    -fx-font-size: 25px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.startButton:hover {
+    -fx-background-color: #45a049;
+}
