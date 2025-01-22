@@ -71,7 +71,6 @@ public class SimulationPresenter {
         geneButton.setOnAction(event -> drawAnimalsWithMostPopularGene());
         greenButton.setOnAction(event -> {
             isGreenFieldsVisible = !isGreenFieldsVisible;
-            drawGrid();
         });
     }
 

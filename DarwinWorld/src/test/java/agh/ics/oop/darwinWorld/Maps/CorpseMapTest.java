@@ -115,4 +115,11 @@ public class CorpseMapTest {
         corpseMap.removeDeadAnimals();
         assertEquals(0, corpseMap.getAnimalsCount());
     }
+
+    @Test
+    void testCountAvgChildCountAndAvgLifeDuration(){
+        corpseMap.countAvgChildCountAndAvgLifeDuration();
+        assertEquals(0, corpseMap.getAvgChildCount());
+        assertEquals(0, corpseMap.getAvgDaysAlive());
+    }
 }

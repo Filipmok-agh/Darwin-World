@@ -5,7 +5,6 @@ import agh.ics.oop.darwinWorld.Elements.MapDirection;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 public class CorpseMap extends AbstractMap {

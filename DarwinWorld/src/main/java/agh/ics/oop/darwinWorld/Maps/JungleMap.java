@@ -4,7 +4,6 @@ import agh.ics.oop.darwinWorld.Config;
 import agh.ics.oop.darwinWorld.Elements.Vector2d;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 

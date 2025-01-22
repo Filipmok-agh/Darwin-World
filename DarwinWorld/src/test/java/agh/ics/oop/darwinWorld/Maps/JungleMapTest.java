@@ -116,4 +116,11 @@ class JungleMapTest {
         jungleMap.removeDeadAnimals();
         assertEquals(0, jungleMap.getAnimalsCount());
     }
+
+    @Test
+    void testCountAvgChildCountAndAvgLifeDuration(){
+        jungleMap.countAvgChildCountAndAvgLifeDuration();
+        assertEquals(0, jungleMap.getAvgChildCount());
+        assertEquals(0, jungleMap.getAvgDaysAlive());
+    }
 }

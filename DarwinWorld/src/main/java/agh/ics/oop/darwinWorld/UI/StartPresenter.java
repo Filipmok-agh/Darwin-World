@@ -1,18 +1,14 @@
 package agh.ics.oop.darwinWorld.UI;
 
-import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class StartPresenter
-{
-
+public class StartPresenter {
     public Button startButton;
 
     @FXML
-    private void initialize()
-    {
+    private void initialize() {
         startButton.setOnAction(event ->
         {
             MenuApp menuApp = new MenuApp();
