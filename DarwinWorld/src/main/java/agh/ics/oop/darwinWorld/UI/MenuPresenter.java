@@ -43,8 +43,8 @@ public class MenuPresenter {
     private void showError(String message) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Błąd konfiguracji");
-            alert.setHeaderText("Nieprawidłowe ustawienia");
+            alert.setTitle("Error");
+            alert.setHeaderText("Wrong settings");
             alert.setContentText(message);
             alert.showAndWait();
         });
@@ -83,23 +83,23 @@ public class MenuPresenter {
     private void validateAndStartSimulation() {
         try {
             int mapHeight = mapHeightID.getValue();
-            if (mapHeight < 5) throw new IllegalArgumentException("Wysokość mapy musi wynosić co najmniej 5");
+            if (mapHeight < 5) throw new IllegalArgumentException("Map Height must be greater than 5");
             int mapWidth = mapWidthID.getValue();
-            if (mapWidth < 5) throw new IllegalArgumentException("Szerokość mapy musi wynosić co najmniej 5");
+            if (mapWidth < 5) throw new IllegalArgumentException("Map Width must be greater than 5");
             int initialPlantCount = initialPlantCountID.getValue();
             if (initialPlantCount > mapHeight * mapWidth)
-                throw new IllegalArgumentException("Startowa ilość roślin jest większa niż ilość wszystkich pól");
+                throw new IllegalArgumentException("The initial number of plants is greater than the total number of fields");
             int dailyPlantGrowth = dailyPlantGrowthID.getValue();
             if (dailyPlantGrowth > mapHeight * mapWidth)
-                throw new IllegalArgumentException("Ilość roślin wyrastająca każdego dnia jest większa niż ilość wszystkich pól");
+                throw new IllegalArgumentException("The number of plants growing daily is greater than the total number of fields");
             int parentEnergyCost = parentEnergyCostID.getValue();
             int energyToBeFed = energyToBeFedID.getValue();
             if (parentEnergyCost > energyToBeFed)
-                throw new IllegalArgumentException("Koszt energii stworzenia potomka jest większy niż energia potrzebna do romnażania się");
+                throw new IllegalArgumentException("The energy cost of creating offspring is greater than the energy needed for reproduction");
             int minMutations = minMutationsID.getValue();
             int maxMutations = maxMutationsID.getValue();
             if (minMutations > maxMutations)
-                throw new IllegalArgumentException("Minimalna ilość mutacji jest większa od maksymalnej ilości mutacji");
+                throw new IllegalArgumentException("The minimum number of mutations is greater than the maximum number of mutations");
 
             config.mapHeight = mapHeight;
             config.mapWidth = mapWidth;
@@ -127,8 +127,8 @@ public class MenuPresenter {
                 CSVManager manager = new CSVManager();
                 manager.setConfig(config);
                 if (!manager.saveConfig(saveNumber))
-                    throw new IllegalArgumentException("Podane ID jest już zajęte");
-                showAlert("Dane zapisane poprawnie");
+                    throw new IllegalArgumentException("Given ID is already used");
+                showAlert("Data saved");
                 saveBoxID.setSelected(false);
             }
 
@@ -161,9 +161,9 @@ public class MenuPresenter {
                 if (loaded) {
                     config = manager.getConfig();
                     fillUIFromConfig();
-                    showAlert("Dane załadowane poprawnie");
+                    showAlert("Data loaded");
                 } else {
-                    showError("Podane ID nie istnieje");
+                    showError("Given ID does not exist");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

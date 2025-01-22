@@ -12,7 +12,7 @@ public class CSVManager {
         File file = new File(fileName);
 
         if (!file.exists()) {
-            System.out.println("Plik nie istnieje, próbuję go utworzyć...");
+            System.out.println("File does not exist, creating a new one...");
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
                 writer.println("ID,mapHeight,mapWidth,initialPlantCount,dailyPlantGrowth,plantEnergy,initialAnimalCount,initialAnimalEnergy,energyToBeFed,parentEnergyCost,genomeLength,minMutations,maxMutations,lifeGivingCorpses,geneSwap,dailyEnergyCost");
